@@ -1,14 +1,20 @@
+#' Støttefunksjon for NorScir
+#'
+#' Funksjon som gjør utvalg av dataene, returnerer det reduserte datasettet og
+#' utvalgsteksten.
+#'
+#' @param erMann - kjønn, 1-menn, 0-kvinner, standard: ''(alt annet enn 0 og 1), dvs. begge
+#' @param minald - alder, fra og med
+#' @param maxald - alder, til og med
+#' @param datoFra <- '2010-01-01'. Min og max dato i utvalget vises alltid i figuren.
+#' @param datoTil <- '3000-05-25'
+#' @export
+
+
+
 NSLibUtvalg <- function(RegData, datoFra='2010-01-01', datoTil='3000-05-25', minald=0, maxald=120, 
 		erMann='', traume='', AIS='', fargepalett='BlaaOff')
 {
-#Funksjon som gjør utvalg av dataene, returnerer det reduserte datasettet og utvalgsteksten.
-# Inndata:
-#		erMann - kjønn, 1-menn, 0-kvinner, standard: '' (alt annet enn 0 og 1), dvs. begge
-#		minald - alder, fra og med
-#		maxald - alder, til og med
-#		datoFra <- '2010-01-01'    # min og max dato i utvalget vises alltid i figuren.
-#		datoTil <- '3000-05-25'
-
 #Definerer registerspesifikke variable................
 RegData$InnDato <- as.POSIXlt(RegData$AdmitDt, format="%Y-%m-%d")	#"%d.%m.%Y"
 RegData$Alder <- RegData$AlderAar
