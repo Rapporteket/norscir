@@ -2,7 +2,7 @@ Package: NorScir
 Title: Provide R resources for NorScir at Rapporteket
 Version: 0.0.9000
 Authors@R: c(
-  person("Olsen", "Lena Ringstad", email = "Lena.Ringstad.Olsen@unn.no", 
+  person("Olsen", "Lena Ringstad", email = "Lena.Ringstad.Olsen@unn.no",
   role = c("cre", "aut")),
   person("Edvardsen", "Are", email =  "are.edvardsen@helsenord.no",
   role = "aut")
@@ -10,6 +10,7 @@ Authors@R: c(
 Description: An implemetation of all R related resources for NorScir at
   Rapporteket, including R-functions for analysis and plotting, noweb-files and
   even artwork needed for producing R-dependent reports
-Depends: R (>= 3.0.2), Cairo
+Depends: R (>= 3.0.2)
 License: GPL-2
 LazyData: true
+Imports: rapbase
