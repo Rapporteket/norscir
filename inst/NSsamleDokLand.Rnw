@@ -1,0 +1,669 @@
+\documentclass [norsk,a4paper,twoside]{article}
+\addtolength{\hoffset}{-0.5cm}
+\addtolength{\textwidth}{1cm}
+
+\usepackage{rotating} %add rotating for plain tables
+\usepackage{pdflscape} %add rotating/landcape for pdf
+%%for nice looking tabs
+\usepackage{booktabs}
+
+\usepackage[utf8x]{inputenc}
+\usepackage{textcomp}
+\usepackage[norsk]{babel}
+%\usepackage[colorlinks]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{amsmath}
+%package odfWeave provides functions for using Sweave in combination with OpenOffice Writer 
+%rather than LATEX.
+
+%add rotating for plain tables
+\usepackage{rotating}
+
+%add rotating/landcape for pdf
+\usepackage{pdflscape}
+
+%add long tables
+\usepackage{longtable}
+\usepackage{afterpage} 
+\afterpage{\clearpage} %unngå sideskift etter floatflsuh
+%\restylefloat{figure} %gjør det mulig å angi H som parameter for plassering av floats
+
+%for nice looking tabs
+\usepackage{booktabs}
+
+
+%bytte font
+\renewcommand{\familydefault}{\sfdefault}
+
+%setter grå skrift fremfort sort
+\usepackage{xcolor}
+\usepackage{graphicx}
+\definecolor{SKDE}{rgb}{0,0.32,0.61}
+\definecolor{lysblaa}{rgb}{0.27,0.51,0.71}
+\definecolor{moerkblaa}{rgb}{0.0,0.0,0.47}
+\definecolor{lysgraa}{rgb}{0.8,0.8,0.8}
+\definecolor{middelsgraa}{rgb}{0.5,0.5,0.5}
+\definecolor{moerkgraa}{rgb}{0.25,0.25,0.25}
+\color{moerkgraa}
+
+\usepackage[pdftex, colorlinks, linkcolor=lysblaa, urlcolor=lysblaa]{hyperref}
+
+%bytte overskrifter 
+\usepackage[compact]{titlesec}
+\titleformat{\section} {\vspace*{10pt}\color{SKDE}\normalfont\Large\bfseries} {\thesection}{}{}
+\titleformat{\subsection} {\color{middelsgraa}\normalfont\large\bfseries} {\thesection}{}{}
+%\titleformat{\subsubsection} {\color{middelsgraa}\normalfont\large\bfseries} {\thesection}{}{}
+
+%topptekst og vertikal sidenummer
+\fancyhead{}\fancyfoot{}  % clear all fields
+\fancyheadoffset[LO, RE]{3cm}
+\fancyfootoffset[LO]{1.5cm}
+\fancyfootoffset[RE]{1.5cm}
+\fancyhead[LO]{\colorbox{SKDE}{\textcolor{white}{\hspace*{2cm}\scshape\small Norsk Ryggmarksskaderegister}}} %Lengde på stripa
+%\fancyhead[RE]{\hspace*{2cm}\colorbox{SKDE}{\textcolor{white}{\scshape\small Norsk Ryggmarksskaderegister \hspace*{3cm}}}}
+\fancyfoot[LO]{\colorbox{SKDE}{\textcolor{white}{\scshape\small\thepage}}} 
+%	\\ \vspace*{-0.1cm}\colorbox{SKDE}{\textcolor{SKDE}{\scshape\small\thepage}} \\ \vspace*{-0.1cm}\colorbox{SKDE}{\textcolor{SKDE}{\scshape\small\thepage}} } 
+\fancyfoot[RE]{\colorbox{SKDE}{\textcolor{white}{\scshape\small\thepage}}}
+% \\ \vspace*{-0.1cm}\colorbox{SKDE}{\textcolor{SKDE}{\scshape\small\thepage}} \\ \vspace*{-0.1cm}\colorbox{SKDE}{\textcolor{SKDE}{\scshape\small\thepage}} \\ \vspace*{-0.1cm}\colorbox{SKDE}{\textcolor{SKDE}{\scshape\small\thepage}}} 
+\renewcommand{\headrulewidth}{0pt} %\iffloatpage{0pt}{0.4pt}
+ \renewcommand{\footrulewidth}{0pt}
+%evt. horisontal sidenummer
+\fancyfoot[LO]{\colorbox{SKDE}{\textcolor{white}{\hspace*{2cm} \small \thepage}}} \fancyfootoffset[LO]{4.4cm}
+\fancyfoot[RE]{\hspace*{2cm}\colorbox{SKDE}{\textcolor{white}{\small \thepage \hspace*{3cm}}}}  \fancyfootoffset[RE]{5.3cm}
+\setcounter{secnumdepth}{-1} 
+
+
+\title{Resultater fra NorScir}
+\author{Lena Ringstad Olsen (SKDE)}
+\fancyhead[R]{\includegraphics[height=2cm]{../NorSCIR_logo_blue_norsk.pdf}}
+
+
+\begin{document}
+\maketitle
+\tableofcontents
+%\newpage
+\listoftables
+\listoffigures
+\newpage
+
+
+
+<<'LasteDataDb', include=FALSE, echo=FALSE, eval=T>>=
+opts_chunk$set(fig.align='center', fig.show='hold', out.width='.7\\textwidth',cache=FALSE, fig.path='')
+
+library(DBI)
+library(RMySQL)
+con <- dbConnect(MySQL(), user='ro_NSRDS', password='PrajRec0',
+  dbname='NorScirReportDataStaging', host='tos-hreg-db-02.nreg.no')
+query <- "SELECT
+     norScir.`Scietiol` AS Scietiol,
+     norScir.`isVrtbrInj`+'0' AS isVrtbrInj,
+     norScir.`isAssocInj`+'0' AS isAssocInj,
+     norScir.`isSpnlSurg`+'0' AS isSpnlSurg,
+     norScir.`VentAssi` AS VentAssi,
+     norScir.`PlaceDis` AS PlaceDis,
+     norScir.`ASensLvlAreaL` AS ASensLvlAreaL,
+     norScir.`ASensLvlAreaR` AS ASensLvlAreaR,
+     norScir.`AMtrLvlAreaL` AS AMtrLvlAreaL,
+     norScir.`AMtrLvlAreaR` AS AMtrLvlAreaR,
+     norScir.`AAis` AS AAis,
+     norScir.`FSensLvlAreaL` AS FSensLvlAreaL,
+     norScir.`FSensLvlAreaR` AS FSensLvlAreaR,
+     norScir.`FMtrLvlAreaL` AS FMtrLvlAreaL,
+     norScir.`FMtrLvlAreaR` AS FMtrLvlAreaR,
+     norScir.`FAis` AS FAis,
+     cast(norScir.`BirthDt` as CHAR(10)) AS BirthDt,
+     cast(norScir.`InjuryDt` as CHAR(10)) AS InjuryDt,
+     cast(norScir.`AdmitDt` as CHAR(10)) AS AdmitDt,
+     cast(norScir.`DischgDt` as CHAR(10)) AS DischgDt,
+     cast(norScir.`ANeuExmDt` as CHAR(10)) AS ANeuExmDt,
+     cast(norScir.`FNeuExmDt` as CHAR(10)) AS FNeuExmDt,
+     cast(norScir.`QolDt` as CHAR(10)) AS QolDt,
+     cast(norScir.`AdmitRehDt` as CHAR(10)) AS AdmitRehDt,
+     norScir.`ANeuNoMeasure`+'0' AS ANeuNoMeasure,
+     norScir.`FNeuNoMeasure`+'0' AS FNeuNoMeasure,
+     norScir.`InjuryDateUnknown`+'0' AS InjuryDateUnknown,
+     norScir.`OutOfHosptlDy`+'0' AS OutOfHosptlDy,
+     norScir.`HosptlDy`+'0' AS HosptlDy,
+     norScir.`isMale`+'0' AS isMale,
+     norScir.`SatGenrl`+'0' AS SatGenrl,
+     norScir.`SatPhys`+'0' AS SatPhys,
+     norScir.`SatPsych`+'0' AS SatPsych,
+     norScir.`SkjemaID`+'0' AS SkjemaID,
+     norScir.`ReshId`+'0' AS ReshId,
+     norScir.`DagerRehab`+'0' AS DagerRehab,
+     norScir.`DagerTilRehab`+'0' AS DagerTilRehab,
+     norScir.`AlderAar`+'0' AS AlderAar,
+     norScir.`ShNavn` AS ShNavn,
+     norScir.`NevrNivaaInn`+'0' AS NevrNivaaInn,
+     norScir.`NevrNivaaUt`+'0' AS NevrNivaaUt,
+	 norScir.`PatientInRegistryKey`+'0' AS PatientInRegistryKey
+FROM
+     `norScir` norScir"
+NSdata <- dbGetQuery(con, query)
+#querySh <- 'select * FROM SykehuskoderSlag'
+#SykehusTab <- dbGetQuery(con, querySh)
+disconnect <- dbDisconnect(con)
+
+libkat <- './'
+source("NSFigFordeling.R", encoding="UTF-8")
+source("NSFigAndelStabel.R", encoding="UTF-8")
+source("NSFigMeanMed.R", encoding="UTF-8")
+source("NSLibUtvalg.R", encoding="UTF-8")
+@
+
+
+\section{Innledning}
+Dette er et samledokument for rapportering av resultater fra NorScir. Alle resultater er basert på 
+registreringer i registeret per rapportdato. Dokumentet omfatter kun resultater basert på 
+variable som finnes i registreringsskjema.
+
+\section{Data og nøkkeltall}
+
+<<'Variabeldef og utvalg', results='asis', echo=FALSE>>=
+NSdataAlleSkjema <- NSdata
+#------------NB: Siden vi bare har resultater fra skjema 1 filtreres nå på skjema 1.
+NSdata <- NSdata[which(NSdata$SkjemaID==1), ]
+
+alderVar <- 'AlderAar'	
+datoVar <- 'AdmitDt'	
+NSdata$InnDato <- as.POSIXlt(NSdata[ ,datoVar], format="%Y-%m-%d")	#"%d.%m.%Y"
+NSdata$Aar <- NSdata$InnDato$year+1900
+NSdata$Alder <- NSdata[ ,alderVar]
+ShNavn <- NSdata$ShNavn[which(NSdata$ReshId == reshID)[1]]
+
+#Parametre
+sml <- 1		#Sammenligne med resten av landet eller ikke. Ikke aktiv når hele landet valgt.
+minald <- 0
+maxald <- 120
+erMann <- ''	#...
+traume <- ''	#'ja','nei', standard: ikke utvalgt (
+AIS <- ''
+datoFra <- '2011-01-01'	#Standard: 0, dvs. alle år
+datoTil <- '2013-12-31'
+egenavd=0
+#reshID - gis fra Jasper	##105593-Haukeland, 106896-Sunnaas sykehus, 107627-St.Olavs, standard: 'Alle'
+plotType='S'
+s1 <- 0.8	#Skaleringsparameter for enkeltfigurer
+#s2 <- 0.7	#Skaleringsparameter for "dobbeltfigurer"
+library(xtable)
+
+#Utvalg/datarensk
+Ninn <- dim(NSdata)[1]
+Utvalg <- NSLibUtvalg(RegData=NSdata, datoFra=datoFra, datoTil=datoTil)
+NSdata <- Utvalg$RegData
+NSdataEget <- NSdata[NSdata$ReshId == reshID,]
+
+
+Ntot <- dim(NSdata)[1]
+#Nskj1 <- length(NSdata$SkjemaID==1)
+Npas <- Ntot #unique(NSdata$PasientID)
+tabKjPst <- round(table(NSdata$isMale)/Npas*100, digits=1)
+@
+
+Alle resultater i dette dokumentet basert på innleggelser i perioden 
+\Sexpr{datoFra} til \Sexpr{datoTil}. Registreringer som
+mangler innleggelsesdato er tatt ut av analysene.
+Tabell \ref{tab:AntReg} viser antall 
+Registreringsskjema registrert ved de respektive avdelinger hvert år basert på innleggelsesdato. 
+Vi ser at det for den angitte tidsperioden er det totalt registrert \Sexpr{Npas} hendelser.
+Kvinner og menn står for hhv. \Sexpr{tabKjPst[1]}\% og \Sexpr{tabKjPst[2]}\% av oppholdene.
+
+
+<<'TabAlleReg', results='asis', echo=FALSE, cache=F>>=
+tabAvdN <- addmargins(as.table(ftable(NSdata[c('ShNavn','Aar')])))
+rownames(tabAvdN)[dim(tabAvdN)[1] ]<- 'TOTALT, alle avdelinger:'
+colnames(tabAvdN)[dim(tabAvdN)[2] ]<- 'Alle år'
+
+xtable(tabAvdN, digits=0, align=c('l', rep('r', ncol(tabAvdN))), 
+		caption='Antall innregistreringsskjema per år og avdeling.',
+		label="tab:AntReg")
+
+#mat <- xtable(tabAvdN, digits=0, align=c('l', rep('r', ncol(tabAvdN))))
+#print(mat, floating=FALSE, hline.after=NULL, add.to.row=list(pos=list(-1,0, nrow(mat)),command=c('\\toprule ','\\midrule ','\\bottomrule ')))
+@
+
+
+Tabellene \ref{tab:VerdiOmrNorge}, \ref{tab:VerdiOmrHaukeland}, \ref{tab:VerdiOmrSunnaas} og 
+\ref{tab:VerdiOmrSt.Olav} viser statistikk over alder, total behandlingstid og rehabilitering
+for hhv. hele landet, Haukeland sykehus, Sunnaas sykehus og St. Olavs hospital. \\
+Tabellene \ref{tab:AndelerNorge}, \ref{tab:AndelerHaukeland}, \ref{tab:AndelerSunnaas} og 
+\ref{tab:AndelerSt.Olav}  viser hvor mange hendelser det er for utvalgte variable 
+og hvor stor prosentandel dette utgjør. 
+
+
+<<'Nokkeltall',echo=FALSE, results='asis', cache=F, message=FALSE, eval=T>>= 
+#105593-Haukeland, 106896-Sunnaas sykehus, 107627-St.Olavs
+
+options(warn = -1)
+for (hvem in c('Norge', 'Haukeland', 'Sunnaas', 'St.Olav')){ 
+utvalg <- switch(hvem, 	
+		Norge = 1:dim(NSdata)[1],
+		Haukeland = which(NSdata$ReshId == 105593),
+		Sunnaas = which(NSdata$ReshId == 106896),
+		St.Olav = which(NSdata$ReshId == 107627))
+
+	Alder <- NSdata$Alder[utvalg]
+	BehDager <- NSdata$HosptlDy[utvalg]
+	RehabDager <- NSdata$DagerRehab[utvalg]
+	Ventetid <- NSdata$DagerTilRehab[utvalg]
+	Permisjon <- NSdata$OutOfHosptlDy[intersect(utvalg,which(NSdata$OutOfHosptlDy>0))]
+
+#if (sum(RehabDager>0, na.rm=T)>0 ) {
+
+	VerdiOmr <- rbind('Alder' = c(round(c(median(Alder), mean(Alder), sd(Alder))),
+			paste('[',min(Alder), ', ' ,max(Alder), ']', sep=''), 
+			length(Alder)),
+		'Behandlingsdager, totalt' = c(round(c(mean(BehDager), median(BehDager), sd(BehDager))), 
+			paste('[',min(BehDager), ', ' ,max(BehDager), ']', sep=''), 
+			sum(BehDager>=0, na.rm=T)),
+		'Dager med rehabilitering' = c(round(c(mean(RehabDager, na.rm=T), median(RehabDager, na.rm=T), 
+			sd(RehabDager, na.rm=T))), 
+			paste('[',min(RehabDager, na.rm=T), ', ' ,max(RehabDager, na.rm=T), ']', sep=''),
+			sum(RehabDager>=0, na.rm=T)),
+		'Dager til rehabilitering' = c(round(c(mean(Ventetid, na.rm=T), median(Ventetid, na.rm=T), 
+			sd(Ventetid, na.rm=T))), 
+			paste('[',min(Ventetid, na.rm=T), ', ' ,max(Ventetid, na.rm=T), ']', sep=''),
+			sum(Ventetid>=0, na.rm=T)),
+		'Dager i permisjon (>0)' = c(round(c(mean(Permisjon, na.rm=T), median(Permisjon, na.rm=T), 
+			sd(Permisjon, na.rm=T))), 
+			paste('[',min(Permisjon, na.rm=T), ', ' ,max(Permisjon, na.rm=T), ']', sep=''),
+			sum(Permisjon>0, na.rm=T))
+		)
+
+#	} else {
+#	#VerdiOmr <- matrix(c(rep('-',5), rep('',5)), 2, 5, byrow=T)
+#	}
+colnames(VerdiOmr) <- c('Middelverdi', 'Median', 'SD', 'Verdiområde', 'Ant. obs')
+labVO <- paste0("tab:VerdiOmr", hvem)
+capVO <- paste0('Noen variabelkarakteristikker, ', hvem)
+VOTabell <- xtable(VerdiOmr, digits=0, align=c('l', rep('r', 5)), 
+		caption = capVO,
+		label = labVO)
+print(VOTabell)
+#		label="tab:VerdiOmrLand")
+}
+@
+
+
+	
+<<'Andeler',echo=FALSE, results='asis', message=FALSE, eval=T>>= 
+options(warn = -1)
+for (hvem in c('Norge', 'Haukeland', 'Sunnaas', 'St.Olav')){ 
+utvalg <- switch(hvem, 	
+		Norge = 1:dim(NSdata)[1],
+		Haukeland = which(NSdata$ReshId == 105593),
+		Sunnaas = which(NSdata$ReshId == 106896),
+		St.Olav = which(NSdata$ReshId == 107627))
+
+Nutv <- length(utvalg)
+Kjonn <- table(NSdata$isMale[utvalg])
+AntTilHjem <- c(sum(NSdata$PlaceDis[utvalg]==1), sum(NSdata$PlaceDis[utvalg] %in% 1:10))
+AntAssSkade <-c(sum(NSdata$isAssocInj[utvalg]==1), sum(NSdata$isAssocInj[utvalg] %in% 0:1))
+AntSpinkir <- c(sum(NSdata$isSpnlSurg[utvalg]==1), sum(NSdata$isSpnlSurg[utvalg] %in% 0:1))
+AntTraumer <- c(sum(NSdata$Scietiol[utvalg] %in% 1:5), sum(NSdata$Scietiol[utvalg] %in% 1:6))
+
+Andeler <- rbind('Kvinner' = c(Kjonn[1], Kjonn[1]/Nutv),
+	'Menn' = c(Kjonn[2], Kjonn[2]/Nutv),
+	'Utskrevet, hjem' = c(AntTilHjem[1], AntTilHjem[1]/AntTilHjem[2]),
+	'Assosierte skader' = c(AntAssSkade[1], AntAssSkade[1]/AntAssSkade[2]),
+	'Spinalkirurgi' = c(AntSpinkir[1], AntSpinkir[1]/AntSpinkir[2]),
+	'Traumer' = c(AntTraumer[1], AntTraumer[1]/AntTraumer[2])
+	)
+Andeler[ ,2] <- round(100*Andeler[,2], 1)
+
+colnames(Andeler) <- c('Antall', 'Andel(%)')
+#labVO <- paste("tab:VerdiOmr", hvem, sep='')
+#capVO <- paste('Noen variabelkarakteristikker, ', hvem, sep='')
+AndelsTab <- xtable(Andeler, digits=c(0,0,1), align=c('l', 'r', 'r'), 
+		caption=paste('Andeler, utvalgte variable, ', hvem, sep=''),
+		label=paste("tab:Andeler", hvem, sep=''))
+print(AndelsTab)
+}
+@
+
+\clearpage
+
+\section{Figurer}
+
+Figurene i dette dokumentet er alle basert på alle innregistreringer i databasen 
+i den gitte tidsperioden. I rapporteringssystemet (on-line) er det mulig å gjøre utvalg
+av data til figurene.
+
+%\subsection{Oppsummering}
+\begin{itemize}
+	\item [Utvalg] I rapporteringsystemet har man følgende valgmuligheter: \\
+		alder (min, max) \\
+		dato (start, slutt) \\
+		kjønn: mann/kvinne/begge \\
+		traume: ja/nei/alle \\
+		AISgrad: alle/en eller flere av kategoriene A,B,C,D,E og U
+
+	\item [Sammenligning] Man kan velge om man vil sammenligne resultatene eller ikke.
+	Når man velger å sammenligne, får man ei sammenligning av data for sitt eget
+	sykehus sammenlignet med resten. Man kan ikke velge å se på data fra andre sykehus.
+	
+	\item [AIS figurer] For samtlige registreringer (per februar 2013) hvor det er krysset av for 
+	''Ikke utført'', er AIS oppgitt til U. Dette gjelder ikke motsatt, dvs. man kan ha U uten 
+	at det er krysset av for ikke utført.
+	Det var først enighet om å inkludere ei søyle for ''AIS ikke utført'' for å 
+	se	hvor stor andel av U som skyldes ''ikke utført''. 	Variabelen ''Ikke utført AIS'' 
+	(avkrysningsboks ved innleggelse) er innført på et senere tidspunkt enn
+	variabelen for AIS.
+	Den vil derfor representere et annet utvalg av dataene enn AIS-kategoriene. 
+	Følgelig vil det være misvisende å skulle ha den med.
+	
+	
+	\item [Nevrologisk kategori]   
+	Figur \ref{fig:NevrKatInnUtLand} viser ei sammenligning av 
+	nevrologisk kategori ved inn-og utskriving. 
+	Alle registreringer som var kodet 'U' enten ved inn-eller utskriving er tatt bort så vi har 
+	gyldig AIS registrering for den aktuelle pasienten både ved inn og utskrivelse. 
+	Det betyr at hvis en pasient er i kategori D ved innskriving og U ved utskrivelse el. omvendt, 
+	er pasienten tatt ut. \\
+	For at vi skal sammenligne, må vi ha samme pasientutvalg i de to søylene Inn og Ut. 
+	Kategorien C1-4 omfatter derfor de som var i gruppa C1-4 \textit{både} ved inn- og utskriving. 
+	Det vil si at hvis en pasient har status C4 ved innskriving og 
+	C5 ved utskrivelse blir ikke pasienten med i datagrunnlaget til figuren. 
+		
+	\item [Liggedager/Rehab.] Ved beregning av total liggetid (antall døgn innlagt på sykehus)
+	er antall dager pasienten har vært ute av sykehuset trukket fra. I innregistreringa er det kun 
+	spurt om antall dager pasienten har vært ute og ikke når. Det er derfor ikke mulig å korrigere for 
+	fravær når man beregner antall dager med spesialisert rehabilitering og tid fra innleggelse 
+	til rehabilitering.
+	Følgelig kan summen av beregnet tid fra innleggelse til rehabilitering og tid i rehabilitering 
+	(figurene \ref{fig:DagerTilRehab} og \ref{fig:DagerRehab} )
+	avvike fra total liggetid (figur \ref{fig:OpphTot}).
+	
+	\item [Middelverdier] Figurene \ref{fig:AlderGjsn} - \ref{fig:DagerTilRehabMed}
+	viser median/middelverdi m/konfidensintervall 
+	for variablene: Alder, dager rehab, tid innleggelse-rehab, permisjon (for permisjon $>0$) og liggedøgn.
+	Her vises resultat for alle tre sykehus sammenlignet med totalen for hele landet.
+\end{itemize}
+
+
+\begin{figure}[ht]
+  \begin{center}
+\scalebox{\Sexpr{s1}}{
+<<FigNevrNivaaInnUtAlle, echo=FALSE, message=FALSE>>=
+	FigAndelStabel(NSdata, libkat=libkat, valgtVar='NevrNivaaInnUt', datoFra=datoFra, datoTil=datoTil, 
+			minald=minald, maxald=maxald, erMann=erMann, traume=traume, egenavd=0, reshID=reshID, )	#, sml=sml)
+@
+}
+\end{center}
+\caption{\label{fig:NevrKatInnUtLand} Nevrologisk nivå, alle sykehus.}
+\end{figure}
+
+
+\begin{figure}[ht]
+\begin{center}
+\scalebox{\Sexpr{s1}}{
+<<FigAlder, echo=FALSE, message=FALSE>>=
+	FigFordeling(NSdata, libkat=libkat, outfile='', valgtVar='Alder', datoFra=datoFra, datoTil=datoTil, 
+			minald=minald, maxald=maxald, traume=traume, egenavd=egenavd, reshID=reshID, sml=sml)
+@
+}
+\caption{\label{fig:Alder} Aldersfordeling}
+\end{center}
+\end{figure}
+
+
+\begin{figure}[ht] 
+\begin{center}
+\scalebox{\Sexpr{s1}}{
+<<FigOpphTot, echo=FALSE>>=
+	FigFordeling(NSdata, libkat=libkat, valgtVar='OpphTot', datoFra=datoFra, datoTil=datoTil, 
+			minald=minald, maxald=maxald, traume=traume, egenavd=egenavd, reshID=reshID, sml=sml)
+@ 
+}
+  \caption{\label{fig:OpphTot} Liggetid for alle registrerte}
+\end{center}
+\end{figure}
+
+
+\begin{figure}[ht] 
+\begin{center}
+\scalebox{\Sexpr{s1}}{
+<<FigDagerTilRehab, echo=FALSE>>=
+	FigFordeling(NSdata, libkat=libkat, valgtVar='DagerTilRehab', datoFra=datoFra, datoTil=datoTil, 
+			minald=minald, maxald=maxald, traume=traume, egenavd=egenavd, reshID=reshID, sml=sml)
+@ 
+}
+  \caption{\label{fig:DagerTilRehab} Antall døgn før spesialisert rehabilitering}
+\end{center}
+\end{figure}
+
+
+\begin{figure}[ht] 
+\begin{center}
+\scalebox{\Sexpr{s1}}{
+<<FigDagerRehab, echo=FALSE>>=
+	FigFordeling(NSdata, libkat=libkat, valgtVar='DagerRehab', datoFra=datoFra, datoTil=datoTil, 
+			traume=traume, egenavd=egenavd, reshID=reshID, sml=sml)
+@
+}
+  \caption{\label{fig:DagerRehab} Dager med spesialisert rehabilitering}
+\end{center}
+\end{figure}
+
+
+\begin{figure}[ht] 
+\begin{center}
+\scalebox{\Sexpr{s1}}{
+<<FigPermisjon, echo=FALSE>>=
+	FigFordeling(NSdata, libkat=libkat, valgtVar='Permisjon', datoFra=datoFra, datoTil=datoTil, 
+			traume=traume, egenavd=egenavd, reshID=reshID, sml=sml)
+@
+}
+  \caption{\label{fig:Permisjon} Antall døgn ute av sykehus}
+\end{center}
+\end{figure}
+
+
+\begin{figure}[ht] 
+\begin{center}
+\scalebox{\Sexpr{s1}}{
+<<FigUtTil, echo=FALSE>>=
+	FigFordeling(NSdata, libkat=libkat, valgtVar='UtTil', datoFra=datoFra, datoTil=datoTil, 
+			minald=minald, maxald=maxald, traume=traume, egenavd=egenavd, reshID=reshID, sml=sml)
+@ 
+}
+  \caption{Til hvor pasientene skrives ut}
+  \label{fig:UtTil}
+\end{center}
+\end{figure}
+
+\begin{figure}[ht] 
+\begin{center}
+\scalebox{\Sexpr{s1}}{
+<<FigSkadeArsak, echo=FALSE>>=
+	FigFordeling(NSdata, libkat=libkat, valgtVar='SkadeArsak', datoFra=datoFra, datoTil=datoTil, 
+			minald=minald, maxald=maxald, traume=traume, egenavd=egenavd, reshID=reshID, sml=sml)
+@ 
+}
+  \caption{Skadeårsak}
+  \label{fig:SkadeArsak}
+\end{center}
+\end{figure}
+
+\begin{figure}[ht] 
+\begin{center}
+\scalebox{\Sexpr{s1}}{
+<<FigPustehjelp, echo=FALSE>>=
+	FigFordeling(NSdata, libkat=libkat, valgtVar='Pustehjelp', datoFra=datoFra, datoTil=datoTil, 
+			minald=minald, maxald=maxald, traume=traume, egenavd=egenavd, reshID=reshID, sml=sml)
+@ 
+}
+  \caption{\label{fig:Pustehjelp} Ventilasjonsstøtte}
+\end{center}
+\end{figure}
+
+
+\begin{figure}[ht] 
+\begin{center}
+\scalebox{\Sexpr{s1}}{
+<<FigASIAinn, echo=FALSE>>=
+	FigFordeling(NSdata, libkat=libkat, valgtVar='AAis', datoFra=datoFra, datoTil=datoTil, 
+			minald=minald, maxald=maxald, traume=traume, egenavd=egenavd, reshID=reshID, sml=sml)
+@ 
+}
+  \caption{\label{fig:AISinn} AIS ved innleggelse}
+\end{center}
+\end{figure}
+
+
+\clearpage
+\begin{figure}[ht] 
+\begin{center}
+\scalebox{\Sexpr{s1}}{
+<<FigASIAut, echo=FALSE>>=
+	FigFordeling(NSdata, libkat=libkat, valgtVar='FAis', datoFra=datoFra, datoTil=datoTil, 
+			minald=minald, maxald=maxald, traume=traume, egenavd=egenavd, reshID=reshID, sml=sml)
+@ 
+}
+  \caption{AIS ved utskriving}
+  \label{fig:AISut}
+\end{center}
+\end{figure}
+
+
+%\textbf{Figurer for Sentralmål}
+
+\begin{figure}[ht] 
+\begin{center}
+\scalebox{\Sexpr{s1}}{
+<<FigAlderGjsn, echo=FALSE>>=
+	FigMeanMed(NSdata, libkat=libkat, valgtVar='Alder', datoFra=datoFra, datoTil=datoTil, 
+		valgtMaal='', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
+@ 
+}
+  \caption{Gjennomsnittlig alder, totalt og ved hvert sykehus}
+  \label{fig:AlderGjsn}
+\end{center}
+\end{figure}
+
+\begin{figure}[ht] 
+\begin{center}
+\scalebox{\Sexpr{s1}}{
+<<FigAlderMed, echo=FALSE>>=
+	FigMeanMed(NSdata, libkat=libkat, valgtVar='Alder', datoFra=datoFra, datoTil=datoTil, 
+		valgtMaal='Med', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
+@ 
+}
+  \caption{Median alder, totalt og ved hvert sykehus}
+  \label{fig:AlderMed}
+\end{center}
+\end{figure}
+
+%DagerRehab
+\begin{figure}[ht] 
+\begin{center}
+\scalebox{\Sexpr{s1}}{
+<<FigDagerRehabGjsn, echo=FALSE>>=
+	FigMeanMed(NSdata, libkat=libkat, valgtVar='DagerRehab', datoFra=datoFra, datoTil=datoTil, 
+		valgtMaal='', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
+@ 
+}
+  \caption{Gjennomsnittlig antall dager med rehabilitering, totalt og ved hvert sykehus}
+  \label{fig:DagerRehabGjsn}
+\end{center}
+\end{figure}
+
+\begin{figure}[ht] 
+\begin{center}
+\scalebox{\Sexpr{s1}}{
+<<FigDagerRehabMed, echo=FALSE>>=
+	FigMeanMed(NSdata, libkat=libkat, valgtVar='DagerRehab', datoFra=datoFra, datoTil=datoTil, 
+		valgtMaal='Med', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
+@ 
+}
+  \caption{Median antall dager med rehabilitering, totalt og ved hvert sykehus}
+  \label{fig:DagerRehabMed}
+\end{center}
+\end{figure}
+
+%DagerTilRehab
+\begin{figure}[ht] 
+\begin{center}
+\scalebox{\Sexpr{s1}}{
+<<FigDagerTilRehabGjsn, echo=FALSE>>=
+	FigMeanMed(NSdata, libkat=libkat, valgtVar='DagerTilRehab', datoFra=datoFra, datoTil=datoTil, 
+		valgtMaal='', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
+@ 
+}
+  \caption{Gjennomsnittlig antall dager før rehabilitering, totalt og ved hvert sykehus}
+  \label{fig:DagerTilRehabGjsn}
+\end{center}
+\end{figure}
+
+\begin{figure}[ht] 
+\begin{center}
+\scalebox{\Sexpr{s1}}{
+<<FigDagerTilRehabMed, echo=FALSE>>=
+	FigMeanMed(NSdata, libkat=libkat, valgtVar='DagerTilRehab', datoFra=datoFra, datoTil=datoTil, 
+		valgtMaal='Med', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
+@ 
+}
+  \caption{Median antall dager før rehabilitering, totalt og ved hvert sykehus}
+  \label{fig:DagerTilRehabMed}
+\end{center}
+\end{figure}
+
+\begin{figure}[ht] 
+\begin{center}
+\scalebox{\Sexpr{s1}}{
+<<FigPermisjonGjSn, echo=FALSE>>=
+	FigMeanMed(NSdata, libkat=libkat, valgtVar='Permisjon', datoFra=datoFra, datoTil=datoTil, 
+		valgtMaal='', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
+@ 
+}
+  \caption{Gjennomsnittlig antall døgn ute av sykehus, totalt og ved hvert sykehus}
+  \label{fig:PermisjonGjsn}
+\end{center}
+\end{figure}
+
+\begin{figure}[ht] 
+\begin{center}
+\scalebox{\Sexpr{s1}}{
+<<FigPermisjonMed, echo=FALSE>>=
+	FigMeanMed(NSdata, libkat=libkat, valgtVar='Permisjon', datoFra=datoFra, datoTil=datoTil, 
+		valgtMaal='Med', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
+@ 
+}
+  \caption{Median antall døgn ute av sykehus, totalt og ved hvert sykehus}
+  \label{fig:PermisjonMed}
+\end{center}
+\end{figure}
+
+%OpphTot[HosptlDy]
+\begin{figure}[ht] 
+\begin{center}
+\scalebox{\Sexpr{s1}}{
+<<FigOpphTotGjsn, echo=FALSE>>=
+	FigMeanMed(NSdata, libkat=libkat, valgtVar='OpphTot', datoFra=datoFra, datoTil=datoTil, 
+		valgtMaal='', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
+@ 
+}
+  \caption{Gjennomsnittlig antall dager i behandling, totalt og ved hvert sykehus}
+  \label{fig:OpphTotGjsn}
+\end{center}
+\end{figure}
+
+\begin{figure}[ht] 
+\begin{center}
+\scalebox{\Sexpr{s1}}{
+<<FigOpphTotMed, echo=FALSE>>=
+	FigMeanMed(NSdata, libkat=libkat, valgtVar='OpphTot', datoFra=datoFra, datoTil=datoTil, 
+		valgtMaal='Med', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
+@ 
+}
+  \caption{Median antall dager i behandling, totalt og ved hvert sykehus}
+  \label{fig:OpphTotMed}
+\end{center}
+\end{figure}
+
+
+\end{document}
+
+
