@@ -24,6 +24,7 @@
 #' @param traume - 'ja','nei', standard: ikke valgt
 #' @param datoFra <- '2010-01-01'    # min og max dato i utvalget vises alltid i figuren.
 #' @param datoTil <- '2013-05-25'
+#' @export
 
 FigAndelStabel <- function(RegData, outfile='', libkat, valgtVar, datoFra='2010-01-01', datoTil='3000-01-01',
 		minald=0, maxald=120, erMann='', traume='', egenavd=1 , reshID)
