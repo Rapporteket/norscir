@@ -14,7 +14,7 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \usepackage{amsmath}
-%package odfWeave provides functions for using Sweave in combination with OpenOffice Writer 
+%package odfWeave provides functions for using Sweave in combination with OpenOffice Writer
 %rather than LATEX.
 
 %add rotating for plain tables
@@ -25,7 +25,7 @@
 
 %add long tables
 \usepackage{longtable}
-\usepackage{afterpage} 
+\usepackage{afterpage}
 \afterpage{\clearpage} %unngå sideskift etter floatflsuh
 %\restylefloat{figure} %gjør det mulig å angi H som parameter for plassering av floats
 
@@ -49,7 +49,7 @@
 
 \usepackage[pdftex, colorlinks, linkcolor=lysblaa, urlcolor=lysblaa]{hyperref}
 
-%bytte overskrifter 
+%bytte overskrifter
 \usepackage[compact]{titlesec}
 \titleformat{\section} {\vspace*{10pt}\color{SKDE}\normalfont\Large\bfseries} {\thesection}{}{}
 \titleformat{\subsection} {\color{middelsgraa}\normalfont\large\bfseries} {\thesection}{}{}
@@ -62,16 +62,16 @@
 \fancyfootoffset[RE]{1.5cm}
 \fancyhead[LO]{\colorbox{SKDE}{\textcolor{white}{\hspace*{2cm}\scshape\small Norsk Ryggmarksskaderegister}}} %Lengde på stripa
 %\fancyhead[RE]{\hspace*{2cm}\colorbox{SKDE}{\textcolor{white}{\scshape\small Norsk Ryggmarksskaderegister \hspace*{3cm}}}}
-\fancyfoot[LO]{\colorbox{SKDE}{\textcolor{white}{\scshape\small\thepage}}} 
-%	\\ \vspace*{-0.1cm}\colorbox{SKDE}{\textcolor{SKDE}{\scshape\small\thepage}} \\ \vspace*{-0.1cm}\colorbox{SKDE}{\textcolor{SKDE}{\scshape\small\thepage}} } 
+\fancyfoot[LO]{\colorbox{SKDE}{\textcolor{white}{\scshape\small\thepage}}}
+%	\\ \vspace*{-0.1cm}\colorbox{SKDE}{\textcolor{SKDE}{\scshape\small\thepage}} \\ \vspace*{-0.1cm}\colorbox{SKDE}{\textcolor{SKDE}{\scshape\small\thepage}} }
 \fancyfoot[RE]{\colorbox{SKDE}{\textcolor{white}{\scshape\small\thepage}}}
-% \\ \vspace*{-0.1cm}\colorbox{SKDE}{\textcolor{SKDE}{\scshape\small\thepage}} \\ \vspace*{-0.1cm}\colorbox{SKDE}{\textcolor{SKDE}{\scshape\small\thepage}} \\ \vspace*{-0.1cm}\colorbox{SKDE}{\textcolor{SKDE}{\scshape\small\thepage}}} 
+% \\ \vspace*{-0.1cm}\colorbox{SKDE}{\textcolor{SKDE}{\scshape\small\thepage}} \\ \vspace*{-0.1cm}\colorbox{SKDE}{\textcolor{SKDE}{\scshape\small\thepage}} \\ \vspace*{-0.1cm}\colorbox{SKDE}{\textcolor{SKDE}{\scshape\small\thepage}}}
 \renewcommand{\headrulewidth}{0pt} %\iffloatpage{0pt}{0.4pt}
  \renewcommand{\footrulewidth}{0pt}
 %evt. horisontal sidenummer
 \fancyfoot[LO]{\colorbox{SKDE}{\textcolor{white}{\hspace*{2cm} \small \thepage}}} \fancyfootoffset[LO]{4.4cm}
 \fancyfoot[RE]{\hspace*{2cm}\colorbox{SKDE}{\textcolor{white}{\small \thepage \hspace*{3cm}}}}  \fancyfootoffset[RE]{5.3cm}
-\setcounter{secnumdepth}{-1} 
+\setcounter{secnumdepth}{-1}
 
 
 \title{Resultater fra NorScir}
@@ -80,6 +80,7 @@
 \fancyhead[R]{\includegraphics[height=2cm]{\Sexpr{system.file("NorSCIR_logo_blue_norsk.pdf", package = "NorScir")}}}
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 \maketitle
 \tableofcontents
 %\newpage
@@ -167,10 +168,10 @@ libkat <- './'
 
 
 \section{Innledning}
-Dette er et samledokument for rapportering av resultater fra NorScir. Alle resultater er basert på 
-alle registreringer i registeret per rapportdato. Dokumentet omfatter kun resultater basert på 
+Dette er et samledokument for rapportering av resultater fra NorScir. Alle resultater er basert på
+alle registreringer i registeret per rapportdato. Dokumentet omfatter kun resultater basert på
 variable som finnes i registreringsskjema.
-Alle figurer i dette dokumentet er tilgjengelige i det on-line rapporteringssystemet som du har 
+Alle figurer i dette dokumentet er tilgjengelige i det on-line rapporteringssystemet som du har
 tilgang til gjennom samme innlogging som ved innregistrering av data.
 Der har du også mulighet for å lage egne figurer og tabeller.
 
@@ -182,8 +183,8 @@ NSdataAlleSkjema <- NSdata
 #------------NB: Siden vi bare har resultater fra skjema 1 filtreres nå på skjema 1.
 NSdata <- NSdata[which(NSdata$SkjemaID==1), ]
 
-alderVar <- 'AlderAar'	
-datoVar <- 'AdmitDt'	
+alderVar <- 'AlderAar'
+datoVar <- 'AdmitDt'
 NSdata$InnDato <- as.POSIXlt(NSdata[ ,datoVar], format="%Y-%m-%d")	#"%d.%m.%Y"
 NSdata$Aar <- NSdata$InnDato$year+1900
 NSdata$Alder <- NSdata[ ,alderVar]
@@ -217,11 +218,11 @@ Npas <- Ntot #unique(NSdata$PasientID)
 tabKjPst <- round(table(NSdata$isMale)/Npas*100, digits=1)
 @
 
-Der annet ikke er angitt, er alle resultater i dette dokumentet basert på innleggelser i perioden 
+Der annet ikke er angitt, er alle resultater i dette dokumentet basert på innleggelser i perioden
 \Sexpr{min(NSdata$InnDato, na.rm=T)} til \Sexpr{max(NSdata$InnDato, na.rm=T)}. Registreringer som
 mangler innleggelsesdato er tatt ut av analysene.
-Tabell \ref{tab:AntReg} viser antall 
-Registreringsskjema registrert ved de respektive avdelinger hvert år basert på innleggelsesdato. 
+Tabell \ref{tab:AntReg} viser antall
+Registreringsskjema registrert ved de respektive avdelinger hvert år basert på innleggelsesdato.
 Vi ser at det for den angitte tidsperioden er det totalt registrert \Sexpr{Npas} hendelser.
 Kvinner og menn står for hhv. \Sexpr{tabKjPst[1]}\% og \Sexpr{tabKjPst[2]}\% av oppholdene.
 
@@ -231,7 +232,7 @@ tabAvdN <- addmargins(as.table(ftable(NSdata[c('ShNavn','Aar')])))
 rownames(tabAvdN)[dim(tabAvdN)[1] ]<- 'TOTALT, alle avdelinger:'
 colnames(tabAvdN)[dim(tabAvdN)[2] ]<- 'Alle år'
 
-xtable(tabAvdN, digits=0, align=c('l', rep('r', ncol(tabAvdN))), 
+xtable(tabAvdN, digits=0, align=c('l', rep('r', ncol(tabAvdN))),
 		caption='Antall innregistreringsskjema per år og avdeling.',
 		label="tab:AntReg")
 
@@ -239,13 +240,13 @@ xtable(tabAvdN, digits=0, align=c('l', rep('r', ncol(tabAvdN))),
 #print(mat, floating=FALSE, hline.after=NULL, add.to.row=list(pos=list(-1,0, nrow(mat)),command=c('\\toprule ','\\midrule ','\\bottomrule ')))
 @
 
-Tabell \ref{tab:EkstrObs} viser variable med ekstremobservasjoner fra \Sexpr{ShNavn}. 
+Tabell \ref{tab:EkstrObs} viser variable med ekstremobservasjoner fra \Sexpr{ShNavn}.
 Hva som er en ekstremobservasjon er definert ut fra følgende kriterier: \\
 \textit{Total liggetid} mer enn 1 år eller 0. \\
 \textit{Tid til rehabilitering} mer enn 80 dager eller 0.\\
 \textit{Tid i rehabilitering} mer enn 1 år eller 0.\\
 \textit{Permisjonstid} mer enn 20 dager.\\
-Merk at ekstremobservasjoner kan forekomme uten at det nødvendigvis er feil i registreringene, 
+Merk at ekstremobservasjoner kan forekomme uten at det nødvendigvis er feil i registreringene,
 men det kan være lurt å dobbeltsjekke de aktuelle registreringene.
 
 <<'Ekstremverdier',echo=FALSE,  results='asis', message=FALSE, eval=T>>=
@@ -261,11 +262,11 @@ AntAvv <- colSums(Avv)
 NSdataEget$InnDatoEkstrV <- as.character(NSdataEget$InnDato)
 NSdataEget$DatasettGuid <- as.character(NSdataEget$DatasettGuid)
 #cbind(NSdataEget[ ,EkstrVar[1]],Avv[1])
-EkstrTab <- rbind(if (AntAvv[1]>0) {cbind(NSdataEget[Avv[,1]==TRUE, 'DatasettGuid'], 
+EkstrTab <- rbind(if (AntAvv[1]>0) {cbind(NSdataEget[Avv[,1]==TRUE, 'DatasettGuid'],
 			'Liggetid',  as.numeric(NSdataEget[Avv[,1]==TRUE, EkstrVar[1]]))},
 				if (AntAvv[2]>0) {cbind(NSdataEget[Avv[,2]==TRUE,'DatasettGuid'],
 			'Dager med rehab',  as.numeric(NSdataEget[Avv[,2]==TRUE, EkstrVar[2]]))},
-				if (AntAvv[3]>0) {cbind(NSdataEget[Avv[,3]==TRUE, c('DatasettGuid')], 
+				if (AntAvv[3]>0) {cbind(NSdataEget[Avv[,3]==TRUE, c('DatasettGuid')],
 			'Dager til rehab', as.numeric(NSdataEget[Avv[,3]==TRUE, EkstrVar[3]]))},
 				if (AntAvv[4]>0) {cbind(NSdataEget[Avv[,4]==TRUE, c('DatasettGuid')],
 			'Permisjon', as.numeric(NSdataEget[Avv[,4]==TRUE, EkstrVar[4]]))}
@@ -275,29 +276,29 @@ colnames(EkstrTab) <- c('DatasettGuid','Variabel', 'Verdi')
 if (reshID !=0) { Tabtxt <- paste('Ekstremverdier, ',ShNavn, sep='')
 } else {Tabtxt <- 'Tabellen kan bare vises for enkeltsykehus'}
 
-EkstrTabTex <- xtable(EkstrTab[order(EkstrTab[, 'DatasettGuid']), ], 
+EkstrTabTex <- xtable(EkstrTab[order(EkstrTab[, 'DatasettGuid']), ],
 		align=c('l', 'l', 'l', 'r'),  digits = 0,
 		caption=Tabtxt, label="tab:EkstrObs")
 print(EkstrTabTex, include.rownames=FALSE)	#,tabular.environment="longtable")
 
 @
-	
 
 
-Tabellene \ref{tab:VerdiOmrNorge}, \ref{tab:VerdiOmrHaukeland}, \ref{tab:VerdiOmrSunnaas} og 
+
+Tabellene \ref{tab:VerdiOmrNorge}, \ref{tab:VerdiOmrHaukeland}, \ref{tab:VerdiOmrSunnaas} og
 \ref{tab:VerdiOmrSt.Olav} viser statistikk over alder, total behandlingstid og rehabilitering
 for hhv. hele landet, Haukeland sykehus, Sunnaas sykehus og St. Olavs hospital. \\
-Tabellene \ref{tab:AndelerNorge}, \ref{tab:AndelerHaukeland}, \ref{tab:AndelerSunnaas} og 
-\ref{tab:AndelerSt.Olav}  viser hvor mange hendelser det er for utvalgte variable 
-og hvor stor prosentandel dette utgjør. 
+Tabellene \ref{tab:AndelerNorge}, \ref{tab:AndelerHaukeland}, \ref{tab:AndelerSunnaas} og
+\ref{tab:AndelerSt.Olav}  viser hvor mange hendelser det er for utvalgte variable
+og hvor stor prosentandel dette utgjør.
 
 
-<<'Nokkeltall',echo=FALSE, results='asis', cache=F, message=FALSE, eval=T>>= 
+<<'Nokkeltall',echo=FALSE, results='asis', cache=F, message=FALSE, eval=T>>=
 #105593-Haukeland, 106896-Sunnaas sykehus, 107627-St.Olavs
 
 options(warn = -1)
-for (hvem in c('Norge', 'Haukeland', 'Sunnaas', 'St.Olav')){ 
-utvalg <- switch(hvem, 	
+for (hvem in c('Norge', 'Haukeland', 'Sunnaas', 'St.Olav')){
+utvalg <- switch(hvem,
 		Norge = 1:dim(NSdata)[1],
 		Haukeland = which(NSdata$ReshId == 105593),
 		Sunnaas = which(NSdata$ReshId == 106896),
@@ -312,21 +313,21 @@ utvalg <- switch(hvem,
 #if (sum(RehabDager>0, na.rm=T)>0 ) {
 
 	VerdiOmr <- rbind('Alder' = c(round(c(median(Alder), mean(Alder), sd(Alder))),
-			paste('[',min(Alder), ', ' ,max(Alder), ']', sep=''), 
+			paste('[',min(Alder), ', ' ,max(Alder), ']', sep=''),
 			length(Alder)),
-		'Behandlingsdager, totalt' = c(round(c(mean(BehDager), median(BehDager), sd(BehDager))), 
-			paste('[',min(BehDager), ', ' ,max(BehDager), ']', sep=''), 
+		'Behandlingsdager, totalt' = c(round(c(mean(BehDager), median(BehDager), sd(BehDager))),
+			paste('[',min(BehDager), ', ' ,max(BehDager), ']', sep=''),
 			sum(BehDager>=0, na.rm=T)),
-		'Dager med rehabilitering' = c(round(c(mean(RehabDager, na.rm=T), median(RehabDager, na.rm=T), 
-			sd(RehabDager, na.rm=T))), 
+		'Dager med rehabilitering' = c(round(c(mean(RehabDager, na.rm=T), median(RehabDager, na.rm=T),
+			sd(RehabDager, na.rm=T))),
 			paste('[',min(RehabDager, na.rm=T), ', ' ,max(RehabDager, na.rm=T), ']', sep=''),
 			sum(RehabDager>=0, na.rm=T)),
-		'Dager til rehabilitering' = c(round(c(mean(Ventetid, na.rm=T), median(Ventetid, na.rm=T), 
-			sd(Ventetid, na.rm=T))), 
+		'Dager til rehabilitering' = c(round(c(mean(Ventetid, na.rm=T), median(Ventetid, na.rm=T),
+			sd(Ventetid, na.rm=T))),
 			paste('[',min(Ventetid, na.rm=T), ', ' ,max(Ventetid, na.rm=T), ']', sep=''),
 			sum(Ventetid>=0, na.rm=T)),
-		'Dager i permisjon (>0)' = c(round(c(mean(Permisjon, na.rm=T), median(Permisjon, na.rm=T), 
-			sd(Permisjon, na.rm=T))), 
+		'Dager i permisjon (>0)' = c(round(c(mean(Permisjon, na.rm=T), median(Permisjon, na.rm=T),
+			sd(Permisjon, na.rm=T))),
 			paste('[',min(Permisjon, na.rm=T), ', ' ,max(Permisjon, na.rm=T), ']', sep=''),
 			sum(Permisjon>0, na.rm=T))
 		)
@@ -337,7 +338,7 @@ utvalg <- switch(hvem,
 colnames(VerdiOmr) <- c('Middelverdi', 'Median', 'SD', 'Verdiområde', 'Ant. obs')
 labVO <- paste0("tab:VerdiOmr", hvem)
 capVO <- paste0('Noen variabelkarakteristikker, ', hvem)
-VOTabell <- xtable(VerdiOmr, digits=0, align=c('l', rep('r', 5)), 
+VOTabell <- xtable(VerdiOmr, digits=0, align=c('l', rep('r', 5)),
 		caption = capVO,
 		label = labVO)
 print(VOTabell)
@@ -346,11 +347,11 @@ print(VOTabell)
 @
 
 
-	
-<<'Andeler',echo=FALSE, results='asis', message=FALSE, eval=T>>= 
+
+<<'Andeler',echo=FALSE, results='asis', message=FALSE, eval=T>>=
 options(warn = -1)
-for (hvem in c('Norge', 'Haukeland', 'Sunnaas', 'St.Olav')){ 
-utvalg <- switch(hvem, 	
+for (hvem in c('Norge', 'Haukeland', 'Sunnaas', 'St.Olav')){
+utvalg <- switch(hvem,
 		Norge = 1:dim(NSdata)[1],
 		Haukeland = which(NSdata$ReshId == 105593),
 		Sunnaas = which(NSdata$ReshId == 106896),
@@ -375,7 +376,7 @@ Andeler[ ,2] <- round(100*Andeler[,2], 1)
 colnames(Andeler) <- c('Antall', 'Andel(%)')
 #labVO <- paste("tab:VerdiOmr", hvem, sep='')
 #capVO <- paste('Noen variabelkarakteristikker, ', hvem, sep='')
-AndelsTab <- xtable(Andeler, digits=c(0,0,1), align=c('l', 'r', 'r'), 
+AndelsTab <- xtable(Andeler, digits=c(0,0,1), align=c('l', 'r', 'r'),
 		caption=paste('Andeler, utvalgte variable, ', hvem, sep=''),
 		label=paste("tab:Andeler", hvem, sep=''))
 print(AndelsTab)
@@ -386,8 +387,8 @@ print(AndelsTab)
 
 \section{Figurer}
 
-Her kommer en oversikt over figurene i rapporteringssystemet. Figurene i dette dokumentet 
-er alle basert på alle 
+Her kommer en oversikt over figurene i rapporteringssystemet. Figurene i dette dokumentet
+er alle basert på alle
 innregistreringer i databasen. I rapporteringssystemet (on-line) er det mulig å gjøre utvalg
 av data til figurene.
 
@@ -403,48 +404,48 @@ av data til figurene.
 	\item [Sammenligning] Man kan velge om man vil sammenligne resultatene eller ikke.
 	Når man velger å sammenligne, får man ei sammenligning av data for sitt eget
 	sykehus sammenlignet med resten. Man kan ikke velge å se på data fra andre sykehus.
-	
-	\item [AIS figurer] For samtlige registreringer (per februar 2013) hvor det er krysset av for 
-	''Ikke utført'', er AIS oppgitt til U. Dette gjelder ikke motsatt, dvs. man kan ha U uten 
+
+	\item [AIS figurer] For samtlige registreringer (per februar 2013) hvor det er krysset av for
+	''Ikke utført'', er AIS oppgitt til U. Dette gjelder ikke motsatt, dvs. man kan ha U uten
 	at det er krysset av for ikke utført.
-	Det var først enighet om å inkludere ei søyle for ''AIS ikke utført'' for å 
-	se	hvor stor andel av U som skyldes ''ikke utført''. 	Variabelen ''Ikke utført AIS'' 
+	Det var først enighet om å inkludere ei søyle for ''AIS ikke utført'' for å
+	se	hvor stor andel av U som skyldes ''ikke utført''. 	Variabelen ''Ikke utført AIS''
 	(avkrysningsboks ved innleggelse) er innført på et senere tidspunkt enn
 	variabelen for AIS.
-	Den vil derfor representere et annet utvalg av dataene enn AIS-kategoriene. 
+	Den vil derfor representere et annet utvalg av dataene enn AIS-kategoriene.
 	Følgelig vil det være misvisende å skulle ha den med.
-	
-	
-	\item [Nevrologisk kategori]   
-	Figur \ref{fig:NevrKatInnUtEget} og \ref{fig:NevrKatInnUtLand} viser ei sammenligning av 
-	nevrologisk kategori ved inn-og utskriving. 
-	Alle registreringer som var kodet 'U' enten ved inn-eller utskriving er tatt bort så vi har 
-	gyldig AIS registrering for den aktuelle pasienten både ved inn og utskrivelse. 
-	Det betyr at hvis en pasient er i kategori D ved innskriving og U ved utskrivelse el. omvendt, 
+
+
+	\item [Nevrologisk kategori]
+	Figur \ref{fig:NevrKatInnUtEget} og \ref{fig:NevrKatInnUtLand} viser ei sammenligning av
+	nevrologisk kategori ved inn-og utskriving.
+	Alle registreringer som var kodet 'U' enten ved inn-eller utskriving er tatt bort så vi har
+	gyldig AIS registrering for den aktuelle pasienten både ved inn og utskrivelse.
+	Det betyr at hvis en pasient er i kategori D ved innskriving og U ved utskrivelse el. omvendt,
 	er pasienten tatt ut. \\
-	For at vi skal sammenligne, må vi ha samme pasientutvalg i de to søylene Inn og Ut. 
-	Kategorien C1-4 omfatter derfor de som var i gruppa C1-4 \textit{både} ved inn- og utskriving. 
-	Det vil si at hvis en pasient har status C4 ved innskriving og 
-	C5 ved utskrivelse blir ikke pasienten med i datagrunnlaget til figuren. 
-		
+	For at vi skal sammenligne, må vi ha samme pasientutvalg i de to søylene Inn og Ut.
+	Kategorien C1-4 omfatter derfor de som var i gruppa C1-4 \textit{både} ved inn- og utskriving.
+	Det vil si at hvis en pasient har status C4 ved innskriving og
+	C5 ved utskrivelse blir ikke pasienten med i datagrunnlaget til figuren.
+
 	\item [Liggedager/Rehab.] Ved beregning av total liggetid (antall døgn innlagt på sykehus)
-	er antall dager pasienten har vært ute av sykehuset trukket fra. I innregistreringa er det kun 
-	spurt om antall dager pasienten har vært ute og ikke når. Det er derfor ikke mulig å korrigere for 
-	fravær når man beregner antall dager med spesialisert rehabilitering og tid fra innleggelse 
+	er antall dager pasienten har vært ute av sykehuset trukket fra. I innregistreringa er det kun
+	spurt om antall dager pasienten har vært ute og ikke når. Det er derfor ikke mulig å korrigere for
+	fravær når man beregner antall dager med spesialisert rehabilitering og tid fra innleggelse
 	til rehabilitering.
-	Følgelig kan summen av beregnet tid fra innleggelse til rehabilitering og tid i rehabilitering 
+	Følgelig kan summen av beregnet tid fra innleggelse til rehabilitering og tid i rehabilitering
 	(figurene \ref{fig:DagerTilRehab} og \ref{fig:DagerRehab} )
 	avvike fra total liggetid (figur \ref{fig:OpphTot}).
-	
+
 	\item [Middelverdier] Figurene \ref{fig:AlderGjsn} - \ref{fig:DagerTilRehabMed}
-	viser median/middelverdi m/konfidensintervall 
+	viser median/middelverdi m/konfidensintervall
 	for variablene: Alder, dager rehab, tid innleggelse-rehab, permisjon (for permisjon $>0$) og liggedøgn.
 	Her vises resultat for alle tre sykehus sammenlignet med totalen for hele landet.
 \end{itemize}
 
 %\begin{figure}[ht]
 %<<FigNevrNivaaInn, echo=FALSE, message=FALSE>>=
-%	FigAndelStabel(NSdata, libkat=libkat, valgtVar='NevrNivaaInn', datoFra=datoFra, datoTil=datoTil, 
+%	FigAndelStabel(NSdata, libkat=libkat, valgtVar='NevrNivaaInn', datoFra=datoFra, datoTil=datoTil,
 %			minald=minald, maxald=maxald, erMann=erMann, traume=traume, reshID=reshID)	#, sml=sml)
 %@
 %\caption{\label{fig:NevrKatInn} Nevrologisk nivå ved innskriving.}
@@ -452,7 +453,7 @@ av data til figurene.
 
 %\begin{figure}[ht]
 %<<FigNevrNivaaUt, echo=FALSE, message=FALSE>>=
-%	FigAndelStabel(NSdata, libkat=libkat, valgtVar='NevrNivaaUt', datoFra=datoFra, datoTil=datoTil, 
+%	FigAndelStabel(NSdata, libkat=libkat, valgtVar='NevrNivaaUt', datoFra=datoFra, datoTil=datoTil,
 %			minald=minald, maxald=maxald, erMann=erMann, traume=traume, reshID=reshID)	#, sml=sml)
 %@
 %\caption{\label{fig:NevrKatUt} Nevrologisk nivå ved utskriving}
@@ -462,7 +463,7 @@ av data til figurene.
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigNevrNivaaInnUtEget, echo=FALSE, message=FALSE>>=
-	FigAndelStabel(NSdata, libkat=libkat, valgtVar='NevrNivaaInnUt', datoFra=datoFra, datoTil=datoTil, 
+	FigAndelStabel(NSdata, libkat=libkat, valgtVar='NevrNivaaInnUt', datoFra=datoFra, datoTil=datoTil,
 			minald=minald, maxald=maxald, erMann=erMann, traume=traume, egenavd=1, reshID=reshID)	#, sml=sml)
 			@
 }
@@ -474,7 +475,7 @@ av data til figurene.
   \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigNevrNivaaInnUtAlle, echo=FALSE, message=FALSE>>=
-	FigAndelStabel(NSdata, libkat=libkat, valgtVar='NevrNivaaInnUt', datoFra=datoFra, datoTil=datoTil, 
+	FigAndelStabel(NSdata, libkat=libkat, valgtVar='NevrNivaaInnUt', datoFra=datoFra, datoTil=datoTil,
 			minald=minald, maxald=maxald, erMann=erMann, traume=traume, egenavd=0, reshID=0)	#, sml=sml)
 @
 }
@@ -487,7 +488,7 @@ av data til figurene.
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigAlder, echo=FALSE, message=FALSE>>=
-	FigFordeling(NSdata, libkat=libkat, outfile='', valgtVar='Alder', datoFra=datoFra, datoTil=datoTil, 
+	FigFordeling(NSdata, libkat=libkat, outfile='', valgtVar='Alder', datoFra=datoFra, datoTil=datoTil,
 			minald=minald, maxald=maxald, traume=traume, egenavd=1, reshID=reshID, sml=sml)
 @
 }
@@ -496,37 +497,37 @@ av data til figurene.
 \end{figure}
 
 
-\begin{figure}[ht] 
+\begin{figure}[ht]
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigOpphTot, echo=FALSE>>=
-	FigFordeling(NSdata, libkat=libkat, valgtVar='OpphTot', datoFra=datoFra, datoTil=datoTil, 
+	FigFordeling(NSdata, libkat=libkat, valgtVar='OpphTot', datoFra=datoFra, datoTil=datoTil,
 			minald=minald, maxald=maxald, traume=traume, egenavd=1, reshID=reshID, sml=sml)
-@ 
+@
 }
   \caption{\label{fig:OpphTot} Liggetid for alle registrerte}
 \end{center}
 \end{figure}
 
 
-\begin{figure}[ht] 
+\begin{figure}[ht]
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigDagerTilRehab, echo=FALSE>>=
-	FigFordeling(NSdata, libkat=libkat, valgtVar='DagerTilRehab', datoFra=datoFra, datoTil=datoTil, 
+	FigFordeling(NSdata, libkat=libkat, valgtVar='DagerTilRehab', datoFra=datoFra, datoTil=datoTil,
 			minald=minald, maxald=maxald, traume=traume, egenavd=1, reshID=reshID, sml=sml)
-@ 
+@
 }
   \caption{\label{fig:DagerTilRehab} Antall døgn før spesialisert rehabilitering}
 \end{center}
 \end{figure}
 
 
-\begin{figure}[ht] 
+\begin{figure}[ht]
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigDagerRehab, echo=FALSE>>=
-	FigFordeling(NSdata, libkat=libkat, valgtVar='DagerRehab', datoFra=datoFra, datoTil=datoTil, 
+	FigFordeling(NSdata, libkat=libkat, valgtVar='DagerRehab', datoFra=datoFra, datoTil=datoTil,
 			traume=traume, egenavd=1, reshID=reshID, sml=sml)
 @
 }
@@ -535,11 +536,11 @@ av data til figurene.
 \end{figure}
 
 
-\begin{figure}[ht] 
+\begin{figure}[ht]
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigPermisjon, echo=FALSE>>=
-	FigFordeling(NSdata, libkat=libkat, valgtVar='Permisjon', datoFra=datoFra, datoTil=datoTil, 
+	FigFordeling(NSdata, libkat=libkat, valgtVar='Permisjon', datoFra=datoFra, datoTil=datoTil,
 			traume=traume, egenavd=1, reshID=reshID, sml=sml)
 @
 }
@@ -548,52 +549,52 @@ av data til figurene.
 \end{figure}
 
 
-\begin{figure}[ht] 
+\begin{figure}[ht]
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigUtTil, echo=FALSE>>=
-	FigFordeling(NSdata, libkat=libkat, valgtVar='UtTil', datoFra=datoFra, datoTil=datoTil, 
+	FigFordeling(NSdata, libkat=libkat, valgtVar='UtTil', datoFra=datoFra, datoTil=datoTil,
 			minald=minald, maxald=maxald, traume=traume, egenavd=1, reshID=reshID, sml=sml)
-@ 
+@
 }
   \caption{Til hvor pasientene skrives ut}
   \label{fig:UtTil}
 \end{center}
 \end{figure}
 
-\begin{figure}[ht] 
+\begin{figure}[ht]
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigSkadeArsak, echo=FALSE>>=
-	FigFordeling(NSdata, libkat=libkat, valgtVar='SkadeArsak', datoFra=datoFra, datoTil=datoTil, 
+	FigFordeling(NSdata, libkat=libkat, valgtVar='SkadeArsak', datoFra=datoFra, datoTil=datoTil,
 			minald=minald, maxald=maxald, traume=traume, egenavd=1, reshID=reshID, sml=sml)
-@ 
+@
 }
   \caption{Skadeårsak}
   \label{fig:SkadeArsak}
 \end{center}
 \end{figure}
 
-\begin{figure}[ht] 
+\begin{figure}[ht]
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigPustehjelp, echo=FALSE>>=
-	FigFordeling(NSdata, libkat=libkat, valgtVar='Pustehjelp', datoFra=datoFra, datoTil=datoTil, 
+	FigFordeling(NSdata, libkat=libkat, valgtVar='Pustehjelp', datoFra=datoFra, datoTil=datoTil,
 			minald=minald, maxald=maxald, traume=traume, egenavd=1, reshID=reshID, sml=sml)
-@ 
+@
 }
   \caption{\label{fig:Pustehjelp} Ventilasjonsstøtte}
 \end{center}
 \end{figure}
 
 
-\begin{figure}[ht] 
+\begin{figure}[ht]
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigASIAinn, echo=FALSE>>=
-	FigFordeling(NSdata, libkat=libkat, valgtVar='AAis', datoFra=datoFra, datoTil=datoTil, 
+	FigFordeling(NSdata, libkat=libkat, valgtVar='AAis', datoFra=datoFra, datoTil=datoTil,
 			minald=minald, maxald=maxald, traume=traume, egenavd=1, reshID=reshID, sml=sml)
-@ 
+@
 }
   \caption{\label{fig:AISinn} AIS ved innleggelse}
 \end{center}
@@ -601,13 +602,13 @@ av data til figurene.
 
 
 \clearpage
-\begin{figure}[ht] 
+\begin{figure}[ht]
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigASIAut, echo=FALSE>>=
-	FigFordeling(NSdata, libkat=libkat, valgtVar='FAis', datoFra=datoFra, datoTil=datoTil, 
+	FigFordeling(NSdata, libkat=libkat, valgtVar='FAis', datoFra=datoFra, datoTil=datoTil,
 			minald=minald, maxald=maxald, traume=traume, egenavd=1, reshID=reshID, sml=sml)
-@ 
+@
 }
   \caption{AIS ved utskriving}
   \label{fig:AISut}
@@ -617,26 +618,26 @@ av data til figurene.
 
 %\textbf{Figurer for Sentralmål}
 
-\begin{figure}[ht] 
+\begin{figure}[ht]
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigAlderGjsn, echo=FALSE>>=
-	FigMeanMed(NSdata, libkat=libkat, valgtVar='Alder', datoFra=datoFra, datoTil=datoTil, 
+	FigMeanMed(NSdata, libkat=libkat, valgtVar='Alder', datoFra=datoFra, datoTil=datoTil,
 		valgtMaal='', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
-@ 
+@
 }
   \caption{Gjennomsnittlig alder, totalt og ved hvert sykehus}
   \label{fig:AlderGjsn}
 \end{center}
 \end{figure}
 
-\begin{figure}[ht] 
+\begin{figure}[ht]
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigAlderMed, echo=FALSE>>=
-	FigMeanMed(NSdata, libkat=libkat, valgtVar='Alder', datoFra=datoFra, datoTil=datoTil, 
+	FigMeanMed(NSdata, libkat=libkat, valgtVar='Alder', datoFra=datoFra, datoTil=datoTil,
 		valgtMaal='Med', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
-@ 
+@
 }
   \caption{Median alder, totalt og ved hvert sykehus}
   \label{fig:AlderMed}
@@ -644,26 +645,26 @@ av data til figurene.
 \end{figure}
 
 %DagerRehab
-\begin{figure}[ht] 
+\begin{figure}[ht]
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigDagerRehabGjsn, echo=FALSE>>=
-	FigMeanMed(NSdata, libkat=libkat, valgtVar='DagerRehab', datoFra=datoFra, datoTil=datoTil, 
+	FigMeanMed(NSdata, libkat=libkat, valgtVar='DagerRehab', datoFra=datoFra, datoTil=datoTil,
 		valgtMaal='', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
-@ 
+@
 }
   \caption{Gjennomsnittlig antall dager med rehabilitering, totalt og ved hvert sykehus}
   \label{fig:DagerRehabGjsn}
 \end{center}
 \end{figure}
 
-\begin{figure}[ht] 
+\begin{figure}[ht]
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigDagerRehabMed, echo=FALSE>>=
-	FigMeanMed(NSdata, libkat=libkat, valgtVar='DagerRehab', datoFra=datoFra, datoTil=datoTil, 
+	FigMeanMed(NSdata, libkat=libkat, valgtVar='DagerRehab', datoFra=datoFra, datoTil=datoTil,
 		valgtMaal='Med', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
-@ 
+@
 }
   \caption{Median antall dager med rehabilitering, totalt og ved hvert sykehus}
   \label{fig:DagerRehabMed}
@@ -671,52 +672,52 @@ av data til figurene.
 \end{figure}
 
 %DagerTilRehab
-\begin{figure}[ht] 
+\begin{figure}[ht]
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigDagerTilRehabGjsn, echo=FALSE>>=
-	FigMeanMed(NSdata, libkat=libkat, valgtVar='DagerTilRehab', datoFra=datoFra, datoTil=datoTil, 
+	FigMeanMed(NSdata, libkat=libkat, valgtVar='DagerTilRehab', datoFra=datoFra, datoTil=datoTil,
 		valgtMaal='', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
-@ 
+@
 }
   \caption{Gjennomsnittlig antall dager før rehabilitering, totalt og ved hvert sykehus}
   \label{fig:DagerTilRehabGjsn}
 \end{center}
 \end{figure}
 
-\begin{figure}[ht] 
+\begin{figure}[ht]
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigDagerTilRehabMed, echo=FALSE>>=
-	FigMeanMed(NSdata, libkat=libkat, valgtVar='DagerTilRehab', datoFra=datoFra, datoTil=datoTil, 
+	FigMeanMed(NSdata, libkat=libkat, valgtVar='DagerTilRehab', datoFra=datoFra, datoTil=datoTil,
 		valgtMaal='Med', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
-@ 
+@
 }
   \caption{Median antall dager før rehabilitering, totalt og ved hvert sykehus}
   \label{fig:DagerTilRehabMed}
 \end{center}
 \end{figure}
 
-\begin{figure}[ht] 
+\begin{figure}[ht]
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigPermisjonGjSn, echo=FALSE>>=
-	FigMeanMed(NSdata, libkat=libkat, valgtVar='Permisjon', datoFra=datoFra, datoTil=datoTil, 
+	FigMeanMed(NSdata, libkat=libkat, valgtVar='Permisjon', datoFra=datoFra, datoTil=datoTil,
 		valgtMaal='', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
-@ 
+@
 }
   \caption{Gjennomsnittlig antall døgn ute av sykehus, totalt og ved hvert sykehus}
   \label{fig:PermisjonGjsn}
 \end{center}
 \end{figure}
 
-\begin{figure}[ht] 
+\begin{figure}[ht]
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigPermisjonMed, echo=FALSE>>=
-	FigMeanMed(NSdata, libkat=libkat, valgtVar='Permisjon', datoFra=datoFra, datoTil=datoTil, 
+	FigMeanMed(NSdata, libkat=libkat, valgtVar='Permisjon', datoFra=datoFra, datoTil=datoTil,
 		valgtMaal='Med', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
-@ 
+@
 }
   \caption{Median antall døgn ute av sykehus, totalt og ved hvert sykehus}
   \label{fig:PermisjonMed}
@@ -724,26 +725,26 @@ av data til figurene.
 \end{figure}
 
 %OpphTot[HosptlDy]
-\begin{figure}[ht] 
+\begin{figure}[ht]
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigOpphTotGjsn, echo=FALSE>>=
-	FigMeanMed(NSdata, libkat=libkat, valgtVar='OpphTot', datoFra=datoFra, datoTil=datoTil, 
+	FigMeanMed(NSdata, libkat=libkat, valgtVar='OpphTot', datoFra=datoFra, datoTil=datoTil,
 		valgtMaal='', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
-@ 
+@
 }
   \caption{Gjennomsnittlig antall dager i behandling, totalt og ved hvert sykehus}
   \label{fig:OpphTotGjsn}
 \end{center}
 \end{figure}
 
-\begin{figure}[ht] 
+\begin{figure}[ht]
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigOpphTotMed, echo=FALSE>>=
-	FigMeanMed(NSdata, libkat=libkat, valgtVar='OpphTot', datoFra=datoFra, datoTil=datoTil, 
+	FigMeanMed(NSdata, libkat=libkat, valgtVar='OpphTot', datoFra=datoFra, datoTil=datoTil,
 		valgtMaal='Med', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
-@ 
+@
 }
   \caption{Median antall dager i behandling, totalt og ved hvert sykehus}
   \label{fig:OpphTotMed}
