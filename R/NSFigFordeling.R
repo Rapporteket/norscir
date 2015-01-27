@@ -1,40 +1,43 @@
-FigFordeling <- function(RegData, libkat, outfile='', valgtVar, datoFra='2010-01-01', datoTil='2050-01-01', 
+#' Søylediagram som viser fordeling av valgt variabel
+#'
+#' Alder - Alder
+#' OpphTot - Lengde på opphold – totalt (HosptlDy) 20d… >200
+#' Lengde på opphold – rehabilitering (Utskrevet – Innl. rehab dato)
+#' Tid fra skadedato til oppstart rehab [trauma/ikke], 5d interv
+#' AIS, A-E+U, innleggelse og kontroll
+#' Utskrives til [horisontal]
+#' Årsak til skade
+#'
+#' @param RegData - ei dataramme med alle nødvendige variable fra registeret.
+#' @param libkat - sti til bibliotekkatalog.
+#' @param outfile - navn på fil figuren skrives ned til.
+#' @param reshID - avdelingsid for egen avdeling, standard: 0-hele landet.
+#'
+#' @param valgtVar - Må velges: ... AAis, FAis, Alder, DagerRehab, DagerTilRehab, OpphTot[HosptlDy],
+#'  UtTil[PlaceDis], SkadeArsak[Scietiol],  Pustehjelp[VentAssi].
+#' @param erMann - kjønn, 1-menn, 0-kvinner, standard: '' (alt annet enn 0 og 1), dvs. begge
+#' @param minald - alder, fra og med
+#' @param maxald - alder, til og med
+#' @param traume - 'ja','nei', standard: ikke valgt
+#' @param AIS - AISgrad ved innleggelse alle(''), velge en eller flere fra A,B,C,D,E,U
+#' @param datoFra <- '2010-01-01'    # min og max dato i utvalget vises alltid i figuren.
+#' @param datoTil <- '2013-05-25'
+#' @param valgtMaal - 'Med' = median. Alt annet gir gjennomsnitt
+#' @param egenavd - 1:eget sykehus, 0:hele landet (standard) Kun for valgtVar=='NevrNivaaInnUt'
+#' @param sml - Sammenligne med resten av landet, standard (1) eller ikke(0). Ikke aktiv når hele landet valgt.
+#' @param Skipper inputktr for denne
+#' @param Ikke_med avd - 0: data fra hele landet, 1: data fra egen avdeling (standard)
+#' @export
+
+FigFordeling <- function(RegData, libkat, outfile='', valgtVar, datoFra='2010-01-01', datoTil='2050-01-01',
 		AIS='', minald=0, maxald=120, erMann='', traume='', egenavd=1, reshID, sml=1)
 {
 #Delvis ryddet
 
 #'S' - Vertikale eller hor. søyler
 #'L' - Linjer
-	
-#Søylediagram som viser fordeling av valgt variabel: 
-#[Alder] - Alder
-#[OpphTot] - Lengde på opphold – totalt (HosptlDy) 20d… >200
-#Lengde på opphold – rehabilitering (Utskrevet – Innl. rehab dato) 
-#Tid fra skadedato til oppstart rehab [trauma/ikke], 5d interv
-#AIS, A-E+U, innleggelse og kontroll
-#Utskrives til [horisontal]
-#Årsak til skade
 
-#Inngangsdata: 	
-#	RegData - ei dataramme med alle nødvendige variable fra registeret
-#	libkat - sti til bibliotekkatalog
-#   outfile - navn på fil figuren skrives ned til
-#	reshID - avdelingsid for egen avdeling, standard: 0-hele landet
-# 	Brukerstyrt i Jasper:
-#		valgtVar - Må velges: ... AAis, FAis, Alder, DagerRehab, DagerTilRehab, OpphTot[HosptlDy], 
-#					UtTil[PlaceDis], SkadeArsak[Scietiol],  Pustehjelp[VentAssi]
-#		erMann - kjønn, 1-menn, 0-kvinner, standard: '' (alt annet enn 0 og 1), dvs. begge
-#		minald - alder, fra og med
-#		maxald - alder, til og med
-#		traume - 'ja','nei', standard: ikke valgt
-#		AIS - AISgrad ved innleggelse alle(''), velge en eller flere fra A,B,C,D,E,U
-#		datoFra <- '2010-01-01'    # min og max dato i utvalget vises alltid i figuren.
-#		datoTil <- '2013-05-25'
-#		valgtMaal - 'Med' = median. Alt annet gir gjennomsnitt
-#		egenavd - 1:eget sykehus, 0:hele landet (standard) Kun for valgtVar=='NevrNivaaInnUt'
-#		sml - Sammenligne med resten av landet, standard (1) eller ikke(0). Ikke aktiv når hele landet valgt. 
-#			(Skipper inputktr for denne)
-#		Ikke med: avd - 0: data fra hele landet, 1: data fra egen avdeling (standard)
+#
 
 
 #Trenger funksjonene...:
@@ -57,7 +60,7 @@ if (valgtVar == 'Pustehjelp') {RegData$Variabel <- RegData$VentAssi}
 
 
 #Tar ut de med manglende registrering av valgt variabel og gjør utvalg
-Utvalg <- NSLibUtvalg(RegData=RegData, datoFra=datoFra, datoTil=datoTil, minald=minald, maxald=maxald, 
+Utvalg <- NSLibUtvalg(RegData=RegData, datoFra=datoFra, datoTil=datoTil, minald=minald, maxald=maxald,
 		erMann=erMann, traume=traume, AIS=AIS)
 RegData <- Utvalg$RegData
 utvalgTxt <- Utvalg$utvalgTxt
@@ -76,7 +79,7 @@ Andeler <- list(Sh = 0, Rest =0)
 Nutv <- N
 
 if (sml == 1) {
-	indSh <-which(RegData$ReshId == reshID) 	
+	indSh <-which(RegData$ReshId == reshID)
 	indRest <- which(RegData$ReshId != reshID)
 	NRest <- length(indRest)
 	NSh <- length(indSh)
@@ -86,7 +89,7 @@ if (sml == 1) {
 
 for (teller in 1:(sml+1)) {
 
-if (sml == 1) { 
+if (sml == 1) {
 	#ind <- switch(utvalg[teller], Sh = indSh, Rest = indRest)
 	Nutv <- switch(utvalg[teller], Sh = NSh, Rest = NRest)	#Evt. Nutv <- length(ind)
 	RegData <- RegDataLand[switch(utvalg[teller], Sh = ind$Sh, Rest=ind$Rest), ]
@@ -96,14 +99,14 @@ if (valgtVar %in% c('AAis', 'FAis')) {
 	tittel <- paste('Fordeling av', switch(valgtVar, AAis = 'AIS ved innleggelse', FAis = 'AIS ved utskriving'))
 	grtxt <- c('A','B','C','D','E','U')
 	subtxt <- 'AIS kategori'
-	RegData$Variabel <- factor(RegData$Variabel, levels = grtxt) 
+	RegData$Variabel <- factor(RegData$Variabel, levels = grtxt)
 }
 if (valgtVar == 'Pustehjelp') {
 	tittel <- 'Ventilasjonsstøtte'
 	#gr <- (0:3,9) - Kodene som registereres
 	grtxt <- c('Nei', 'Mindre enn 24t/dag', 'Hele døgnet', 'Ukjent ant timer', 'Vet ikke')
 	subtxt <- ''
-	RegData$Variabel <- factor(as.numeric(RegData$Variabel), levels=c(0:3,9), labels = grtxt) 
+	RegData$Variabel <- factor(as.numeric(RegData$Variabel), levels=c(0:3,9), labels = grtxt)
 	retn <- 'H'
 }
 if (valgtVar=='Alder') {
@@ -153,22 +156,22 @@ if (valgtVar == 'SkadeArsak') {
 	tittel <- 'Skadeårsaker'
 	#gr <- (1:6,9) - Kodene som registereres
 	RegData$Variabel[which(RegData$Variabel==9)] <- 7
-	grtxtAlle <- c('Idrett', 'Vold', 'Transport', 'Fall', 'Andre traumer', 
+	grtxtAlle <- c('Idrett', 'Vold', 'Transport', 'Fall', 'Andre traumer',
 		'Ikke-traumatisk', 'Uspesifisert')
 	grtxt <- grtxtAlle
 	subtxt <- 'Utskrevet til'
-	RegData$Variabel <- factor(as.numeric(RegData$Variabel), levels=1:7, labels = grtxtAlle) 
+	RegData$Variabel <- factor(as.numeric(RegData$Variabel), levels=1:7, labels = grtxtAlle)
 	retn <- 'H'
 }
 if (valgtVar == 'UtTil') {
 	tittel <- 'Utskrevet til'
 	#gr <- (1:10,99) - Kodene som registereres
 	RegData$Variabel[which(RegData$Variabel==99)] <- 11
-	grtxtAlle <- c('Hjem', 'Sykehus', 'Pleiehjem', 'Omsorgsbolig', 'Bofellesskap', 
+	grtxtAlle <- c('Hjem', 'Sykehus', 'Pleiehjem', 'Omsorgsbolig', 'Bofellesskap',
 			'Kriminalomsorg', 'Hotell', 'Bostedsløs', 'Avdød', 'Annet', 'Ukjent')
 	grtxt <- grtxtAlle
 	subtxt <- 'Utskrevet til'
-	RegData$Variabel <- factor(as.numeric(RegData$Variabel), levels=1:11, labels = grtxtAlle) 
+	RegData$Variabel <- factor(as.numeric(RegData$Variabel), levels=1:11, labels = grtxtAlle)
 	#Vurder om skal ta med bare de som er registrert
 	#grtxt <- grtxtAlle[as.numeric(names(table(as.numeric(RegData$PlaceDis))))] #De som er reg.
 	retn <- 'H'
@@ -181,7 +184,7 @@ if (teller == 2) {Andeler$Rest <- round(table(RegData$Variabel)/Nutv*100,2)}
 
 
 #.....Må få med denne:
-if (retn == 100){ 
+if (retn == 100){
 #(dim(RegData)[1]==0 | (NSh==0 & egenavd==1)) {
 	#-----------Figur---------------------------------------
 #figtype(outfile)
@@ -206,41 +209,41 @@ if (retn == 'V' ) {
 #Vertikale søyler eller linje
 	par('fig'=c(0, 1, 0, 0.9))
 	ymax <- min(max(c(Andeler$Sh, Andeler$Rest),na.rm=T)*1.25, 100)
-	pos <- barplot(as.numeric(Andeler$Sh), beside=TRUE, las=txtretn, ylab="Andel pasienter (%)",	#main=tittel, 
-		sub=subtxt,	#names.arg=grtxt, cex.names=cexgr, 
+	pos <- barplot(as.numeric(Andeler$Sh), beside=TRUE, las=txtretn, ylab="Andel pasienter (%)",	#main=tittel,
+		sub=subtxt,	#names.arg=grtxt, cex.names=cexgr,
 		col=fargeSh, border='white', ylim=c(0, ymax))	#farger[c(1,3)]
 	mtext(at=pos, grtxt, side=1, las=1, cex=0.8, adj=0.5, line=0.5)
 	mtext(at=pos, grtxt2, side=1, las=txtretn, cex=0.8, adj=0.5, line=1.5)
 if (sml == 1) {
-	#lines(pos, as.numeric(Andeler$Rest), col=fargeRest,  lwd=lwdRest) 
-	points(pos, as.numeric(Andeler$Rest), col=fargeRest,  cex=2, pch=18) #c("p","b","o"), 
+	#lines(pos, as.numeric(Andeler$Rest), col=fargeRest,  lwd=lwdRest)
+	points(pos, as.numeric(Andeler$Rest), col=fargeRest,  cex=2, pch=18) #c("p","b","o"),
 	#axis(side=1, at=1:length(grtxt), labels=grtxt, las=2, cex.axis=0.8)
-	#axis(side=2, cex.axis=0.8) 
-	legend('top', c(paste(shtxt, ' (N=', NSh,')', sep=''), paste('Landet forøvrig (N=', NRest,')', sep='')), 
-		border=c(fargeSh,NA), col=c(fargeSh,fargeRest), bty='n', pch=c(15,18), pt.cex=2, lty=NA, 
+	#axis(side=2, cex.axis=0.8)
+	legend('top', c(paste(shtxt, ' (N=', NSh,')', sep=''), paste('Landet forøvrig (N=', NRest,')', sep='')),
+		border=c(fargeSh,NA), col=c(fargeSh,fargeRest), bty='n', pch=c(15,18), pt.cex=2, lty=NA,
 		lwd=lwdRest, ncol=2, cex=0.9)
-	} else {	
-	legend('top', paste(shtxt, ' (N=', N,')', sep=''), 
+	} else {
+	legend('top', paste(shtxt, ' (N=', N,')', sep=''),
 		border=NA, fill=fargeSh, bty='n', ncol=1, cex=0.9)
 	}
-} 
+}
 
 if (retn == 'H') {
 #Horisontale søyler
 	ymax <- antGr*1.4
 	xmax <- min(max(c(Andeler$Sh, Andeler$Rest),na.rm=T)*1.25, 100)
 	par('fig'=c(0.1, 1, 0, 0.9))
-	pos <- barplot(rev(as.numeric(Andeler$Sh)), horiz=TRUE, beside=TRUE, las=1, xlab="Andel pasienter (%)", #main=tittel, 
-		col=fargeSh, border='white', font.main=1, xlim=c(0, xmax), ylim=c(0,ymax))	#  
+	pos <- barplot(rev(as.numeric(Andeler$Sh)), horiz=TRUE, beside=TRUE, las=1, xlab="Andel pasienter (%)", #main=tittel,
+		col=fargeSh, border='white', font.main=1, xlim=c(0, xmax), ylim=c(0,ymax))	#
 	mtext(at=pos+0.1, rev(grtxt), side=2, las=1, cex=0.8, adj=1, line=0.25)
 if (sml == 1) {
-	#lines(as.numeric(rev(Andeler$Rest)), pos, col=fargeRest,  lwd=lwdRest) 
-	points(as.numeric(rev(Andeler$Rest)), pos, col=fargeRest,  cex=2, pch=18) #c("p","b","o"), 
-	legend('topleft', c(paste(shtxt, ' (N=', NSh,')', sep=''), paste('Landet forøvrig (N=', NRest,')', sep='')), 
-		border=c(fargeSh,NA), col=c(fargeSh,fargeRest), bty='n', pch=c(15,18), pt.cex=2, lty=NA, 
+	#lines(as.numeric(rev(Andeler$Rest)), pos, col=fargeRest,  lwd=lwdRest)
+	points(as.numeric(rev(Andeler$Rest)), pos, col=fargeRest,  cex=2, pch=18) #c("p","b","o"),
+	legend('topleft', c(paste(shtxt, ' (N=', NSh,')', sep=''), paste('Landet forøvrig (N=', NRest,')', sep='')),
+		border=c(fargeSh,NA), col=c(fargeSh,fargeRest), bty='n', pch=c(15,18), pt.cex=2, lty=NA,
 		lwd=2, ncol=lwdRest, cex=0.9)
-	} else {	
-	legend('top', paste(shtxt, ' (N=', N,')', sep=''), 
+	} else {
+	legend('top', paste(shtxt, ' (N=', N,')', sep=''),
 		border=NA, fill=fargeSh, bty='n', ncol=1, cex=0.9)
 	}
 }
@@ -255,7 +258,7 @@ mtext(utvalgTxt[3], side=3, las=1, cex=krymp, adj=0, line=utvpos-2*avst, col=far
 mtext(utvalgTxt[4], side=3, las=1, cex=krymp, adj=0, line=utvpos-3*avst, col=farger[1])
 mtext(utvalgTxt[5], side=3, las=1, cex=krymp, adj=0, line=utvpos-4*avst, col=farger[1])
 
-par('fig'=c(0, 1, 0, 1)) 
+par('fig'=c(0, 1, 0, 1))
 if ( outfile != '') {dev.off()}
 
 }
