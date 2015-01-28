@@ -41,8 +41,8 @@ FigFordeling <- function(RegData, libkat, outfile='', valgtVar, datoFra='2010-01
 
 
 #Trenger funksjonene...:
-source(paste(libkat, 'LibFigFilType.R', sep=''), encoding="UTF-8")
-source(paste(libkat, 'NSLibUtvalg.R', sep=''), encoding="UTF-8")
+#source(paste(libkat, 'LibFigFilType.R', sep=''), encoding="UTF-8")
+#source(paste(libkat, 'NSLibUtvalg.R', sep=''), encoding="UTF-8")
 
 #------------Gjøre utvalg-------------------------
 if (egenavd == 0) {	#if (reshID == 0) {
