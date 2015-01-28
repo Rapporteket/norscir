@@ -81,6 +81,8 @@
 
 \begin{document}
 \SweaveOpts{concordance=TRUE}
+%%check the next one
+%\SweaveOpts{concordance=TRUE}
 \maketitle
 \tableofcontents
 %\newpage
@@ -88,10 +90,20 @@
 \listoffigures
 \newpage
 
+<<"knitrSettings", include=F, echo=FALSE, eval=T>>=
+opts_chunk$set(fig.align='center', fig.show='hold', out.width='.7\\textwidth',cache=FALSE, fig.path='')
+@
 
+<<"WARNINGLoadSampleDataWARNING", echo=F, eval=T>>=
+#load(NorScirSampleData)
+NSdata <- NorScirSampleData
+libkat <- './'
+reshID <- 105678
+@
 
 <<'LasteDataDb', include=FALSE, echo=FALSE, eval=F>>=
-opts_chunk$set(fig.align='center', fig.show='hold', out.width='.7\\textwidth',cache=FALSE, fig.path='')
+## moved to earlier chunk
+#opts_chunk$set(fig.align='center', fig.show='hold', out.width='.7\\textwidth',cache=FALSE, fig.path='')
 
 #library(RMySQL)
 #library(DBI)
