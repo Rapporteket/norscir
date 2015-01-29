@@ -198,7 +198,7 @@ if (retn == 100){
 #Inn parametre: subtxt, grtxt, grtxt2, tittel, Andeler
 
 #Plottspesifikke parametre:
-FigTypUt <- figtype(outfile, fargepalett=Utvalg$fargepalett)
+FigTypUt <- rapbase::figtype(outfile, fargepalett=Utvalg$fargepalett)
 farger <- FigTypUt$farger
 fargeSh <- farger[1]
 fargeRest <- farger[3]

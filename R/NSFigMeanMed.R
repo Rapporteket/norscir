@@ -67,7 +67,7 @@ tittel <- c(paste(t1, vt, sep=''),
 
 #-----------Figur---------------------------------------
 if 	( max(Nsh) < Ngrense)	{#Dvs. hvis ALLE er mindre enn grensa.
-figtype(outfile)
+rapbase::figtype(outfile)
 	plot.new()
 	if (dim(RegData)[1]>0) {
 	tekst <- paste('Færre enn ', Ngrense, ' registreringer ved hvert av sykehusene', sep='')
@@ -131,7 +131,7 @@ xlabt <- switch(valgtVar, Alder='alder (år)',
 
 
 #--------------------------FIGUR---------------------------------------------------
-FigTypUt <- figtype(outfile, fargepalett=Utvalg$fargepalett)
+FigTypUt <- rapbase::figtype(outfile, fargepalett=Utvalg$fargepalett)
 farger <- FigTypUt$farger
 par('fig'=c(0.1, 1, 0, 0.91))
 	#plot.new()

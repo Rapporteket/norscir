@@ -80,7 +80,7 @@
 \fancyhead[R]{\includegraphics[height=2cm]{\Sexpr{system.file("NorSCIR_logo_blue_norsk.pdf", package = "NorScir")}}}
 
 \begin{document}
-\SweaveOpts{concordance=TRUE}
+%\SweaveOpts{concordance=TRUE}
 %%check the next one
 %\SweaveOpts{concordance=TRUE}
 \maketitle
@@ -215,7 +215,8 @@ datoTil <- '2050-05-25'
 plotType='S'
 s1 <- 0.66	#Skaleringsparameter for enkeltfigurer
 #s2 <- 0.7	#Skaleringsparameter for "dobbeltfigurer"
-library(xtable)
+## next line not needed
+#library(xtable)
 
 #Utvalg/datarensk
 Ninn <- dim(NSdata)[1]
@@ -244,7 +245,7 @@ tabAvdN <- addmargins(as.table(ftable(NSdata[c('ShNavn','Aar')])))
 rownames(tabAvdN)[dim(tabAvdN)[1] ]<- 'TOTALT, alle avdelinger:'
 colnames(tabAvdN)[dim(tabAvdN)[2] ]<- 'Alle år'
 
-xtable(tabAvdN, digits=0, align=c('l', rep('r', ncol(tabAvdN))),
+xtable::xtable(tabAvdN, digits=0, align=c('l', rep('r', ncol(tabAvdN))),
 		caption='Antall innregistreringsskjema per år og avdeling.',
 		label="tab:AntReg")
 
@@ -288,7 +289,7 @@ colnames(EkstrTab) <- c('DatasettGuid','Variabel', 'Verdi')
 if (reshID !=0) { Tabtxt <- paste('Ekstremverdier, ',ShNavn, sep='')
 } else {Tabtxt <- 'Tabellen kan bare vises for enkeltsykehus'}
 
-EkstrTabTex <- xtable(EkstrTab[order(EkstrTab[, 'DatasettGuid']), ],
+EkstrTabTex <- xtable::xtable(EkstrTab[order(EkstrTab[, 'DatasettGuid']), ],
 		align=c('l', 'l', 'l', 'r'),  digits = 0,
 		caption=Tabtxt, label="tab:EkstrObs")
 print(EkstrTabTex, include.rownames=FALSE)	#,tabular.environment="longtable")
@@ -350,7 +351,7 @@ utvalg <- switch(hvem,
 colnames(VerdiOmr) <- c('Middelverdi', 'Median', 'SD', 'Verdiområde', 'Ant. obs')
 labVO <- paste0("tab:VerdiOmr", hvem)
 capVO <- paste0('Noen variabelkarakteristikker, ', hvem)
-VOTabell <- xtable(VerdiOmr, digits=0, align=c('l', rep('r', 5)),
+VOTabell <- xtable::xtable(VerdiOmr, digits=0, align=c('l', rep('r', 5)),
 		caption = capVO,
 		label = labVO)
 print(VOTabell)
@@ -388,7 +389,7 @@ Andeler[ ,2] <- round(100*Andeler[,2], 1)
 colnames(Andeler) <- c('Antall', 'Andel(%)')
 #labVO <- paste("tab:VerdiOmr", hvem, sep='')
 #capVO <- paste('Noen variabelkarakteristikker, ', hvem, sep='')
-AndelsTab <- xtable(Andeler, digits=c(0,0,1), align=c('l', 'r', 'r'),
+AndelsTab <- xtable::xtable(Andeler, digits=c(0,0,1), align=c('l', 'r', 'r'),
 		caption=paste('Andeler, utvalgte variable, ', hvem, sep=''),
 		label=paste("tab:Andeler", hvem, sep=''))
 print(AndelsTab)
