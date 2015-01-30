@@ -91,7 +91,7 @@
 \newpage
 
 <<"knitrSettings", include=F, echo=FALSE, eval=T>>=
-opts_chunk$set(fig.align='center', fig.show='hold', out.width='.7\\textwidth',cache=FALSE, fig.path='')
+knitr::opts_chunk$set(fig.align='center', fig.show='hold', out.width='.7\\textwidth',cache=FALSE, fig.path='')
 @
 
 <<"WARNINGLoadSampleDataWARNING", echo=F, eval=T>>=
