@@ -37,13 +37,10 @@ UtTil[PlaceDis], SkadeArsak[Scietiol],  Pustehjelp[VentAssi].}
 
 \item{reshID}{- avdelingsid for egen avdeling, standard: 0-hele landet.}
 
-\item{sml}{- Sammenligne med resten av landet, standard (1) eller ikke(0). Ikke aktiv når hele landet valgt.}
-
-\item{valgtMaal}{- 'Med' = median. Alt annet gir gjennomsnitt}
-
-\item{Skipper}{inputktr for denne}
-
-\item{Ikke_med}{avd - 0: data fra hele landet, 1: data fra egen avdeling (standard)}
+\item{sml}{- Sammenligne med resten av landet, standard (1) eller ikke(0). Ikke aktiv når hele landet valgt.
+Skipper inputktr for denne
+Ikke_med avd - 0: data fra hele landet, 1: data fra egen avdeling (standard)
+valgtMaal - 'Med' = median. Alt annet gir gjennomsnitt}
 }
 \description{
 Alder - Alder
