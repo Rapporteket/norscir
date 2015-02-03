@@ -9,6 +9,8 @@ NSLibUtvalg(RegData, datoFra = "2010-01-01", datoTil = "3000-05-25",
   fargepalett = "BlaaOff")
 }
 \arguments{
+\item{RegData}{- ei dataramme med alle nødvendige variable fra registeret}
+
 \item{datoFra}{<- '2010-01-01'. Min og max dato i utvalget vises alltid i figuren.}
 
 \item{datoTil}{<- '3000-05-25'}
@@ -18,6 +20,12 @@ NSLibUtvalg(RegData, datoFra = "2010-01-01", datoTil = "3000-05-25",
 \item{maxald}{- alder, til og med}
 
 \item{erMann}{- kjønn, 1-menn, 0-kvinner, standard: ''(alt annet enn 0 og 1), dvs. begge}
+
+\item{traume}{???}
+
+\item{AIS}{???}
+
+\item{fargepalett}{???}
 }
 \description{
 Funksjon som gjør utvalg av dataene, returnerer det reduserte datasettet og
