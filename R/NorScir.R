@@ -22,7 +22,7 @@
 #' \code{rapbase::RunNoweb(nowebFileName, packageName, weaveMethod = "knitr")}.
 #'
 #' @section Artwork:
-#' Artwork is accessed in the same way as for the noweb-file, \emph{e.g}
+#' Artwork is accessed in the same way as for the noweb-files, \emph{e.g}
 #' \code{system.file("NorSCIR_logo_blue_norsk.pdf", package = "NorScir")}
 #'
 #' @examples
