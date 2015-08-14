@@ -90,18 +90,18 @@
 \listoffigures
 \newpage
 
-<<"knitrSettings", include=F, echo=FALSE, eval=T>>=
+<<"knitrSettings", include=FALSE, echo=FALSE, eval=TRUE>>=
 knitr::opts_chunk$set(fig.align='center', fig.show='hold', out.width='.7\\textwidth',cache=FALSE, fig.path='')
 @
 
-<<"WARNINGLoadSampleDataWARNING", echo=F, eval=T>>=
+<<"WARNINGLoadSampleDataWARNING", echo=FALSE, eval=TRUE>>=
 #load(NorScirSampleData)
 NSdata <- NorScirSampleData
 libkat <- './'
 reshID <- 105678
 @
 
-<<'LasteDataDb', include=FALSE, echo=FALSE, eval=F>>=
+<<'LasteDataDb', include=FALSE, echo=FALSE, eval=FALSE>>=
 ## moved to earlier chunk
 #opts_chunk$set(fig.align='center', fig.show='hold', out.width='.7\\textwidth',cache=FALSE, fig.path='')
 
@@ -232,7 +232,7 @@ tabKjPst <- round(table(NSdata$isMale)/Npas*100, digits=1)
 @
 
 Der annet ikke er angitt, er alle resultater i dette dokumentet basert på innleggelser i perioden
-\Sexpr{min(NSdata$InnDato, na.rm=T)} til \Sexpr{max(NSdata$InnDato, na.rm=T)}. Registreringer som
+\Sexpr{min(NSdata$InnDato, na.rm=TRUE)} til \Sexpr{max(NSdata$InnDato, na.rm=TRUE)}. Registreringer som
 mangler innleggelsesdato er tatt ut av analysene.
 Tabell \ref{tab:AntReg} viser antall
 Registreringsskjema registrert ved de respektive avdelinger hvert år basert på innleggelsesdato.
@@ -240,7 +240,7 @@ Vi ser at det for den angitte tidsperioden er det totalt registrert \Sexpr{Npas}
 Kvinner og menn står for hhv. \Sexpr{tabKjPst[1]}\% og \Sexpr{tabKjPst[2]}\% av oppholdene.
 
 
-<<'TabAlleReg', results='asis', echo=FALSE, cache=F>>=
+<<'TabAlleReg', results='asis', echo=FALSE, cache=FALSE>>=
 tabAvdN <- addmargins(as.table(ftable(NSdata[c('ShNavn','Aar')])))
 rownames(tabAvdN)[dim(tabAvdN)[1] ]<- 'TOTALT, alle avdelinger:'
 colnames(tabAvdN)[dim(tabAvdN)[2] ]<- 'Alle år'
@@ -262,7 +262,7 @@ Hva som er en ekstremobservasjon er definert ut fra følgende kriterier: \\
 Merk at ekstremobservasjoner kan forekomme uten at det nødvendigvis er feil i registreringene,
 men det kan være lurt å dobbeltsjekke de aktuelle registreringene.
 
-<<'Ekstremverdier',echo=FALSE,  results='asis', message=FALSE, eval=T>>=
+<<'Ekstremverdier',echo=FALSE,  results='asis', message=FALSE, eval=TRUE>>=
 EkstrVar <- c('HosptlDy', 'DagerRehab','DagerTilRehab','OutOfHosptlDy')
 grenser <- c(365,365,80,20)
 varnavn <- c('Liggetid','DagerRehab','DagerTilRehab', 'Permisjon')
@@ -306,7 +306,7 @@ Tabellene \ref{tab:AndelerNorge}, \ref{tab:AndelerHaukeland}, \ref{tab:AndelerSu
 og hvor stor prosentandel dette utgjør.
 
 
-<<'Nokkeltall',echo=FALSE, results='asis', cache=F, message=FALSE, eval=T>>=
+<<'Nokkeltall',echo=FALSE, results='asis', cache=FALSE, message=FALSE, eval=TRUE>>=
 #105593-Haukeland, 106896-Sunnaas sykehus, 107627-St.Olavs
 
 options(warn = -1)
@@ -361,7 +361,7 @@ print(VOTabell)
 
 
 
-<<'Andeler',echo=FALSE, results='asis', message=FALSE, eval=T>>=
+<<'Andeler',echo=FALSE, results='asis', message=FALSE, eval=TRUE>>=
 options(warn = -1)
 for (hvem in c('Norge', 'Haukeland', 'Sunnaas', 'St.Olav')){
 utvalg <- switch(hvem,
