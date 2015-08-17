@@ -27,7 +27,7 @@
 #' @export
 
 FigAndelStabel <- function(RegData, outfile='', libkat, valgtVar, datoFra='2010-01-01', datoTil='3000-01-01',
-		minald=0, maxald=120, erMann='', traume='', egenavd=1 , reshID)
+		minald=0, maxald=120, erMann='', traume='', enhetsUtvalg=enhetsUtvalg , reshID)
 {
 
 
@@ -36,7 +36,7 @@ FigAndelStabel <- function(RegData, outfile='', libkat, valgtVar, datoFra='2010-
 #source(paste(libkat, 'NSLibUtvalg.R', sep=''), encoding="UTF-8")
 
 RegData <- NSLoadRegData()
-  
+
 #------------Gjøre utvalg-------------------------
 #Definerer funksjonsspesifikke variable................
 
