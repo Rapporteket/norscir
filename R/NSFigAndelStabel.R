@@ -35,6 +35,8 @@ FigAndelStabel <- function(RegData, outfile='', libkat, valgtVar, datoFra='2010-
 #source(paste(libkat, 'LibFigFilType.R', sep=''), encoding="UTF-8")
 #source(paste(libkat, 'NSLibUtvalg.R', sep=''), encoding="UTF-8")
 
+RegData <- NSLoadRegData()
+  
 #------------Gjøre utvalg-------------------------
 #Definerer funksjonsspesifikke variable................
 
