@@ -17,7 +17,7 @@
 #' @param reshID - avdelingsid for egen avdeling, må angis
 #' Brukerstyrt i Jasper:
 #' @param valgtVar - Må velges: ... NevrNivaaInnUt, NevrNivaaInn, NevrNivaaUt
-#' @param egenavd - 1:eget sykehus, 0:hele landet (standard) Kun for valgtVar=='NevrNivaaInnUt'
+#' @param enhetsUtvalg - 1:eget sykehus, 0:hele landet (standard) Kun for valgtVar=='NevrNivaaInnUt'
 #' @param erMann - kjønn, 1-menn, 0-kvinner, standard: '' (alt annet enn 0 og 1), dvs. begge
 #' @param minald - alder, fra og med
 #' @param maxald - alder, til og med
@@ -103,7 +103,7 @@ if (valgtVar == 'NevrNivaaInnUt') {
 	#Slå sm D og E
 	RegData$Var1[which(RegData$Var1 %in% c('D', 'E'))] <- 'D+E'
 	RegData$Var2[which(RegData$Var2 %in% c('D', 'E'))] <- 'D+E'
-	if (egenavd==1) {
+	if (enhetsUtvalg==1) {
 		ind <- which(RegData$ReshId == reshID)
 		RegData <- RegData[ind,]
 		ShNavn <- as.character(RegData$ShNavn[1])} else {ShNavn <- 'Alle sykehus'}
@@ -140,7 +140,7 @@ N <- colSums(Ngr)
 AndelStabel <- round(prop.table(Ngr,2)*100, 1)
 
 
-if (dim(RegData)[1]==0)	{# | (NSh==0 & egenavd==1)) {
+if (dim(RegData)[1]==0)	{# | (NSh==0 & enhetsUtvalg==1)) {
 	#-----------Figur---------------------------------------
 rapbase::figtype(outfile)
 	plot.new()
