@@ -10,7 +10,7 @@ Authors@R: c(
 Description: An implemetation of all R related resources for NorScir at
   Rapporteket, including R-functions for analysis and plotting, noweb-files and
   even artwork needed for producing R-dependent reports
-Depends: R (>= 3.0.2)
+Depends: rapbase
 License: GPL-2
 LazyData: true
 Imports:
