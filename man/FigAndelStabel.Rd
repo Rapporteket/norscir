@@ -6,7 +6,8 @@
 \usage{
 FigAndelStabel(RegData, outfile = "", libkat, valgtVar,
   datoFra = "2010-01-01", datoTil = "3000-01-01", minald = 0,
-  maxald = 120, erMann = "", traume = "", egenavd = 1, reshID)
+  maxald = 120, erMann = "", traume = "", enhetsUtvalg = enhetsUtvalg,
+  reshID)
 }
 \arguments{
 \item{RegData}{- ei dataramme med alle nødvendige variable fra registeret}
@@ -29,7 +30,7 @@ FigAndelStabel(RegData, outfile = "", libkat, valgtVar,
 
 \item{traume}{- 'ja','nei', standard: ikke valgt}
 
-\item{egenavd}{- 1:eget sykehus, 0:hele landet (standard) Kun for valgtVar=='NevrNivaaInnUt'}
+\item{enhetsUtvalg}{- 1:eget sykehus, 0:hele landet (standard) Kun for valgtVar=='NevrNivaaInnUt'}
 
 \item{reshID}{- avdelingsid for egen avdeling, må angis
 Brukerstyrt i Jasper:}
