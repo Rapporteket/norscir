@@ -38,16 +38,20 @@ RegData <- NSLoadRegData()
 #Definerer funksjonsspesifikke variable................
 
 if (valgtVar %in% c('NevrNivaaInn','NevrNivaaUt')) {
-	RegData$Variabel <- as.numeric(RegData[ ,valgtVar])} else {
-	 RegData$Variabel <- RegData$NevrNivaaInn-RegData$NevrNivaaUt}	#Vil bare ha pasienter som har reg. både inn og ut.
+  RegData$Variabel <- as.numeric(RegData[ ,valgtVar])
+  }
+else {
+  RegData$Variabel <- RegData$NevrNivaaInn-RegData$NevrNivaaUt
+  }  #Vil bare ha pasienter som har reg. både inn og ut.
 
 #Gjør utvalg (Manglende data i variablene tas høyde for i variabeldef.)
-Utvalg <- NSLibUtvalg(RegData=RegData, datoFra=datoFra, datoTil=datoTil, minald=minald, maxald=maxald,
-		erMann=erMann, traume=traume, AIS='')
+Utvalg <- NSLibUtvalg(RegData=RegData, datoFra=datoFra, datoTil=datoTil,
+                      minald=minald, maxald=maxald, erMann=erMann,
+                      traume=traume, AIS='')
+
 RegData <- Utvalg$RegData
 utvalgTxt <- Utvalg$utvalgTxt
 
-cexgr <- 0.9
 grtxt <- ''
 grtxt2 <- ''
 
