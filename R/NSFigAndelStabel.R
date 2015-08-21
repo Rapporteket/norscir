@@ -95,39 +95,38 @@ if (valgtVar %in% c('NevrNivaaInn','NevrNivaaUt')) {
 
 
 if (valgtVar == 'NevrNivaaInnUt') {
-	#RegData$GrVar1 <- RegData$NevrNivaaInn
-	#RegData$GrVar2 <- RegData$NevrNivaaUt
-	#Tar bort de som ikke har fått AIS-nivå el nivå U:
-	RegData <- RegData[RegData$AAis %in% LETTERS[1:5], ]	#Bare de med kategori A:E, ikke U
-	RegData <- RegData[RegData$FAis %in% LETTERS[1:5], ]
-	RegData$Var1 <- as.character(RegData$AAis)
-	RegData$Var2 <- as.character(RegData$FAis)
-	#Slå sm D og E
-	RegData$Var1[which(RegData$Var1 %in% c('D', 'E'))] <- 'D+E'
-	RegData$Var2[which(RegData$Var2 %in% c('D', 'E'))] <- 'D+E'
-	if (enhetsUtvalg==1) {
-		ind <- which(RegData$ReshId == reshID)
-		RegData <- RegData[ind,]
-		ShNavn <- as.character(RegData$ShNavn[1])} else {ShNavn <- 'Alle sykehus'}
-	tittel <- c('Nevrologisk kategori ved inn- og utskriving,', ShNavn)
-	subtxt <- 'Nevrologisk nivå'
-	grtxt1 <- rep(c('Inn','Ut'))
-	grtxt2 <- c('C1-4', 'C5-8', 'T,L,S')
-	Skala <- c('A','B','C','D+E')
-	RegData$Var1 <- factor(RegData$Var1, levels=c(LETTERS[1:3],'D+E'))
-	RegData$Var2 <- factor(RegData$Var2, levels=c(LETTERS[1:3],'D+E'))
-	#GrVar1 = NevrNivaaInn, Var=AAis
-		indGr1 <- intersect(which(RegData$NevrNivaaInn %in% 1:4), which(RegData$NevrNivaaUt %in% 1:4))
-		indGr2 <- intersect(which(RegData$NevrNivaaInn %in% 5:8), which(RegData$NevrNivaaUt %in% 5:8))
-		indGr3 <- intersect(which(RegData$NevrNivaaInn %in% 9:30), which(RegData$NevrNivaaUt %in% 9:30))
-	Ngr <- cbind(
-		table(RegData$Var1[indGr1]), 	#C0104inn
-		table(RegData$Var2[indGr1]),	#C0104ut
-		table(RegData$Var1[indGr2]),	#C0508inn
-		table(RegData$Var2[indGr2]),	#C0508ut
-		table(RegData$Var1[indGr3]),	#TLSinn
-		table(RegData$Var2[indGr3]))	#TLSut
+  #Tar bort de som ikke har fått AIS-nivå el nivå U:
+  RegData <- RegData[RegData$AAis %in% LETTERS[1:5], ]    #Bare de med kategori A:E, ikke U
+  RegData <- RegData[RegData$FAis %in% LETTERS[1:5], ]
+  RegData$Var1 <- as.character(RegData$AAis)
+  RegData$Var2 <- as.character(RegData$FAis)
+  #Slå sm D og E
+  RegData$Var1[which(RegData$Var1 %in% c('D', 'E'))] <- 'D+E'
+  RegData$Var2[which(RegData$Var2 %in% c('D', 'E'))] <- 'D+E'
+  if (enhetsUtvalg==0) {
+    ShNavnTittel <- 'Hele landet'
+  } else { #Både enhetsUtvalg 1 og 2 gir eget sykehus.
+    ind <- which(RegData$ReshId == reshID)
+    RegData <- RegData[ind,]
+    ShNavnTittel <- as.character(RegData$ShNavn[match(reshID, RegData$ReshId)])}
+  subtxt <- 'Nevrologisk nivå'
+  grtxt1 <- rep(c('Inn','Ut'))
+  grtxt2 <- c('C1-4', 'C5-8', 'T,L,S')
+  Skala <- c('A','B','C','D+E')
+  RegData$Var1 <- factor(RegData$Var1, levels=c(LETTERS[1:3],'D+E'))
+  RegData$Var2 <- factor(RegData$Var2, levels=c(LETTERS[1:3],'D+E'))
+  indGr1 <- intersect(which(RegData$NevrNivaaInn %in% 1:4), which(RegData$NevrNivaaUt %in% 1:4))
+  indGr2 <- intersect(which(RegData$NevrNivaaInn %in% 5:8), which(RegData$NevrNivaaUt %in% 5:8))
+  indGr3 <- intersect(which(RegData$NevrNivaaInn %in% 9:30), which(RegData$NevrNivaaUt %in% 9:30))
+  Ngr <- cbind(
+    table(RegData$Var1[indGr1]),    #C0104inn
+    table(RegData$Var2[indGr1]),    #C0104ut
+    table(RegData$Var1[indGr2]),    #C0508inn
+    table(RegData$Var2[indGr2]),    #C0508ut
+    table(RegData$Var1[indGr3]),    #TLSinn
+    table(RegData$Var2[indGr3]))    #TLSut
 }
+
 #Definere grupperingsvariabel med gyldige grupper i utgangspunktet i stedet for å gjøre det i indGr?
 
 
