@@ -26,14 +26,11 @@
 #' @param datoTil <- '2013-05-25'
 #' @export
 
-FigAndelStabel <- function(RegData, outfile='', libkat, valgtVar, datoFra='2010-01-01', datoTil='3000-01-01',
-		minald=0, maxald=120, erMann='', traume='', enhetsUtvalg=enhetsUtvalg , reshID)
+FigAndelStabel <- function(RegData, outfile='', libkat, valgtVar,
+                           datoFra='2010-01-01', datoTil='3000-01-01',minald=0,
+                           maxald=120, erMann='', traume='',
+                           enhetsUtvalg=enhetsUtvalg , reshID)
 {
-
-
-#Trenger funksjonene...:?, men ikke i pakken
-#source(paste(libkat, 'LibFigFilType.R', sep=''), encoding="UTF-8")
-#source(paste(libkat, 'NSLibUtvalg.R', sep=''), encoding="UTF-8")
 
 RegData <- NSLoadRegData()
 
