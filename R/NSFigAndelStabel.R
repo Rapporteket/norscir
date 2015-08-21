@@ -58,39 +58,40 @@ grtxt2 <- ''
 
 #Sml eget/resten av landet.
 if (valgtVar %in% c('NevrNivaaInn','NevrNivaaUt')) {
-#	if (reshID != 0) {ShNavn <- ''
-#					Andre <- 'Alle'}
-#	if (reshID %in% c(105593, 106896, 107627)) {
-	ShNavn <- as.character(RegData$ShNavn[which(RegData$ReshId == reshID)[1]])
-	Andre <- 'Andre' #}
-
-#	NRest <- length(ind$Rest)
-#	NSh <- length(ind$Sh)
-	RegData$AIS <- switch(valgtVar,
-						NevrNivaaInn = as.character(RegData$AAis),
-						NevrNivaaUt = as.character(RegData$FAis))
-	#Slå sm D og E
-	RegData <- RegData[RegData$AIS %in% LETTERS[1:5], ]	#Bare de med kategori A:E, ikke U
-	RegData$AIS[which(RegData$AIS %in% c('D', 'E'))] <- 'D+E'
-	ind <- list(Sh=which(RegData$ReshId == reshID),
-				Rest=which(RegData$ReshId != reshID))
-	#Alternativt bruke to datasett?
-	RegDataLand <- RegData
-	tittel <- switch(valgtVar,
-		NevrNivaaInn = 'Nevrologisk kategori ved innleggelse',
-		NevrNivaaUt = 'Nevrologisk kategori ved utskriving')
-	subtxt <- 'Nevrologisk nivå'
-	grtxt1 <- c(ShNavn, Andre)
-	grtxt2 <- c('C1-4', 'C5-8', 'T,L,S')
-	Skala <- c('A','B','C','D+E')
-	Ngr <- cbind(
-		table(factor(RegData$AIS)[intersect(ind$Sh, which(RegData$Variabel %in% 1:4))]), 	#C0104Sh
-		table(factor(RegData$AIS)[intersect(ind$Rest, which(RegData$Variabel %in% 1:4))]),	#C0104Rest
-		table(factor(RegData$AIS)[intersect(ind$Sh, which(RegData$Variabel %in% 5:8))]),	#C0508Sh
-		table(factor(RegData$AIS)[intersect(ind$Rest, which(RegData$Variabel %in% 5:8))]),	#C0508Rest
-		table(factor(RegData$AIS)[intersect(ind$Sh, which(RegData$Variabel %in% 9:30))]),	#TLSSh
-		table(factor(RegData$AIS)[intersect(ind$Rest, which(RegData$Variabel %in% 9:30))]))	#TLSRest
+  ShNavn <- switch(as.character(enhetsUtvalg),    '0' = 'Hele landet',
+                   '1' = as.character(RegData$ShNavn[match(reshID, RegData$ReshId)]),
+                   '2' = as.character(RegData$ShNavn[match(reshID, RegData$ReshId)]))
+  RegData$AIS <- switch(valgtVar,
+                        NevrNivaaInn = as.character(RegData$AAis),
+                        NevrNivaaUt = as.character(RegData$FAis))
+  #Slå sm D og E
+  RegData <- RegData[RegData$AIS %in% LETTERS[1:5], ]     #Bare de med kategori A:E, ikke U
+  RegData$AIS[which(RegData$AIS %in% c('D', 'E'))] <- 'D+E'
+  #ind <- list(Sh=which(RegData$ReshId == reshID),
+  #                       Rest=which(RegData$ReshId != reshID))
+  indHoved <- if (enhetsUtvalg == 0) {1:dim(RegData)[1]} else {which(RegData$ReshId == reshID)}
+  indRest <-  if (enhetsUtvalg == 1) {which(RegData$ReshId != reshID)} else {NULL}
+  #Alternativt bruke to datasett?
+  #RegDataLand <- RegData
+  #Andre <- if (enhetsUtvalg==1) {'Andre'} else {NA}
+  ShNavnTittel <- if (enhetsUtvalg != 1) {ShNavn} else {NA}
+  grtxt1 <- if (enhetsUtvalg==1) {c(ShNavn, 'Andre')} else {NA} #c(ShNavn,Andre)
+  grtxt2 <- c('C1-4', 'C5-8', 'T,L,S')
+  subtxt <- 'Nevrologisk nivå'
+  Skala <- c('A','B','C','D+E')
+  #Bedre å lage en variabel med nevrologiske kategorier
+  indC14 <- which(RegData$Variabel %in% 1:4)
+  indC58 <- which(RegData$Variabel %in% 5:8)
+  indTLS <- which(RegData$Variabel %in% 9:30)
+  Ngr <- cbind(
+    table(factor(RegData$AIS)[intersect(indHoved, indC14)]),        #C0104Sh
+    table(factor(RegData$AIS)[intersect(indRest, indC14)]), #C0104Rest
+    table(factor(RegData$AIS)[intersect(indHoved, indC58)]),        #C0508Sh
+    table(factor(RegData$AIS)[intersect(indRest, indC58)]), #C0508Rest
+    table(factor(RegData$AIS)[intersect(indHoved, indTLS)]),        #TLSSh
+    table(factor(RegData$AIS)[intersect(indRest, indTLS)])) #TLSRest
 }
+
 
 
 if (valgtVar == 'NevrNivaaInnUt') {
