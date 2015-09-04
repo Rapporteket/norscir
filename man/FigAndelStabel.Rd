@@ -7,7 +7,7 @@
 FigAndelStabel(RegData, outfile = "", libkat, valgtVar,
   datoFra = "2010-01-01", datoTil = "3000-01-01", minald = 0,
   maxald = 120, erMann = "", traume = "", enhetsUtvalg = enhetsUtvalg,
-  reshID)
+  reshID, hentData = 1)
 }
 \arguments{
 \item{RegData}{- ei dataramme med alle nødvendige variable fra registeret}
@@ -34,6 +34,11 @@ FigAndelStabel(RegData, outfile = "", libkat, valgtVar,
 
 \item{reshID}{- avdelingsid for egen avdeling, må angis
 Brukerstyrt i Jasper:}
+
+\item{hentData}{Settes til 1 (standard) om data skal lastes i funksjonen.
+Settes til en annen verdi om data leveres til funksjonen gjennom 'RegData',
+eksempelvis ved bruk av eksempeldatasettet eller ved kall fra andre
+funksjoner der data allerede er tilgjengelig.}
 }
 \description{
 Søylediagram som sammenligner fordeling (vha. stablede søyler) av valgt variabel
