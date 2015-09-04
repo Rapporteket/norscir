@@ -29,10 +29,12 @@
 FigAndelStabel <- function(RegData, outfile='', libkat, valgtVar,
                            datoFra='2010-01-01', datoTil='3000-01-01',minald=0,
                            maxald=120, erMann='', traume='',
-                           enhetsUtvalg=enhetsUtvalg , reshID)
+                           enhetsUtvalg=enhetsUtvalg , reshID, hentData=1)
 {
 
-  RegData <- NSLoadRegData()
+  if (hentData == 1) {
+    RegData <- NSLoadRegData()
+  }
 
   #------------Gjøre utvalg-------------------------
   #Definerer funksjonsspesifikke variable................
