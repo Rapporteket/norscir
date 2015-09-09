@@ -102,80 +102,10 @@ reshID <- 105678
 @
 
 <<'LasteDataDb', include=FALSE, echo=FALSE, eval=FALSE>>=
-## moved to earlier chunk
-#opts_chunk$set(fig.align='center', fig.show='hold', out.width='.7\\textwidth',cache=FALSE, fig.path='')
+RegData <- NSLoadRegData()
 
-#library(RMySQL)
-#library(DBI)
-#library(yaml)
-conf <- yaml.load_file('dbConfig.yml')
-
-
-con <- dbConnect( dbDriver("MySQL") ,
- dbname=conf$NorScir$name ,
- host=conf$NorScir$host ,
- user=conf$NorScir$user ,
- password=conf$NorScir$pass )
-
-query <- "SET NAMES utf8;"
-tmp <- dbGetQuery(con, query)
-
-#con <- dbConnect(MySQL(), user='ro_NSRDS', password='PrajRec0',
-#  dbname='NorScirReportDataStaging', host='tos-hreg-db-02.nreg.no')
-query <- "SELECT
-     norScir.`Scietiol` AS Scietiol,
-     norScir.`isVrtbrInj`+'0' AS isVrtbrInj,
-     norScir.`isAssocInj`+'0' AS isAssocInj,
-     norScir.`isSpnlSurg`+'0' AS isSpnlSurg,
-     norScir.`VentAssi` AS VentAssi,
-     norScir.`PlaceDis` AS PlaceDis,
-     norScir.`ASensLvlAreaL` AS ASensLvlAreaL,
-     norScir.`ASensLvlAreaR` AS ASensLvlAreaR,
-     norScir.`AMtrLvlAreaL` AS AMtrLvlAreaL,
-     norScir.`AMtrLvlAreaR` AS AMtrLvlAreaR,
-     norScir.`AAis` AS AAis,
-     norScir.`FSensLvlAreaL` AS FSensLvlAreaL,
-     norScir.`FSensLvlAreaR` AS FSensLvlAreaR,
-     norScir.`FMtrLvlAreaL` AS FMtrLvlAreaL,
-     norScir.`FMtrLvlAreaR` AS FMtrLvlAreaR,
-     norScir.`FAis` AS FAis,
-     cast(norScir.`BirthDt` as CHAR(10)) AS BirthDt,
-     cast(norScir.`InjuryDt` as CHAR(10)) AS InjuryDt,
-     cast(norScir.`AdmitDt` as CHAR(10)) AS AdmitDt,
-     cast(norScir.`DischgDt` as CHAR(10)) AS DischgDt,
-     cast(norScir.`ANeuExmDt` as CHAR(10)) AS ANeuExmDt,
-     cast(norScir.`FNeuExmDt` as CHAR(10)) AS FNeuExmDt,
-     cast(norScir.`QolDt` as CHAR(10)) AS QolDt,
-     cast(norScir.`AdmitRehDt` as CHAR(10)) AS AdmitRehDt,
-     norScir.`ANeuNoMeasure`+'0' AS ANeuNoMeasure,
-     norScir.`FNeuNoMeasure`+'0' AS FNeuNoMeasure,
-     norScir.`InjuryDateUnknown`+'0' AS InjuryDateUnknown,
-     norScir.`OutOfHosptlDy`+'0' AS OutOfHosptlDy,
-     norScir.`HosptlDy`+'0' AS HosptlDy,
-     norScir.`isMale`+'0' AS isMale,
-     norScir.`SatGenrl`+'0' AS SatGenrl,
-     norScir.`SatPhys`+'0' AS SatPhys,
-     norScir.`SatPsych`+'0' AS SatPsych,
-     norScir.`SkjemaID`+'0' AS SkjemaID,
-     norScir.`ReshId`+'0' AS ReshId,
-     norScir.`DagerRehab`+'0' AS DagerRehab,
-     norScir.`DagerTilRehab`+'0' AS DagerTilRehab,
-     norScir.`AlderAar`+'0' AS AlderAar,
-     norScir.`ShNavn` AS ShNavn,
-     norScir.`NevrNivaaInn`+'0' AS NevrNivaaInn,
-     norScir.`NevrNivaaUt`+'0' AS NevrNivaaUt,
-	 norScir.`DatasettGuid` AS DatasettGuid
-FROM
-     `norScir` norScir"
-NSdata <- dbGetQuery(con, query)
-dbstop <- dbDisconnect(con)
-
-
+# may be removed?
 libkat <- './'
-#source("NSFigFordeling.R", encoding="UTF-8")
-#source("NSFigAndelStabel.R", encoding="UTF-8")
-#source("NSFigMeanMed.R", encoding="UTF-8")
-#source("NSLibUtvalg.R", encoding="UTF-8")
 @
 
 
