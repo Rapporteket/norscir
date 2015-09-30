@@ -20,11 +20,16 @@
 #' @export
 
 FigMeanMed <- function(RegData, valgtVar, valgtMaal='Gjsn', datoFra='01-01-2010', datoTil='31-12-2050',
-		AIS='', minald=0, maxald=130, erMann='', traume='', libkat, outfile='') {
+		AIS='', minald=0, maxald=130, erMann='', traume='', libkat, outfile='',
+    hentData=1) {
 
 # in a package, these will no longer be needed
 #source(paste(libkat, 'LibFigFilType.R', sep=''), encoding="UTF-8")
 #source(paste(libkat, 'NSLibUtvalg.R', sep=''), encoding="UTF-8")
+
+  if (hentData == 1) {
+    RegData <- NSLoadRegData()
+  }
 
 #Definerer funksjonssperifikke variable................
 grVar <- 'ShNavn'
