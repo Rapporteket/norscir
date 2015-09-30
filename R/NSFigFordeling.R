@@ -98,7 +98,10 @@ if (sml == 1) {
 if (valgtVar %in% c('AAis', 'FAis')) {
 	tittel <- paste('Fordeling av', switch(valgtVar, AAis = 'AIS ved innleggelse', FAis = 'AIS ved utskriving'))
 	grtxt <- c('A','B','C','D','E','U')
-	subtxt <- 'AIS kategori'
+	# recode 'None' as 'U'. Requested by AGVDMH Sep 24 2015
+	ind <- RegData$Variabel == 'None'
+	RegData$Variabel[ind] <- 'U'
+  subtxt <- 'AIS kategori'
 	RegData$Variabel <- factor(RegData$Variabel, levels = grtxt)
 }
 if (valgtVar == 'Pustehjelp') {
