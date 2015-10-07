@@ -85,8 +85,16 @@ the registry during autumn 2015.
 
 
 ### NSFigMeanMed.R
+Provide mean and median per hospital, _e.g._:
+```{r, fig.width=7}
+FigMeanMed(RegData=NorScirSampleData, valgtVar='Alder', valgtMaal='Gjsn',
+           datoFra='01-01-2010', datoTil='31-12-2050', AIS='', minald=0,
+           maxald=130, erMann='', traume='', libkat='', outfile='', hentData=0)
+```
 
-
+> NB The sample data set provides date-time in a wrong format, _i.e._
+YYYY-MM-DD HH:MM:SS, should be only date (YYYY-MM-DD). Probably the reason for
+the above error...
 
 
 Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
