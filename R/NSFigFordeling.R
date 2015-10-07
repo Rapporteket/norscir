@@ -31,8 +31,8 @@
 
 FigFordeling <- function(RegData, libkat, outfile='', valgtVar,
                          datoFra='2010-01-01', datoTil='2050-01-01', AIS='',
-                         minald=0, maxald=120, erMann='', traume='', egenavd=1,
-                         reshID, sml=1, hentData=1) {
+                         minald=0, maxald=120, erMann='', traume='',
+                         enhetsUtvalg=1, reshID, sml=1, hentData=1) {
 
   if (hentData == 1) {
     RegData <- NSLoadRegData()
