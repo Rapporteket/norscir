@@ -13,4 +13,8 @@ Description: An implemetation of all R related resources for NorScir at
 Depends: R (>= 3.0.2), rapbase
 License: GPL-2
 LazyData: true
-Imports: xtable
+Imports: 
+  knitr,
+  xtable
+Suggests: knitr
+VignetteBuilder: knitr

@@ -3,3 +3,4 @@
 .RData
 norscir.Rproj
 data/NSdata.Rdata
+inst/doc
