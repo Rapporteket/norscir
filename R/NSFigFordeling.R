@@ -34,6 +34,9 @@ FigFordeling <- function(RegData, libkat, outfile='', valgtVar,
                          minald=0, maxald=120, erMann='', traume='', egenavd=1,
                          reshID, sml=1, hentData=1) {
 
+  if (hentData == 1) {
+    RegData <- NSLoadRegData()
+  }
   #Delvis ryddet
 
   #'S' - Vertikale eller hor. søyler
