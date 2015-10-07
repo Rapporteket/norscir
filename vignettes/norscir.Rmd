@@ -68,7 +68,20 @@ FigAndelStabel(RegData=NorScirSampleData, outfile='', libkat='',
                traume='', enhetsUtvalg='0', reshID=12345, hentData=0)
 ```
 
+
 ### NSFigFordeling.R
+Provide distribution as bars, _e.g._:
+```{r, fig.width=7}
+FigFordeling(RegData=NorScirSampleData, libkat='', outfile='', valgtVar='AAis',
+             datoFra='2010-01-01', datoTil='2050-01-01', AIS='', minald=0,
+             maxald=120, erMann='', traume='', egenavd=0, reshID=12345,
+             sml=1, hentData=0)
+```
+
+#### Analysis
+For variables "AAis" and "FAis" an additional cathegory "None" was introduced
+at some point. In the above function "None" is recoded as "U" as requested by
+the registry during autumn 2015.
 
 
 ### NSFigMeanMed.R
