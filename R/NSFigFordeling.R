@@ -62,8 +62,9 @@ FigFordeling <- function(RegData, libkat, outfile='', valgtVar,
 
 
   #Tar ut de med manglende registrering av valgt variabel og gjør utvalg
-  Utvalg <- NSLibUtvalg(RegData=RegData, datoFra=datoFra, datoTil=datoTil, minald=minald, maxald=maxald,
-                        erMann=erMann, traume=traume, AIS=AIS)
+  Utvalg <- NSLibUtvalg(RegData=RegData, datoFra=datoFra, datoTil=datoTil,
+                        minald=minald, maxald=maxald, erMann=erMann,
+                        traume=traume, AIS=AIS)
   RegData <- Utvalg$RegData
   utvalgTxt <- Utvalg$utvalgTxt
 
