@@ -6,7 +6,7 @@
 \usage{
 FigMeanMed(RegData, valgtVar, valgtMaal = "Gjsn", datoFra = "01-01-2010",
   datoTil = "31-12-2050", AIS = "", minald = 0, maxald = 130,
-  erMann = "", traume = "", libkat, outfile = "")
+  erMann = "", traume = "", libkat, outfile = "", hentData = 1)
 }
 \arguments{
 \item{RegData}{Ei dataramme med alle nødvendige variable fra registeret}
@@ -32,6 +32,11 @@ FigMeanMed(RegData, valgtVar, valgtMaal = "Gjsn", datoFra = "01-01-2010",
 \item{libkat}{Sti til bibliotekkatalog (utgår)}
 
 \item{outfile}{- navn på fil figuren skrives ned til}
+
+\item{hentData}{Settes til 1 (standard) om data skal lastes i funksjonen.
+Settes til en annen verdi om data leveres til funksjonen gjennom 'RegData',
+eksempelvis ved bruk av eksempeldatasettet eller ved kall fra andre
+funksjoner der data allerede er tilgjengelig.}
 }
 \description{
 Funksjon som genererer en figur med gjennomsnitt/median for hvert sykehus

@@ -16,6 +16,10 @@
 #' @param datoFra <- '2010-01-01'. Min og max dato i utvalget vises alltid i figuren.
 #' @param datoTil <- '2013-05-25'
 #' @param valgtMaal - 'Med' = median. Alt annet gir gjennomsnitt
+#' @param hentData Settes til 1 (standard) om data skal lastes i funksjonen.
+#' Settes til en annen verdi om data leveres til funksjonen gjennom 'RegData',
+#' eksempelvis ved bruk av eksempeldatasettet eller ved kall fra andre
+#' funksjoner der data allerede er tilgjengelig.
 #'
 #' @export
 
