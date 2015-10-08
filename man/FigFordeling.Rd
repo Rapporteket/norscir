@@ -6,8 +6,8 @@
 \usage{
 FigFordeling(RegData, libkat, outfile = "", valgtVar,
   datoFra = "2010-01-01", datoTil = "2050-01-01", AIS = "", minald = 0,
-  maxald = 120, erMann = "", traume = "", egenavd = 1, reshID,
-  sml = 1)
+  maxald = 120, erMann = "", traume = "", enhetsUtvalg = 1, reshID,
+  sml = 1, hentData = 1)
 }
 \arguments{
 \item{RegData}{- ei dataramme med alle nødvendige variable fra registeret.}
@@ -33,7 +33,7 @@ UtTil[PlaceDis], SkadeArsak[Scietiol],  Pustehjelp[VentAssi].}
 
 \item{traume}{- 'ja','nei', standard: ikke valgt}
 
-\item{egenavd}{- 1:eget sykehus, 0:hele landet (standard) Kun for valgtVar=='NevrNivaaInnUt'}
+\item{enhetsUtvalg}{- 1:eget sykehus, 0:hele landet (standard) Kun for valgtVar=='NevrNivaaInnUt'}
 
 \item{reshID}{- avdelingsid for egen avdeling, standard: 0-hele landet.}
 
@@ -41,6 +41,11 @@ UtTil[PlaceDis], SkadeArsak[Scietiol],  Pustehjelp[VentAssi].}
 Skipper inputktr for denne
 Ikke_med avd - 0: data fra hele landet, 1: data fra egen avdeling (standard)
 valgtMaal - 'Med' = median. Alt annet gir gjennomsnitt}
+
+\item{hentData}{Settes til 1 (standard) om data skal lastes i funksjonen.
+Settes til en annen verdi om data leveres til funksjonen gjennom 'RegData',
+eksempelvis ved bruk av eksempeldatasettet eller ved kall fra andre
+funksjoner der data allerede er tilgjengelig.}
 }
 \description{
 Alder - Alder

@@ -74,7 +74,7 @@ Provide distribution as bars, _e.g._:
 ```{r, fig.width=7}
 FigFordeling(RegData=NorScirSampleData, libkat='', outfile='', valgtVar='AAis',
              datoFra='2010-01-01', datoTil='2050-01-01', AIS='', minald=0,
-             maxald=120, erMann='', traume='', egenavd=0, reshID=12345,
+             maxald=120, erMann='', traume='', enhetsUtvalg=0, reshID=12345,
              sml=1, hentData=0)
 ```
 
