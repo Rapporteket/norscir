@@ -40,7 +40,7 @@ Artwork is accessed in the same way as for the noweb-files, \emph{e.g}
 \examples{
 data(NorScirSampleData)
 names(NorScirSampleData)
-FigFordeling(RegData = NorScirSampleData, outfile = "", valgtVar = "Alder", reshID = 123456, hentData=0)
+FigFordeling(RegData = NorScirSampleData, valgtVar = "Alder", reshID = 123456, hentData=0)
 knitr::knit(system.file("NSsamleDok.Rnw", package = "NorScir"))
 }
 
