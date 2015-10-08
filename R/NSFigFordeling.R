@@ -22,11 +22,15 @@
 #' @param AIS - AISgrad ved innleggelse alle(''), velge en eller flere fra A,B,C,D,E,U
 #' @param datoFra <- '2010-01-01'    # min og max dato i utvalget vises alltid i figuren.
 #' @param datoTil <- '2013-05-25'
-#' @param egenavd - 1:eget sykehus, 0:hele landet (standard) Kun for valgtVar=='NevrNivaaInnUt'
+#' @param enhetsUtvalg - 1:eget sykehus, 0:hele landet (standard) Kun for valgtVar=='NevrNivaaInnUt'
 #' @param sml - Sammenligne med resten av landet, standard (1) eller ikke(0). Ikke aktiv når hele landet valgt.
 #' Skipper inputktr for denne
 #' Ikke_med avd - 0: data fra hele landet, 1: data fra egen avdeling (standard)
 #' valgtMaal - 'Med' = median. Alt annet gir gjennomsnitt
+#' @param hentData Settes til 1 (standard) om data skal lastes i funksjonen.
+#' Settes til en annen verdi om data leveres til funksjonen gjennom 'RegData',
+#' eksempelvis ved bruk av eksempeldatasettet eller ved kall fra andre
+#' funksjoner der data allerede er tilgjengelig.
 #' @export
 
 FigFordeling <- function(RegData, libkat, outfile='', valgtVar,
