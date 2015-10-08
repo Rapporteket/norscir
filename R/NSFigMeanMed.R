@@ -38,12 +38,12 @@ FigMeanMed <- function(RegData, valgtVar, valgtMaal='Gjsn',
 
   #Definerer funksjonssperifikke variable................
   grVar <- 'ShNavn'
-  RegData[ ,grVar] <- factor(RegData[ ,grVar])	#, labels=c('Haukeland', 'St.Olav', 'Sunnaas'))
+  RegData[ ,grVar] <- factor(RegData[ ,grVar])  #, labels=c('Haukeland', 'St.Olav', 'Sunnaas'))
 
   if (valgtVar %in% c('DagerRehab', 'DagerTilRehab')) {
     RegData$Variabel <- RegData[ ,valgtVar] }
   if (valgtVar == 'Alder') {RegData$Variabel <- RegData$AlderAar}
-  if (valgtVar == 'OpphTot') {RegData$Variabel <- RegData$HosptlDy}
+  if (valgtVar == 'OpphTot') {RegData$Variabel <- as.numeric(RegData$HosptlDy)}
   if (valgtVar == 'Permisjon') {RegData$Variabel <- RegData$OutOfHosptlDy
                                 RegData <- RegData[RegData$OutOfHosptlDy>0,]}	#Bare vits i å se på de som faktisk har permisjon
 
@@ -67,17 +67,20 @@ FigMeanMed <- function(RegData, valgtVar, valgtMaal='Gjsn',
                DagerRehab='antall dager med rehabilitering',
                DagerTilRehab='antall dager før rehabilitering',
                OpphTot= 'totalt opphold',
-               Permisjon = 'permisjonstid (for de som har hatt permisjon)')
+               Permisjon = 'permisjonstid (for de som har hatt perm)')
+
 
   if (valgtMaal=='Med') {
-    t1 <- 'Median ' } else {t1 <- 'Gjennomsnittlig '}
+    t1 <- paste0('Median ', vt)
+    l1 <- 'Median'} else {
+      t1 <- paste0('Gjennomsnittlig ',vt)
+      l1 <- 'Gjennomsnitt'}
 
-  tittel <- c(paste(t1, vt, sep=''),
-              'med 95% konfidensintervall')
+  tittel <- c(t1, 'med 95% konfidensintervall')
 
   #-----------Figur---------------------------------------
   if 	( max(Nsh) < Ngrense)	{#Dvs. hvis ALLE er mindre enn grensa.
-    rapbase::figtype(outfile)
+    figtype(outfile)
     plot.new()
     if (dim(RegData)[1]>0) {
       tekst <- paste('Færre enn ', Ngrense, ' registreringer ved hvert av sykehusene', sep='')
@@ -127,7 +130,7 @@ FigMeanMed <- function(RegData, valgtVar, valgtMaal='Gjsn',
       KIHele <- MidtHele + sd(RegData$Variabel)/sqrt(N)*c(-2,2)
     }
 
-    ShNavnSort <- paste(names(Nsh)[sortInd], Nshtxt[sortInd], sep='')
+    ShNavnSort <- paste(names(Nsh)[sortInd], Nshtxt[sortInd], ' ', sep='')
     plotdata <- c(Midt, KIned, KIopp)
 
     AntSh <- length(which(Midt>0))
@@ -135,19 +138,26 @@ FigMeanMed <- function(RegData, valgtVar, valgtMaal='Gjsn',
     xmax <-  min(1.1*max(plotdata), 1.5*max(Midt))
     xlabt <- switch(valgtVar, Alder='alder (år)',
                     DagerRehab='dager',
-                    DagerTilRehab='dager før rehabilitering',
+                    DagerTilRehab='dager',
                     OpphTot= 'dager',
-                    Permisjon = 'permisjonstid (dager)')
+                    Permisjon = 'dager')
 
 
     #--------------------------FIGUR---------------------------------------------------
-    FigTypUt <- rapbase::figtype(outfile, fargepalett=Utvalg$fargepalett)
+
+    #Plottspesifikke parametre:
+    FigTypUt <- figtype(outfile, fargepalett=Utvalg$fargepalett)
     farger <- FigTypUt$farger
-    par('fig'=c(0.1, 1, 0, 0.91))
+    cexleg <- 1.1	#Størrelse på legendtekst
+    cexgr <- 1.1
+    #Tilpasse marger for å kunne skrive utvalgsteksten
+    NutvTxt <- length(utvalgTxt)
+    vmarg <- max(0, strwidth(ShNavnSort, units='figure', cex=cexgr)*0.7)
+    par('fig'=c(vmarg, 1, 0, 1-0.02*(NutvTxt-1)))	#Har alltid datoutvalg med
+
     #plot.new()
     pos <- barplot(Midt, horiz=T, border=NA, col=farger[3], #main=tittel,
-                   xlim=c(0,xmax), ylim=c(0,3.9),
-                   font.main=1, xlab=paste(t1, vt, sep=''), las=1, cex.names=0.8) 	#xlim=c(0,ymax),
+                   xlim=c(0,xmax), ylim=c(0.3,4.1), xlab='', las=1) 	#xlim=c(0,ymax),
     indShUtPlot <- AntSh+(1:length(indShUt))
     posKI <- pos[1:AntSh]
     ybunn <- 0.1
@@ -155,27 +165,30 @@ FigMeanMed <- function(RegData, valgtVar, valgtMaal='Gjsn',
     polygon( c(rep(KIHele[1],2), rep(KIHele[2],2)), c(ybunn, ytopp, ytopp, ybunn),
              col=farger[4], border=farger[4])
     lines(x=rep(MidtHele, 2), y=c(ybunn, ytopp), col=farger[2], lwd=3)
-    legend('topright', xjust=1, fill=c(farger[4],'white'), border=c(farger[4],'white'), cex=0.8, #lwd=2, #col=farger[2],
-           legend='95% konf.int., alle sykehus', bty='o', bg='white', box.col='white')
-    barplot(Midt, horiz=T, border=NA, col=farger[3], 	#main=tittel,
-            xlim=c(0, xmax), add=TRUE,
-            font.main=1, xlab=paste(t1, vt, sep=''), las=1, cex.names=0.5) 	#xlim=c(0,ymax),
-    title(tittel, line=1, font.main=1, cex.main=1.2)
+    #	legend('topright', xjust=1, fill=c(farger[4],'white'), border=c(farger[4],'white'), cex=0.8, #lwd=2, #col=farger[2],
+    #		legend='95% konf.int., alle sykehus', bty='o', bg='white', box.col='white')
+    legend('topright', fill=c('white', farger[4]),  border='white', lwd=2, cex=cexleg,
+           col=c(farger[2], farger[4]), seg.len=0.6, merge=TRUE, bty='n',
+           c(paste(l1, ': ', sprintf('%.1f', MidtHele), ', N=', N, sep=''), #valgtVar,
+             paste('95% konf.int., alle sykehus (',
+                   sprintf('%.1f', KIHele[1]), '-', sprintf('%.1f', KIHele[2]), ')', sep='')))
+    barplot(Midt, horiz=T, border=NA, col=farger[3], xlim=c(0, xmax), add=TRUE,
+            xlab=xlabt, cex.lab=cexleg+0.1, cex.sub=cexleg+0.1, cex.axis=cexleg, las=1)
+    title(t1, line=1.1, font.main=1, cex.main=1.5)
+    title('med 95% konfidensintervall', font.main=1, line=0)
 
-    #	text(x=0, y=pos+0.1, soyletxt, las=1, cex=0.8, adj=0, col=farger[1])
-    utvpos <- 6
-    mtext(utvalgTxt[1], side=3, col=farger[1], las=1, cex=0.9, adj=0, line=utvpos)
-    mtext(utvalgTxt[2], side=3, col=farger[1],las=1, cex=0.9, adj=0, line=utvpos-0.8)
-    mtext(utvalgTxt[3], side=3, col=farger[1],las=1, cex=0.9, adj=0, line=utvpos-1.6)
-    mtext(utvalgTxt[4], side=3, col=farger[1],las=1, cex=0.9, adj=0, line=utvpos-2.4)
-    mtext(utvalgTxt[5], side=3, col=farger[1],las=1, cex=0.9, adj=0, line=utvpos-3.2)
-
-    mtext(at=pos+0.1, ShNavnSort, side=2, las=1, cex=0.9, adj=1, line=0.25)	#Hvis vil legge på navn som eget steg
+    text(x=0.005*xmax, y=pos, las=1, cex=cexleg, adj=0, col=farger[1],
+         c(sprintf('%.1f', Midt[1:AntSh]), rep('',length(Nsh)-AntSh)))
+    mtext(at=pos+0.15, ShNavnSort, side=2, las=1, cex=cexgr+0.1, adj=1, line=0.25)	#Hvis vil legge på navn som eget steg
     options(warn = -1)	#Unngå melding om KI med lengde 0. Fungerer av en eller annen grunn ikke i pdf.
     arrows(x0=Midt[-indShUtPlot]*0.999, y0=posKI, x1=KIopp[-indShUtPlot], y1=posKI,
            length=0.5/max(pos), code=2, angle=90, lwd=2, col=farger[1])
     arrows(x0=Midt[-indShUtPlot]*1.001, y0=posKI, x1=KIned[-indShUtPlot], y1=posKI,
            length=0.5/max(pos), code=2, angle=90, lwd=2, col=farger[1])
+
+    #Tekst som angir hvilket utvalg som er gjort
+    mtext(utvalgTxt, side=3, las=1, cex=cexleg, adj=0, col=farger[1], line=c(3+0.9*((NutvTxt-1):0)))
+
     par('fig'=c(0, 1, 0, 1))
     if ( outfile != '') {dev.off()}
     #----------------------------------------------------------------------------------
