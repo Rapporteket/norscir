@@ -31,6 +31,16 @@ It contains realistic data but with nonsense personal info. Sample data
 should only be used during package development and never in a full scale
 testing or production environment.
 
+As the _NorScir_ package evolves, so should also the sample data. Hence, future
+versions should also contain an updated (and extended) set of
+sample data, at least when new features are added to the package.
+Sample data is stored in the _data/_ directory by the _save()_
+function (not run):
+
+```{r, eval=FALSE}
+save(NorScirSampleData, file='NorScirSampleData.rda')
+```
+
 
 ## General functions
 These scripts contain supporting functions to be used by the report functions.

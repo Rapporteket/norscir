@@ -4,8 +4,8 @@
 \alias{FigMeanMed}
 \title{Funksjon som genererer en figur med gjennomsnitt/median}
 \usage{
-FigMeanMed(RegData, valgtVar, valgtMaal = "Gjsn", datoFra = "01-01-2010",
-  datoTil = "31-12-2050", AIS = "", minald = 0, maxald = 130,
+FigMeanMed(RegData, valgtVar, valgtMaal = "Gjsn", datoFra = "2010-01-01",
+  datoTil = "2050-12-31", AIS = "", minald = 0, maxald = 130,
   erMann = "", traume = "", libkat, outfile = "", hentData = 1)
 }
 \arguments{
