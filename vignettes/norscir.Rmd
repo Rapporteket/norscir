@@ -92,7 +92,4 @@ FigMeanMed(RegData=NorScirSampleData, valgtVar='Alder', valgtMaal='Gjsn',
            maxald=130, erMann='', traume='', libkat='', outfile='', hentData=0)
 ```
 
-> NB The sample data set provides date-time in a wrong format, _i.e._
-YYYY-MM-DD HH:MM:SS, should be only date (YYYY-MM-DD). Probably the reason for
-the above error...
 
