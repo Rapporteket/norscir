@@ -29,7 +29,7 @@ head(names(NorScirSampleData), 10)
 
 It contains realistic data but with nonsense personal info. Sample data
 should only be used during package development and never in a full scale
-testing og production environment.
+testing or production environment.
 
 
 ## General functions
