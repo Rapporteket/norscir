@@ -96,13 +96,14 @@ knitr::opts_chunk$set(fig.align='center', fig.show='hold', out.width='.7\\textwi
 
 <<"WARNINGLoadSampleDataWARNING", echo=FALSE, eval=TRUE>>=
 #load(NorScirSampleData)
+data(NorScirSampleData, package="NorScir")
 NSdata <- NorScirSampleData
 libkat <- './'
-reshID <- 105678
+reshID <- 123456
 @
 
 <<'LasteDataDb', include=FALSE, echo=FALSE, eval=FALSE>>=
-RegData <- NSLoadRegData()
+NSdata <- NSLoadRegData()
 
 # may be removed?
 libkat <- './'
@@ -150,7 +151,8 @@ s1 <- 0.66	#Skaleringsparameter for enkeltfigurer
 
 #Utvalg/datarensk
 Ninn <- dim(NSdata)[1]
-Utvalg <- NSLibUtvalg(RegData=NSdata, datoFra=datoFra, datoTil=datoTil)
+Utvalg <- NorScir::NSLibUtvalg(RegData=NSdata, datoFra=datoFra,
+                               datoTil=datoTil)
 NSdata <- Utvalg$RegData
 NSdataEget <- NSdata[NSdata$ReshId == reshID,]
 
