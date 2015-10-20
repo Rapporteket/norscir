@@ -4,3 +4,11 @@
 norscir.Rproj
 data/NSdata.Rdata
 inst/doc
+inst/*.tex
+inst/*.lof
+inst/*.log
+inst/*.lot
+inst/*.toc
+inst/*.gz
+inst/NSsamleDok.pdf
+inst/NSsamleDokLand.pdf
