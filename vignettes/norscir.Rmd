@@ -88,7 +88,7 @@ the registry during autumn 2015.
 Provide mean and median per hospital, _e.g._:
 ```{r, fig.width=7}
 FigMeanMed(RegData=NorScirSampleData, valgtVar='Alder', valgtMaal='Gjsn',
-           datoFra='01-01-2010', datoTil='31-12-2050', AIS='', minald=0,
+           datoFra='2010-01-01', datoTil='2015-12-31', AIS='', minald=0,
            maxald=130, erMann='', traume='', libkat='', outfile='', hentData=0)
 ```
 
