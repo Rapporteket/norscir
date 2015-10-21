@@ -80,7 +80,7 @@ FigMeanMed <- function(RegData, valgtVar, valgtMaal='Gjsn',
 
   #-----------Figur---------------------------------------
   if 	( max(Nsh) < Ngrense)	{#Dvs. hvis ALLE er mindre enn grensa.
-    figtype(outfile)
+    rapbase::figtype(outfile)
     plot.new()
     if (dim(RegData)[1]>0) {
       tekst <- paste('Færre enn ', Ngrense, ' registreringer ved hvert av sykehusene', sep='')
@@ -146,7 +146,7 @@ FigMeanMed <- function(RegData, valgtVar, valgtMaal='Gjsn',
     #--------------------------FIGUR---------------------------------------------------
 
     #Plottspesifikke parametre:
-    FigTypUt <- figtype(outfile, fargepalett=Utvalg$fargepalett)
+    FigTypUt <- rapbase::figtype(outfile, fargepalett=Utvalg$fargepalett)
     farger <- FigTypUt$farger
     cexleg <- 1.1	#Størrelse på legendtekst
     cexgr <- 1.1
