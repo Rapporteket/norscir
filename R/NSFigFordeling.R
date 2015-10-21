@@ -192,7 +192,7 @@ FigFordeling <- function(RegData, libkat, outfile='', valgtVar,
 
   #-----Hvis få registreringer: ---------------------
   if (Nsh < 5 | (medSml ==1 & Nrest<5)) {
-    FigTypUt <- figtype(outfile)
+    FigTypUt <- rapbase::figtype(outfile)
     farger <- FigTypUt$farger
     plot.new()
     title(tittel)	#, line=-6)
@@ -207,7 +207,7 @@ FigFordeling <- function(RegData, libkat, outfile='', valgtVar,
     #Plottspesifikke parametre:
 
     #Plottspesifikke parametre:
-    FigTypUt <- figtype(outfile, fargepalett=Utvalg$fargepalett)
+    FigTypUt <- rapbase::figtype(outfile, fargepalett=Utvalg$fargepalett)
     #Tilpasse marger for å kunne skrive utvalgsteksten
     NutvTxt <- length(utvalgTxt)
     grtxtpst <- paste(rev(grtxt), ' (', rev(sprintf('%.1f',Andeler$Sh)), '%)', sep='')
