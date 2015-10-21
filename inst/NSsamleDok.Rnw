@@ -32,6 +32,8 @@
 %for nice looking tabs
 \usepackage{booktabs}
 
+%ensure knitr processing?
+% !Rnw weave = knitr
 
 %bytte font
 \renewcommand{\familydefault}{\sfdefault}
