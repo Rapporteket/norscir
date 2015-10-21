@@ -338,27 +338,27 @@ av data til figurene.
 
 <<Figurer, echo=FALSE, message=FALSE>>=
 dum <- NorScir::FigAndelStabel(NSdata, libkat=libkat, valgtVar='NevrNivaaInnUt', outfile='FigNevrNivaaInnUt.pdf',
-		datoFra=datoFra, datoTil=datoTil, erMann=erMann, traume=traume, enhetsUtvalg=0, reshID=reshID)
+		datoFra=datoFra, datoTil=datoTil, erMann=erMann, traume=traume, enhetsUtvalg=0, reshID=reshID, hentData=0)
 dum <- NorScir::FigFordeling(NSdata, libkat=libkat, valgtVar='Alder', outfile='FigAlder.pdf',
-		datoFra=datoFra, datoTil=datoTil, traume=traume, enhetsUtvalg=0, reshID=reshID)
+		datoFra=datoFra, datoTil=datoTil, traume=traume, enhetsUtvalg=0, reshID=reshID, hentData=0)
 dum <- NorScir::FigFordeling(NSdata, libkat=libkat, valgtVar='OpphTot', outfile='FigOpphTot.pdf',
-		datoFra=datoFra, datoTil=datoTil, traume=traume, enhetsUtvalg=0, reshID=reshID)
+		datoFra=datoFra, datoTil=datoTil, traume=traume, enhetsUtvalg=0, reshID=reshID, hentData=0)
 dum <- NorScir::FigFordeling(NSdata, libkat=libkat, valgtVar='DagerTilRehab', outfile='FigDagerTilRehab.pdf',
-		datoFra=datoFra, datoTil=datoTil, traume=traume, enhetsUtvalg=0, reshID=reshID)
+		datoFra=datoFra, datoTil=datoTil, traume=traume, enhetsUtvalg=0, reshID=reshID, hentData=0)
 dum <- NorScir::FigFordeling(NSdata, libkat=libkat, valgtVar='DagerRehab', outfile='FigDagerRehab.pdf',
-		datoFra=datoFra, datoTil=datoTil, traume=traume, enhetsUtvalg=0, reshID=reshID)
+		datoFra=datoFra, datoTil=datoTil, traume=traume, enhetsUtvalg=0, reshID=reshID, hentData=0)
 dum <- NorScir::FigFordeling(NSdata, libkat=libkat, valgtVar='Permisjon', outfile='FigPermisjon.pdf',
-		datoFra=datoFra, datoTil=datoTil, traume=traume, enhetsUtvalg=0, reshID=reshID)
+		datoFra=datoFra, datoTil=datoTil, traume=traume, enhetsUtvalg=0, reshID=reshID, hentData=0)
 dum <- NorScir::FigFordeling(NSdata, libkat=libkat, valgtVar='UtTil', outfile='FigUtTil.pdf',
-		datoFra=datoFra, datoTil=datoTil, traume=traume, enhetsUtvalg=0, reshID=reshID)
+		datoFra=datoFra, datoTil=datoTil, traume=traume, enhetsUtvalg=0, reshID=reshID, hentData=0)
 dum <- NorScir::FigFordeling(NSdata, libkat=libkat, valgtVar='SkadeArsak', outfile='FigSkadeArsak.pdf',
-		datoFra=datoFra, datoTil=datoTil, traume=traume, enhetsUtvalg=0, reshID=reshID)
+		datoFra=datoFra, datoTil=datoTil, traume=traume, enhetsUtvalg=0, reshID=reshID, hentData=0)
 dum <- NorScir::FigFordeling(NSdata, libkat=libkat, valgtVar='Pustehjelp', outfile='FigPustehjelp.pdf',
-		datoFra=datoFra, datoTil=datoTil, traume=traume, enhetsUtvalg=0, reshID=reshID)
+		datoFra=datoFra, datoTil=datoTil, traume=traume, enhetsUtvalg=0, reshID=reshID, hentData=0)
 dum <- NorScir::FigFordeling(NSdata, libkat=libkat, valgtVar='AAis', outfile='FigAISinn.pdf',
-		datoFra=datoFra, datoTil=datoTil, traume=traume, enhetsUtvalg=0, reshID=reshID)
+		datoFra=datoFra, datoTil=datoTil, traume=traume, enhetsUtvalg=0, reshID=reshID, hentData=0)
 dum <- 	NorScir::FigFordeling(NSdata, libkat=libkat, valgtVar='FAis', outfile='FigAISut.pdf',
-		datoFra=datoFra, datoTil=datoTil, traume=traume, enhetsUtvalg=0, reshID=reshID)
+		datoFra=datoFra, datoTil=datoTil, traume=traume, enhetsUtvalg=0, reshID=reshID, hentData=0)
 
 @
 
@@ -423,26 +423,26 @@ dum <- 	NorScir::FigFordeling(NSdata, libkat=libkat, valgtVar='FAis', outfile='F
 
 
 <<Figurer2, echo=FALSE, message=FALSE>>=
-dum <- 	FigMeanMed(NSdata, libkat=libkat, valgtVar='Alder', outfile='FigAlderGjsn.pdf',
-		datoFra=datoFra, datoTil=datoTil, valgtMaal='', erMann=erMann, traume=traume)
-dum <- 	FigMeanMed(NSdata, libkat=libkat, valgtVar='Alder', outfile='FigAlderMed.pdf',
-		datoFra=datoFra, datoTil=datoTil, valgtMaal='Med', erMann=erMann, traume=traume)
-dum <- FigMeanMed(NSdata, libkat=libkat, valgtVar='DagerRehab', outfile='FigDagerRehabGjsn.pdf',
-		datoFra=datoFra, datoTil=datoTil, valgtMaal='', erMann=erMann, traume=traume)
-dum <- FigMeanMed(NSdata, libkat=libkat, valgtVar='DagerRehab', outfile='FigDagerRehabMed.pdf',
-		datoFra=datoFra, datoTil=datoTil, valgtMaal='Med', erMann=erMann, traume=traume)
-dum <- FigMeanMed(NSdata, libkat=libkat, valgtVar='DagerTilRehab', outfile='FigDagerTilRehabGjsn.pdf',
-		datoFra=datoFra, datoTil=datoTil, valgtMaal='', erMann=erMann, traume=traume)
-dum <- FigMeanMed(NSdata, libkat=libkat, valgtVar='DagerTilRehab', outfile='FigDagerTilRehabMed.pdf',
-		datoFra=datoFra, datoTil=datoTil, valgtMaal='Med', erMann=erMann, traume=traume)
-dum <- FigMeanMed(NSdata, libkat=libkat, valgtVar='Permisjon', outfile='FigPermisjonGjSn.pdf',
-		datoFra=datoFra, datoTil=datoTil, valgtMaal='', erMann=erMann, traume=traume)
-dum <- FigMeanMed(NSdata, libkat=libkat, valgtVar='Permisjon', outfile='FigPermisjonMed.pdf',
-		datoFra=datoFra, datoTil=datoTil, valgtMaal='Med', erMann=erMann, traume=traume)
-dum <- FigMeanMed(NSdata, libkat=libkat, valgtVar='OpphTot', outfile='FigOpphTotGjsn.pdf',
-		datoFra=datoFra, datoTil=datoTil, valgtMaal='', erMann=erMann, traume=traume)
-dum <- FigMeanMed(NSdata, libkat=libkat, valgtVar='OpphTot', outfile='FigOpphTotMed.pdf',
-		datoFra=datoFra, datoTil=datoTil, valgtMaal='Med', erMann=erMann, traume=traume)
+dum <- 	NorScir::FigMeanMed(NSdata, libkat=libkat, valgtVar='Alder', outfile='FigAlderGjsn.pdf',
+		datoFra=datoFra, datoTil=datoTil, valgtMaal='', erMann=erMann, traume=traume, hentData=0)
+dum <- 	NorScir::FigMeanMed(NSdata, libkat=libkat, valgtVar='Alder', outfile='FigAlderMed.pdf',
+		datoFra=datoFra, datoTil=datoTil, valgtMaal='Med', erMann=erMann, traume=traume, hentData=0)
+dum <- NorScir::FigMeanMed(NSdata, libkat=libkat, valgtVar='DagerRehab', outfile='FigDagerRehabGjsn.pdf',
+		datoFra=datoFra, datoTil=datoTil, valgtMaal='', erMann=erMann, traume=traume, hentData=0)
+dum <- NorScir::FigMeanMed(NSdata, libkat=libkat, valgtVar='DagerRehab', outfile='FigDagerRehabMed.pdf',
+		datoFra=datoFra, datoTil=datoTil, valgtMaal='Med', erMann=erMann, traume=traume, hentData=0)
+dum <- NorScir::FigMeanMed(NSdata, libkat=libkat, valgtVar='DagerTilRehab', outfile='FigDagerTilRehabGjsn.pdf',
+		datoFra=datoFra, datoTil=datoTil, valgtMaal='', erMann=erMann, traume=traume, hentData=0)
+dum <- NorScir::FigMeanMed(NSdata, libkat=libkat, valgtVar='DagerTilRehab', outfile='FigDagerTilRehabMed.pdf',
+		datoFra=datoFra, datoTil=datoTil, valgtMaal='Med', erMann=erMann, traume=traume, hentData=0)
+dum <- NorScir::FigMeanMed(NSdata, libkat=libkat, valgtVar='Permisjon', outfile='FigPermisjonGjSn.pdf',
+		datoFra=datoFra, datoTil=datoTil, valgtMaal='', erMann=erMann, traume=traume, hentData=0)
+dum <- NorScir::FigMeanMed(NSdata, libkat=libkat, valgtVar='Permisjon', outfile='FigPermisjonMed.pdf',
+		datoFra=datoFra, datoTil=datoTil, valgtMaal='Med', erMann=erMann, traume=traume, hentData=0)
+dum <- NorScir::FigMeanMed(NSdata, libkat=libkat, valgtVar='OpphTot', outfile='FigOpphTotGjsn.pdf',
+		datoFra=datoFra, datoTil=datoTil, valgtMaal='', erMann=erMann, traume=traume, hentData=0)
+dum <- NorScir::FigMeanMed(NSdata, libkat=libkat, valgtVar='OpphTot', outfile='FigOpphTotMed.pdf',
+		datoFra=datoFra, datoTil=datoTil, valgtMaal='Med', erMann=erMann, traume=traume, hentData=0)
 
 @
 
