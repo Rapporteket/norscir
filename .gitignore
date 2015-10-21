@@ -10,5 +10,6 @@ inst/*.log
 inst/*.lot
 inst/*.toc
 inst/*.gz
+inst/Fig*
 inst/NSsamleDok.pdf
 inst/NSsamleDokLand.pdf
