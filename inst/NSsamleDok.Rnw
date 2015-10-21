@@ -408,8 +408,8 @@ av data til figurene.
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigNevrNivaaInnUtEget, echo=FALSE, message=FALSE>>=
-	FigAndelStabel(NSdata, libkat=libkat, valgtVar='NevrNivaaInnUt', datoFra=datoFra, datoTil=datoTil,
-			minald=minald, maxald=maxald, erMann=erMann, traume=traume, egenavd=1, reshID=reshID)	#, sml=sml)
+	NorScir::FigAndelStabel(NSdata,   valgtVar='NevrNivaaInnUt', datoFra=datoFra, datoTil=datoTil,
+			minald=minald, maxald=maxald, erMann=erMann, traume=traume, enhetsUtvalg=1, reshID=reshID, hentData=0)	#, sml=sml)
 			@
 }
 \caption{\label{fig:NevrKatInnUtEget} Nevrologisk nivå, eget sykehus.}
@@ -420,8 +420,9 @@ av data til figurene.
   \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigNevrNivaaInnUtAlle, echo=FALSE, message=FALSE>>=
-	FigAndelStabel(NSdata, libkat=libkat, valgtVar='NevrNivaaInnUt', datoFra=datoFra, datoTil=datoTil,
-			minald=minald, maxald=maxald, erMann=erMann, traume=traume, egenavd=0, reshID=0)	#, sml=sml)
+	NorScir::FigAndelStabel(NSdata,   valgtVar='NevrNivaaInnUt', datoFra=datoFra, datoTil=datoTil,
+			minald=minald, maxald=maxald, erMann=erMann, traume=traume,
+      enhetsUtvalg=0, reshID=0, hentData=0)	#, sml=sml)
 @
 }
 \end{center}
@@ -433,8 +434,8 @@ av data til figurene.
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigAlder, echo=FALSE, message=FALSE>>=
-	FigFordeling(NSdata, libkat=libkat, outfile='', valgtVar='Alder', datoFra=datoFra, datoTil=datoTil,
-			minald=minald, maxald=maxald, traume=traume, egenavd=1, reshID=reshID, sml=sml)
+	NorScir::FigFordeling(NSdata,   outfile='', valgtVar='Alder', datoFra=datoFra, datoTil=datoTil,
+			minald=minald, maxald=maxald, traume=traume, enhetsUtvalg=1, reshID=reshID, sml=sml, hentData=0)
 @
 }
 \caption{\label{fig:Alder} Aldersfordeling}
@@ -446,8 +447,8 @@ av data til figurene.
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigOpphTot, echo=FALSE>>=
-	FigFordeling(NSdata, libkat=libkat, valgtVar='OpphTot', datoFra=datoFra, datoTil=datoTil,
-			minald=minald, maxald=maxald, traume=traume, egenavd=1, reshID=reshID, sml=sml)
+	NorScir::FigFordeling(NSdata,   valgtVar='OpphTot', datoFra=datoFra, datoTil=datoTil,
+			minald=minald, maxald=maxald, traume=traume, enhetsUtvalg=1, reshID=reshID, sml=sml, hentData=0)
 @
 }
   \caption{\label{fig:OpphTot} Liggetid for alle registrerte}
@@ -459,8 +460,8 @@ av data til figurene.
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigDagerTilRehab, echo=FALSE>>=
-	FigFordeling(NSdata, libkat=libkat, valgtVar='DagerTilRehab', datoFra=datoFra, datoTil=datoTil,
-			minald=minald, maxald=maxald, traume=traume, egenavd=1, reshID=reshID, sml=sml)
+	NorScir::FigFordeling(NSdata,   valgtVar='DagerTilRehab', datoFra=datoFra, datoTil=datoTil,
+			minald=minald, maxald=maxald, traume=traume, enhetsUtvalg=1, reshID=reshID, sml=sml, hentData=0)
 @
 }
   \caption{\label{fig:DagerTilRehab} Antall døgn før spesialisert rehabilitering}
@@ -472,8 +473,8 @@ av data til figurene.
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigDagerRehab, echo=FALSE>>=
-	FigFordeling(NSdata, libkat=libkat, valgtVar='DagerRehab', datoFra=datoFra, datoTil=datoTil,
-			traume=traume, egenavd=1, reshID=reshID, sml=sml)
+	NorScir::FigFordeling(NSdata,   valgtVar='DagerRehab', datoFra=datoFra, datoTil=datoTil,
+			traume=traume, enhetsUtvalg=1, reshID=reshID, sml=sml, hentData=0)
 @
 }
   \caption{\label{fig:DagerRehab} Dager med spesialisert rehabilitering}
@@ -485,8 +486,8 @@ av data til figurene.
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigPermisjon, echo=FALSE>>=
-	FigFordeling(NSdata, libkat=libkat, valgtVar='Permisjon', datoFra=datoFra, datoTil=datoTil,
-			traume=traume, egenavd=1, reshID=reshID, sml=sml)
+	NorScir::FigFordeling(NSdata,   valgtVar='Permisjon', datoFra=datoFra, datoTil=datoTil,
+			traume=traume, enhetsUtvalg=1, reshID=reshID, sml=sml, hentData=0)
 @
 }
   \caption{\label{fig:Permisjon} Antall døgn ute av sykehus}
@@ -498,8 +499,8 @@ av data til figurene.
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigUtTil, echo=FALSE>>=
-	FigFordeling(NSdata, libkat=libkat, valgtVar='UtTil', datoFra=datoFra, datoTil=datoTil,
-			minald=minald, maxald=maxald, traume=traume, egenavd=1, reshID=reshID, sml=sml)
+	NorScir::FigFordeling(NSdata,   valgtVar='UtTil', datoFra=datoFra, datoTil=datoTil,
+			minald=minald, maxald=maxald, traume=traume, enhetsUtvalg=1, reshID=reshID, sml=sml, hentData=0)
 @
 }
   \caption{Til hvor pasientene skrives ut}
@@ -511,8 +512,8 @@ av data til figurene.
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigSkadeArsak, echo=FALSE>>=
-	FigFordeling(NSdata, libkat=libkat, valgtVar='SkadeArsak', datoFra=datoFra, datoTil=datoTil,
-			minald=minald, maxald=maxald, traume=traume, egenavd=1, reshID=reshID, sml=sml)
+	NorScir::FigFordeling(NSdata,   valgtVar='SkadeArsak', datoFra=datoFra, datoTil=datoTil,
+			minald=minald, maxald=maxald, traume=traume, enhetsUtvalg=1, reshID=reshID, sml=sml, hentData=0)
 @
 }
   \caption{Skadeårsak}
@@ -524,8 +525,8 @@ av data til figurene.
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigPustehjelp, echo=FALSE>>=
-	FigFordeling(NSdata, libkat=libkat, valgtVar='Pustehjelp', datoFra=datoFra, datoTil=datoTil,
-			minald=minald, maxald=maxald, traume=traume, egenavd=1, reshID=reshID, sml=sml)
+	NorScir::FigFordeling(NSdata,   valgtVar='Pustehjelp', datoFra=datoFra, datoTil=datoTil,
+			minald=minald, maxald=maxald, traume=traume, enhetsUtvalg=1, reshID=reshID, sml=sml, hentData=0)
 @
 }
   \caption{\label{fig:Pustehjelp} Ventilasjonsstøtte}
@@ -537,8 +538,9 @@ av data til figurene.
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigASIAinn, echo=FALSE>>=
-	FigFordeling(NSdata, libkat=libkat, valgtVar='AAis', datoFra=datoFra, datoTil=datoTil,
-			minald=minald, maxald=maxald, traume=traume, egenavd=1, reshID=reshID, sml=sml)
+	NorScir::FigFordeling(NSdata,   valgtVar='AAis', datoFra=datoFra, datoTil=datoTil,
+			minald=minald, maxald=maxald, traume=traume, enhetsUtvalg=1,
+      reshID=reshID, sml=sml, hentData=0)
 @
 }
   \caption{\label{fig:AISinn} AIS ved innleggelse}
@@ -551,8 +553,8 @@ av data til figurene.
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigASIAut, echo=FALSE>>=
-	FigFordeling(NSdata, libkat=libkat, valgtVar='FAis', datoFra=datoFra, datoTil=datoTil,
-			minald=minald, maxald=maxald, traume=traume, egenavd=1, reshID=reshID, sml=sml)
+	NorScir::FigFordeling(NSdata,   valgtVar='FAis', datoFra=datoFra, datoTil=datoTil,
+			minald=minald, maxald=maxald, traume=traume, enhetsUtvalg=1, reshID=reshID, sml=sml, hentData=0)
 @
 }
   \caption{AIS ved utskriving}
@@ -567,8 +569,9 @@ av data til figurene.
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigAlderGjsn, echo=FALSE>>=
-	FigMeanMed(NSdata, libkat=libkat, valgtVar='Alder', datoFra=datoFra, datoTil=datoTil,
-		valgtMaal='', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
+	NorScir::FigMeanMed(NSdata,   valgtVar='Alder', datoFra=datoFra, datoTil=datoTil,
+		valgtMaal='', minald=minald, maxald=maxald, erMann=erMann, traume=traume,
+    hentData=0)
 @
 }
   \caption{Gjennomsnittlig alder, totalt og ved hvert sykehus}
@@ -580,8 +583,9 @@ av data til figurene.
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigAlderMed, echo=FALSE>>=
-	FigMeanMed(NSdata, libkat=libkat, valgtVar='Alder', datoFra=datoFra, datoTil=datoTil,
-		valgtMaal='Med', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
+	NorScir::FigMeanMed(NSdata,   valgtVar='Alder', datoFra=datoFra, datoTil=datoTil,
+		valgtMaal='Med', minald=minald, maxald=maxald, erMann=erMann,
+    traume=traume, hentData=0)
 @
 }
   \caption{Median alder, totalt og ved hvert sykehus}
@@ -594,8 +598,9 @@ av data til figurene.
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigDagerRehabGjsn, echo=FALSE>>=
-	FigMeanMed(NSdata, libkat=libkat, valgtVar='DagerRehab', datoFra=datoFra, datoTil=datoTil,
-		valgtMaal='', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
+	NorScir::FigMeanMed(NSdata,   valgtVar='DagerRehab', datoFra=datoFra, datoTil=datoTil,
+		valgtMaal='', minald=minald, maxald=maxald, erMann=erMann, traume=traume,
+    hentData=0)
 @
 }
   \caption{Gjennomsnittlig antall dager med rehabilitering, totalt og ved hvert sykehus}
@@ -607,8 +612,9 @@ av data til figurene.
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigDagerRehabMed, echo=FALSE>>=
-	FigMeanMed(NSdata, libkat=libkat, valgtVar='DagerRehab', datoFra=datoFra, datoTil=datoTil,
-		valgtMaal='Med', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
+	NorScir::FigMeanMed(NSdata,   valgtVar='DagerRehab', datoFra=datoFra, datoTil=datoTil,
+		valgtMaal='Med', minald=minald, maxald=maxald, erMann=erMann,
+    traume=traume, hentData=0)
 @
 }
   \caption{Median antall dager med rehabilitering, totalt og ved hvert sykehus}
@@ -621,8 +627,9 @@ av data til figurene.
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigDagerTilRehabGjsn, echo=FALSE>>=
-	FigMeanMed(NSdata, libkat=libkat, valgtVar='DagerTilRehab', datoFra=datoFra, datoTil=datoTil,
-		valgtMaal='', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
+	NorScir::FigMeanMed(NSdata,   valgtVar='DagerTilRehab', datoFra=datoFra, datoTil=datoTil,
+		valgtMaal='', minald=minald, maxald=maxald, erMann=erMann, traume=traume,
+    hentData=0)
 @
 }
   \caption{Gjennomsnittlig antall dager før rehabilitering, totalt og ved hvert sykehus}
@@ -634,8 +641,9 @@ av data til figurene.
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigDagerTilRehabMed, echo=FALSE>>=
-	FigMeanMed(NSdata, libkat=libkat, valgtVar='DagerTilRehab', datoFra=datoFra, datoTil=datoTil,
-		valgtMaal='Med', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
+	NorScir::FigMeanMed(NSdata,   valgtVar='DagerTilRehab', datoFra=datoFra, datoTil=datoTil,
+		valgtMaal='Med', minald=minald, maxald=maxald, erMann=erMann,
+    traume=traume, hentData=0)
 @
 }
   \caption{Median antall dager før rehabilitering, totalt og ved hvert sykehus}
@@ -647,8 +655,9 @@ av data til figurene.
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigPermisjonGjSn, echo=FALSE>>=
-	FigMeanMed(NSdata, libkat=libkat, valgtVar='Permisjon', datoFra=datoFra, datoTil=datoTil,
-		valgtMaal='', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
+	NorScir::FigMeanMed(NSdata,   valgtVar='Permisjon', datoFra=datoFra, datoTil=datoTil,
+		valgtMaal='', minald=minald, maxald=maxald, erMann=erMann, traume=traume,
+    hentData=0)
 @
 }
   \caption{Gjennomsnittlig antall døgn ute av sykehus, totalt og ved hvert sykehus}
@@ -660,8 +669,9 @@ av data til figurene.
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigPermisjonMed, echo=FALSE>>=
-	FigMeanMed(NSdata, libkat=libkat, valgtVar='Permisjon', datoFra=datoFra, datoTil=datoTil,
-		valgtMaal='Med', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
+	NorScir::FigMeanMed(NSdata,   valgtVar='Permisjon', datoFra=datoFra, datoTil=datoTil,
+		valgtMaal='Med', minald=minald, maxald=maxald, erMann=erMann,
+    traume=traume, hentData=0)
 @
 }
   \caption{Median antall døgn ute av sykehus, totalt og ved hvert sykehus}
@@ -674,8 +684,9 @@ av data til figurene.
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigOpphTotGjsn, echo=FALSE>>=
-	FigMeanMed(NSdata, libkat=libkat, valgtVar='OpphTot', datoFra=datoFra, datoTil=datoTil,
-		valgtMaal='', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
+	NorScir::FigMeanMed(NSdata,   valgtVar='OpphTot', datoFra=datoFra, datoTil=datoTil,
+		valgtMaal='', minald=minald, maxald=maxald, erMann=erMann, traume=traume,
+    hentData=0)
 @
 }
   \caption{Gjennomsnittlig antall dager i behandling, totalt og ved hvert sykehus}
@@ -687,8 +698,9 @@ av data til figurene.
 \begin{center}
 \scalebox{\Sexpr{s1}}{
 <<FigOpphTotMed, echo=FALSE>>=
-	FigMeanMed(NSdata, libkat=libkat, valgtVar='OpphTot', datoFra=datoFra, datoTil=datoTil,
-		valgtMaal='Med', minald=minald, maxald=maxald, erMann=erMann, traume=traume)
+	NorScir::FigMeanMed(NSdata, valgtVar='OpphTot', datoFra=datoFra, datoTil=datoTil,
+		valgtMaal='Med', minald=minald, maxald=maxald, erMann=erMann,
+    traume=traume, hentData=0)
 @
 }
   \caption{Median antall dager i behandling, totalt og ved hvert sykehus}
