@@ -88,7 +88,8 @@
 
 
 <<"knitrSettings", include=FALSE, echo=FALSE, eval=TRUE>>=
-knitr::opts_chunk$set(fig.align='center', fig.show='hold', out.width='.7\\textwidth',cache=FALSE, root.dir='./', fig.path='')
+knitr::opts_knit$set(root.dir='./')
+knitr::opts_chunk$set(fig.align='center', fig.show='hold', out.width='.7\\textwidth',cache=FALSE, fig.path='')
 @
 
 <<"WARNINGLoadSampleDataWARNING", echo=FALSE, eval=FALSE>>=
