@@ -91,7 +91,7 @@
 knitr::opts_chunk$set(fig.align='center', fig.show='hold', out.width='.7\\textwidth',cache=FALSE, fig.path='')
 @
 
-<<"WARNINGLoadSampleDataWARNING", echo=FALSE, eval=TRUE>>=
+<<"WARNINGLoadSampleDataWARNING", echo=FALSE, eval=FALSE>>=
 #load(NorScirSampleData)
 data(NorScirSampleData, package="NorScir")
 NSdata <- NorScirSampleData
@@ -99,7 +99,7 @@ libkat <- './'
 reshID <- 123456
 @
 
-<<'LasteDataDb', include=FALSE, echo=FALSE, eval=FALSE>>=
+<<'LasteDataDb', include=FALSE, echo=FALSE, eval=TRUE>>=
 NSdata <- NSLoadRegData()
 
 # may be removed?
