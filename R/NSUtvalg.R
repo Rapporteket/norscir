@@ -15,22 +15,19 @@
 #' @export
 
 
-NSLibUtvalg <- function(RegData, datoFra='2010-01-01', datoTil='3000-05-25', minald=0, maxald=120,
+NSUtvalg <- function(RegData, datoFra='2010-01-01', datoTil='3000-05-25', minald=0, maxald=120,
                         erMann='', traume='', AIS='', fargepalett='BlaaOff') {
 
-  #Definerer registerspesifikke variable................
-  RegData$InnDato <- as.POSIXlt(RegData$AdmitDt, format="%Y-%m-%d")
-  RegData$Alder <- RegData$AlderAar
 
   #Hvis "Variabel" ikke definert
-  if (length(which(names(RegData) == 'Variabel')) == 0 ) {
-    RegData$Variabel <- 0
-  }
+#  if (length(which(names(RegData) == 'Variabel')) == 0 ) {
+#    RegData$Variabel <- 0
+#  }
   Ninn <- dim(RegData)[1]
   indVarMed <- intersect(intersect(which(RegData$Variabel != 'NA'),
                                    which(RegData$Variabel != 'NaN')),
                          which(RegData$Variabel != ''))
-  indSkjemaUt <- which(RegData$SkjemaID != 1)     #NB: Kan senere bli variabelspesifikk!!!
+  #indSkjemaUt <- which(RegData$SkjemaID != 1)     #NB: Kan senere bli variabelspesifikk!!!
   indAldUt <- which(RegData$Alder < minald | RegData$Alder > maxald)
   indDatoUt <- setdiff(1:Ninn,
                        which(RegData$InnDato > as.POSIXlt(datoFra) & RegData$InnDato < as.POSIXlt(datoTil))) #Får bort NA
@@ -39,7 +36,7 @@ NSLibUtvalg <- function(RegData, datoFra='2010-01-01', datoTil='3000-05-25', min
   indKjUt <- if (erMann %in% 0:1) {which(RegData$isMale != erMann)} else {indKjUt <- NULL}
   indAISut <- if (length(which(AIS %in% c(LETTERS[1:5],'U')))>0) {
     setdiff(1:Ninn, which(RegData$AAis %in% AIS))} else {NULL}
-  indMed <- intersect(setdiff(1:Ninn, c(indSkjemaUt, indAldUt, indDatoUt,
+  indMed <- intersect(setdiff(1:Ninn, c(indAldUt, indDatoUt,
                                         indTrUt, indKjUt, indAISut)),
                       indVarMed)
   RegData <- RegData[indMed,]

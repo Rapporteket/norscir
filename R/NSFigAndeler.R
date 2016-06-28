@@ -1,55 +1,50 @@
 #' Søylediagram som viser fordeling av valgt variabel
 #'
-#' Alder - Alder
-#' OpphTot - Lengde på opphold – totalt (HosptlDy) 20d… >200
-#' Lengde på opphold – rehabilitering (Utskrevet – Innl. rehab dato)
-#' Tid fra skadedato til oppstart rehab [trauma/ikke], 5d interv
-#' AIS, A-E+U, innleggelse og kontroll
-#' Utskrives til [horisontal]
-#' Årsak til skade
-#'
+#' Argumentet \emph{valgtVar} har følgende valgmuligheter:
+#'    \itemize{
+#'     \item Alder: Aldersfordeling, 15-årige grupper 
+#'     \item AAis: A-E+U, innleggelse
+#'     \item FAis: A-E+U, kontroll
+#'     \item DagerRehab: Lengde på rehab.opphold (Utskrevet – Innl. rehab dato)
+#'     \item DagerTilRehab: Tid fra skadedato til oppstart rehab [trauma/ikke], 5d interv
+#'     \item OpphTot: Lengde på opphold – totalt (HosptlDy) 20d… >200, 
+#'     \item UtTil: Hva pasienten skrives ut til. [PlaceDis]
+#'     \item SkadeArsak: Årsak til skade [variabel: Scietiol]
+#'     \item Pustehjelp[VentAssi].
+#'    }
+#' 
 #' @param RegData - ei dataramme med alle nødvendige variable fra registeret.
-#' @param libkat - sti til bibliotekkatalog.
 #' @param outfile - navn på fil figuren skrives ned til.
 #' @param reshID - avdelingsid for egen avdeling, standard: 0-hele landet.
-#'
-#' @param valgtVar - Må velges: ... AAis, FAis, Alder, DagerRehab, DagerTilRehab, OpphTot[HosptlDy],
-#'  UtTil[PlaceDis], SkadeArsak[Scietiol],  Pustehjelp[VentAssi].
+#' @param valgtVar - variabelen det skal genereres resultat for 
+#' @param datoFra <- '2010-01-01'    # min og max dato i utvalget vises alltid i figuren.
+#' @param datoTil <- '2013-05-25'
 #' @param erMann - kjønn, 1-menn, 0-kvinner, standard: '' (alt annet enn 0 og 1), dvs. begge
 #' @param minald - alder, fra og med
 #' @param maxald - alder, til og med
 #' @param traume - 'ja','nei', standard: ikke valgt
 #' @param AIS - AISgrad ved innleggelse alle(''), velge en eller flere fra A,B,C,D,E,U
-#' @param datoFra <- '2010-01-01'    # min og max dato i utvalget vises alltid i figuren.
-#' @param datoTil <- '2013-05-25'
 #' @param enhetsUtvalg - 1:eget sykehus, 0:hele landet (standard) Kun for valgtVar=='NevrNivaaInnUt'
-#' @param sml - Sammenligne med resten av landet, standard (1) eller ikke(0). Ikke aktiv når hele landet valgt.
-#' Skipper inputktr for denne
-#' Ikke_med avd - 0: data fra hele landet, 1: data fra egen avdeling (standard)
-#' valgtMaal - 'Med' = median. Alt annet gir gjennomsnitt
 #' @param hentData Settes til 1 (standard) om data skal lastes i funksjonen.
-#' Settes til en annen verdi om data leveres til funksjonen gjennom 'RegData',
-#' eksempelvis ved bruk av eksempeldatasettet eller ved kall fra andre
-#' funksjoner der data allerede er tilgjengelig.
+#'    Settes til en annen verdi om data leveres til funksjonen gjennom 'RegData',
+#'    eksempelvis ved bruk av eksempeldatasettet eller ved kall fra andre
+#'    funksjoner der data allerede er tilgjengelig.
+#' 
 #' @export
 
-FigFordeling <- function(RegData, libkat, outfile='', valgtVar,
+NSFigAndeler <- function(RegData, outfile='', valgtVar,
                          datoFra='2010-01-01', datoTil='2050-01-01', AIS='',
                          minald=0, maxald=120, erMann='', traume='',
-                         enhetsUtvalg=1, reshID, sml=1, hentData=1) {
+                         enhetsUtvalg=1, reshID, hentData=1, preprosess=1) {
 
   if (hentData == 1) {
-    RegData <- NSLoadRegData()
+    RegData <- NSRegDataSQL()
   }
+if (preprosess == 1) {
+      RegData <- NSPreprosesser(RegData)
+      }
 
-  if (valgtVar %in% c('AAis', 'FAis', 'DagerRehab', 'DagerTilRehab')) {
-    RegData$Variabel <- RegData[ ,valgtVar] }
-  if (valgtVar == 'Alder') {RegData$Variabel <- RegData$AlderAar}
-  if (valgtVar == 'OpphTot') {RegData$Variabel <- RegData$HosptlDy}
-  if (valgtVar == 'Permisjon') {RegData$Variabel <- RegData$OutOfHosptlDy}
-  if (valgtVar == 'UtTil') {RegData$Variabel <- RegData$PlaceDis}
-  if (valgtVar == 'SkadeArsak') {RegData$Variabel <- RegData$Scietiol}
-  if (valgtVar == 'Pustehjelp') {RegData$Variabel <- RegData$VentAssi}
+  RegData$Variabel <- RegData[ ,valgtVar]
 
   shtxt <- switch(as.character(enhetsUtvalg), 	'0' = 'Hele landet',
                   '1' = as.character(RegData$ShNavn[match(reshID, RegData$ReshId)]),
@@ -58,7 +53,7 @@ FigFordeling <- function(RegData, libkat, outfile='', valgtVar,
   if (enhetsUtvalg == 2) {RegData <- RegData[which(RegData$ReshId == reshID), ]}
 
   #Tar ut de med manglende registrering av valgt variabel og gjør utvalg
-  Utvalg <- NSLibUtvalg(RegData=RegData, datoFra=datoFra, datoTil=datoTil, minald=minald, maxald=maxald,
+  Utvalg <- NSUtvalg(RegData=RegData, datoFra=datoFra, datoTil=datoTil, minald=minald, maxald=maxald,
                         erMann=erMann, traume=traume, AIS=AIS)
   RegData <- Utvalg$RegData
   utvalgTxt <- Utvalg$utvalgTxt
@@ -89,16 +84,16 @@ FigFordeling <- function(RegData, libkat, outfile='', valgtVar,
   }
   if (valgtVar == 'Pustehjelp') {
     tittel <- 'Ventilasjonsstøtte'
-    #gr <- (0:3,9) - Kodene som registereres
-    grtxt <- c('Nei', 'Mindre enn 24t/dag', 'Hele døgnet', 'Ukjent ant timer', 'Vet ikke')
+    #gr <- (0:3,9) - Kodene som registereres. Nå bare 0:3?
+    grtxt <- c('Nei', 'Mindre enn 24t/dag', 'Hele døgnet', 'Ukjent ant timer')
     subtxt <- ''
-    RegData$Variabel <- factor(as.numeric(RegData$Variabel), levels=c(0:3,9), labels = grtxt)
+    RegData$Variabel <- factor(as.numeric(RegData$Variabel), levels=c(0:3), labels = grtxt)
     retn <- 'H'
   }
   if (valgtVar=='Alder') {
     tittel <- 'Aldersfordeling'
     gr <- c(0,16,31,46,61,76,200)	#c(seq(0, 90, 15), 120)
-    RegData$Variabel <- cut(RegData$Variabel, breaks=gr, include.lowest=TRUE, right=FALSE)
+    RegData$Variabel <- cut(RegData$Alder, breaks=gr, include.lowest=TRUE, right=FALSE)
     grtxt <- c('[0,15]','[16,30]','[31,45]','[46,60]','[61,75]','76+')
     #	grtxt <- c(levels(RegData$Variabel)[1:(length(gr)-2)], '76+')
     cexgr <- 0.9
@@ -109,29 +104,27 @@ FigFordeling <- function(RegData, libkat, outfile='', valgtVar,
     tittel <- 'Antall døgn ute av sykehus'
     gr <- c(0,1,7,14,21,28,35, 1000)
     grmax <- '50+'
-    RegData$Variabel <- cut(RegData$Variabel, breaks=gr, include.lowest=TRUE, right=FALSE)
+    RegData$Variabel <- cut(RegData$Permisjon, breaks=gr, include.lowest=TRUE, right=FALSE)
     grtxt <- c('0','1-7','8-14','15-21','22-28','29-35', '35+')
     cexgr <- 0.9
     subtxt <- 'Antall døgn'
   }
   if (valgtVar %in% c('DagerRehab', 'DagerTilRehab', 'OpphTot')) {
-    if (valgtVar=='DagerRehab') {
-      tittel <- 'Antall dager med spesialisert rehabilitering'
-      gr <- c(seq(0, 180, 20), 360, 1000)
-      grmax <- '360+'
-    }
-    if (valgtVar=='DagerTilRehab') {
-      tittel <- 'Tid fra innleggelse til spesialisert rehabilitering'
-      gr <- c(seq(0, 100, 10), 1000)
-      grmax <- '100+'
-    }
-    if (valgtVar=='OpphTot') {
-      tittel <- 'Antall døgn innlagt på sykehus'
-      gr <- c(seq(0, 300, 30), 1000)
-      grmax <- '300+'
-    }
-    RegData$Variabel <- cut(RegData$Variabel, breaks=gr, include.lowest=TRUE, right=FALSE)
+    
+      grmax <- switch(valgtVar,
+            DagerRehab= '360+',
+            DagerTilRehab = '100+',
+            OpphTot = '300+')
+      gr <- switch(valgtVar, 
+            DagerRehab = c(seq(0, 180, 20), 360, 1000),
+            DagerTilRehab = c(seq(0, 100, 10), 1000),
+            OpphTot = c(seq(0, 300, 30), 1000))
+    RegData$Variabel <- cut(RegData[ ,valgtVar], breaks=gr, include.lowest=TRUE, right=FALSE)
     grtxt2 <- c(levels(RegData$Variabel)[1:(length(gr)-2)], grmax)
+    tittel <- switch(valgtVar, 
+                     DagerRehab='Antall dager med spesialisert rehabilitering', 
+                     DagerTilRehab = 'Tid fra innleggelse til spesialisert rehabilitering',
+                     OpphTot = 'Antall døgn innlagt på sykehus')
     cexgr <- 0.9
     txtretn <- 2
     subtxt <- 'Antall døgn'
@@ -141,7 +134,7 @@ FigFordeling <- function(RegData, libkat, outfile='', valgtVar,
   if (valgtVar == 'SkadeArsak') {
     tittel <- 'Skadeårsaker'
     #gr <- (1:6,9) - Kodene som registereres
-    RegData$Variabel[which(RegData$Variabel==9)] <- 7
+    RegData$Variabel[which(RegData$SkadeArsak==9)] <- 7
     grtxtAlle <- c('Idrett', 'Vold', 'Transport', 'Fall', 'Andre traumer',
                    'Ikke-traumatisk', 'Uspesifisert')
     grtxt <- grtxtAlle
@@ -152,7 +145,7 @@ FigFordeling <- function(RegData, libkat, outfile='', valgtVar,
   if (valgtVar == 'UtTil') {
     tittel <- 'Utskrevet til'
     #gr <- (1:10,99) - Kodene som registereres
-    RegData$Variabel[which(RegData$Variabel==99)] <- 11
+    RegData$Variabel[which(RegData$UtTil==99)] <- 11
     grtxtAlle <- c('Hjem', 'Sykehus', 'Pleiehjem', 'Omsorgsbolig', 'Bofellesskap',
                    'Kriminalomsorg', 'Hotell', 'Bostedsløs', 'Avdød', 'Annet', 'Ukjent')
     grtxt <- grtxtAlle

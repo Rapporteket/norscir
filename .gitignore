@@ -13,3 +13,4 @@ inst/*.gz
 inst/Fig*
 inst/NSsamleDok.pdf
 inst/NSsamleDokLand.pdf
+*.png

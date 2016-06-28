@@ -1,6 +1,6 @@
 Package: NorScir
 Title: Provide R resources for NorScir at Rapporteket
-Version: 0.1.0
+Version: 0.5.0
 Authors@R: c(
   person("Olsen", "Lena Ringstad", email = "Lena.Ringstad.Olsen@unn.no",
   role = c("cre", "aut")),
@@ -8,13 +8,18 @@ Authors@R: c(
   role = "aut")
   )
 Description: An implemetation of all R related resources for NorScir at
-  Rapporteket, including R-functions for analysis and plotting, noweb-files and
-  even artwork needed for producing R-dependent reports
-Depends: R (>= 3.0.2), rapbase
+    Rapporteket, including R-functions for analysis and plotting, noweb-files and
+    even artwork needed for producing R-dependent reports
+Depends:
+    R (>= 3.0.2),
+    rapbase
 License: GPL-2
+Encoding: UTF-8
 LazyData: true
 Imports:
-  knitr,
-  xtable
-Suggests: knitr
+    knitr,
+    xtable
+Suggests:
+    knitr
 VignetteBuilder: knitr
+RoxygenNote: 5.0.1

@@ -11,26 +11,12 @@
 #' Inn / Ut (Velge: bare eget/hele landet)
 #' Eget / resten av landet (Velge: Inn eller Ut)
 #'
-#' @param RegData - ei dataramme med alle nødvendige variable fra registeret
-#' @param libkat - sti til bibliotekkatalog
-#' @param outfile - navn på fil figuren skrives ned til
-#' @param reshID - avdelingsid for egen avdeling, må angis
-#' Brukerstyrt i Jasper:
+#' @inheritParams NSFigAndeler 
 #' @param valgtVar - Må velges: ... NevrNivaaInnUt, NevrNivaaInn, NevrNivaaUt
 #' @param enhetsUtvalg - 1:eget sykehus, 0:hele landet (standard) Kun for valgtVar=='NevrNivaaInnUt'
-#' @param erMann - kjønn, 1-menn, 0-kvinner, standard: '' (alt annet enn 0 og 1), dvs. begge
-#' @param minald - alder, fra og med
-#' @param maxald - alder, til og med
-#' @param traume - 'ja','nei', standard: ikke valgt
-#' @param datoFra <- '2010-01-01'    # min og max dato i utvalget vises alltid i figuren.
-#' @param datoTil <- '2013-05-25'
-#' @param hentData Settes til 1 (standard) om data skal lastes i funksjonen.
-#' Settes til en annen verdi om data leveres til funksjonen gjennom 'RegData',
-#' eksempelvis ved bruk av eksempeldatasettet eller ved kall fra andre
-#' funksjoner der data allerede er tilgjengelig.
 #' @export
 
-FigAndelStabel <- function(RegData, outfile='', libkat, valgtVar,
+NSFigAndelStabel <- function(RegData, outfile='', valgtVar,
                            datoFra='2010-01-01', datoTil='3000-01-01',minald=0,
                            maxald=120, erMann='', traume='',
                            enhetsUtvalg=enhetsUtvalg , reshID, hentData=1)
@@ -51,7 +37,7 @@ FigAndelStabel <- function(RegData, outfile='', libkat, valgtVar,
   }  #Vil bare ha pasienter som har reg. både inn og ut.
 
   #Gjør utvalg (Manglende data i variablene tas høyde for i variabeldef.)
-  Utvalg <- NSLibUtvalg(RegData=RegData, datoFra=datoFra, datoTil=datoTil,
+  Utvalg <- NSUtvalg(RegData=RegData, datoFra=datoFra, datoTil=datoTil,
                         minald=minald, maxald=maxald, erMann=erMann,
                         traume=traume, AIS='')
 
