@@ -74,14 +74,16 @@ if (preprosess == 1) {
 
   #Variablene kjøres for angitt indeks, dvs. to ganger hvis vi skal ha sammenligning med Resten.
   if (valgtVar %in% c('AAis', 'FAis')) {
-    tittel <- paste('Fordeling av', switch(valgtVar, AAis = 'AIS ved innleggelse', FAis = 'AIS ved utskriving'))
+        #-1: Velg verdi, 1:A Komplett skade, 2:B Inkomplett, 3:C Inkomplett, 4:D Inkomplett, 5:E Normal, 
+        #9: U Ukjent eller ikke anvendbar
+        tittel <- paste('Fordeling av', switch(valgtVar, AAis = 'AIS ved innleggelse', FAis = 'AIS ved utskriving'))
     grtxt <- c('A','B','C','D','E','U')
-    # recode 'None' as 'U'. Requested by AGVDMH Sep 24 2015
-    ind <- RegData$Variabel == 'None'
-    RegData$Variabel[ind] <- 'U'
+    # Tar med -1 i Ukjent
+    RegData$Variabel[RegData$Variabel==-1] <- 9
     subtxt <- 'AIS kategori'
-    RegData$Variabel <- factor(as.character(RegData$Variabel), levels = grtxt, exclude='')
+    RegData$Variabel <- factor(RegData$Variabel, levels = c(1:5,9), labels = grtxt) 
   }
+  
   if (valgtVar == 'Pustehjelp') {
     tittel <- 'Ventilasjonsstøtte'
     #gr <- (0:3,9) - Kodene som registereres. Nå bare 0:3?

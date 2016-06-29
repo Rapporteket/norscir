@@ -37,12 +37,16 @@ knit('NSsamleDok.Rnw')
 
 
 #------------------------------ Fordelinger --------------------------
+Fra jrxml:
+<defaultValueExpression><![CDATA["NSFigAndeler(RegData=0, outfile=outfile, valgtVar=valgtVar, datoFra=datoFra, datoTil=datoTil, AIS=AIS, minald=minald, maxald=maxald, erMann=erMann, traume=traume, enhetsUtvalg=enhetsUtvalg, reshID=" + $P{LoggedInUserAVD_RESH} + ")"]]></defaultValueExpression>
+      
+
 rm(list=ls())
 NSdata <- read.table('C:/Registre/NorScir/data/MainFormDataContract2016-06-08.csv', sep=';', header=T)
 RegData <- NSdata
 
 setwd("C:/ResultattjenesteGIT/norscir/")
-reshID <- 105593             ##105593-Haukeland, 106896-Sunnaas, 107627-St.Olavs, standard i funksj: 0 dvs. 'Alle'. Standard i rapporten skal v?re at man f?r opp eget sykehus.
+reshID <- 107627             ##105593-Haukeland, 106896-Sunnaas, 107627-St.Olavs, standard i funksj: 0 dvs. 'Alle'. Standard i rapporten skal v?re at man f?r opp eget sykehus.
 enhetsUtvalg <- 1
 minald <- 0
 maxald <- 130
