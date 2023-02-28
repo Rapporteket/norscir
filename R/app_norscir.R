@@ -606,6 +606,7 @@ ui_norscir <- function() {
 #' @return Server-delen til norscir-appen
 #' @export
 server_norscir <- function(input, output, session) {
+  library(nordicscir)
 #print(session)
   rapbase::appLogger(
     session = session,
