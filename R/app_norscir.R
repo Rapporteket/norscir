@@ -676,7 +676,7 @@ server_norscir <- function(input, output, session) {
       )
       output$tabNevrKlass28 <- shiny::renderTable({
         HovedSkjema28 <- HovedSkjema[which(HovedSkjema$DagerRehab > 28), ]
-        lagTabNevrKlass(
+        nordicscir::lagTabNevrKlass(
           HovedSkjema28,
           datoFra = input$datovalgDash[1],
           datoTil = input$datovalgDash[2]
@@ -920,7 +920,7 @@ server_norscir <- function(input, output, session) {
       )
 
       output$fordelingPrSh <- shiny::renderPlot({
-        NSFigAndelerSh(
+        nordicscir::NSFigAndelerSh(
           RegData = RegData, valgtVar = input$valgtVar, preprosess = 0,
           datoFra = input$datovalg[1], datoTil = input$datovalg[2],
           datoUt = as.numeric(input$datoUt),
@@ -940,7 +940,7 @@ server_norscir <- function(input, output, session) {
                  ".", input$bildeformatFord)
         },
         content = function(file) {
-          NSFigAndelerSh(
+          nordicscir::NSFigAndelerSh(
             RegData = RegData, valgtVar = input$valgtVar, preprosess = 0,
             datoFra = input$datovalg[1], datoTil = input$datovalg[2],
             datoUt = as.numeric(input$datoUt),
