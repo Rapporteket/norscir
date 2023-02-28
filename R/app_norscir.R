@@ -621,13 +621,13 @@ server_norscir <- function(input, output, session) {
 
   isGetDataOk <- TRUE
   isprocessAllDataOk <- TRUE
-  AlleTab <- getRealData(register = 'norscir')
+  AlleTab <- nordicscir::getRealData(register = 'norscir')
   if (is.null(AlleTab)) {
     warning("Not able to get real data. Applying fake data instead!")
     isGetDataOk <- FALSE
-    AlleTab <- getFakeData() #Har foreløpig bare norske, fiktive data. Men blir de hentet...?
+    AlleTab <- nordicscir::getFakeData() #Har foreløpig bare norske, fiktive data. Men blir de hentet...?
   }
-  AlleTab <- processAllData(AlleTab, register = 'norscir')
+  AlleTab <- nordicscir::processAllData(AlleTab, register = 'norscir')
   if (is.null(AlleTab)) {
     warning("Not able to process data.")
     isprocessAllDataOk <- FALSE
@@ -640,9 +640,6 @@ server_norscir <- function(input, output, session) {
 
   # observe({
   if (rolle != 'SC') { #
-    #   shinyjs::hide(id = 'velgResh')
-    #   shinyjs::hide(id = 'velgReshOverf')
-    #   shinyjs::hide(id = 'velgReshData')
     hideTab(inputId = "hovedark", target = "Registeradministrasjon")
   }
   # })
