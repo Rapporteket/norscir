@@ -1,10 +1,4 @@
 #Resultattjeneste for NorScir
-# library(nordicscir)
-# library(shiny)
-# library(knitr)
-# library(lubridate)
-# library(dplyr)
-# library(kableExtra)
 
 #' Brukergrensesnitt (ui) til nordscir-appen
 #'
@@ -606,7 +600,7 @@ ui_norscir <- function() {
 #' @return Server-delen til norscir-appen
 #' @export
 server_norscir <- function(input, output, session) {
-  library(nordicscir)
+  #library(nordicscir)
 #print(session)
   rapbase::appLogger(
     session = session,
@@ -659,7 +653,7 @@ server_norscir <- function(input, output, session) {
 
   output$guide <- shiny::renderText(
     rapbase::renderRmd(
-      system.file("brukerveiledning.Rmd", package = "norscir"),
+      system.file("brukerveiledning.Rmd", package = "nordicscir"),
       outputType = "html_fragment",
       params = list(isDataOk = isDataOk)
     )
