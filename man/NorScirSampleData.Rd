@@ -3,7 +3,8 @@
 \name{NorScirSampleData}
 \alias{NorScirSampleData}
 \title{Sample dataset for NorScir.}
-\format{A data frame with 560 rows and 104 variables:
+\format{
+A data frame with 560 rows and 104 variables:
 \describe{
 \item{InjuryDt}{Date of injury}
 \item{AdmitDt}{...}
@@ -109,9 +110,9 @@
 \item{NevrNivaaInn}{}
 \item{NevrNivaaUt}{}
 \item{NevrNivaaKtr}{}
-}}
+}
+}
 \description{
 A dataset containing a sample data with nonesense personal info.
 For testing purposes. Someone please provide variable descriptions...
 }
-

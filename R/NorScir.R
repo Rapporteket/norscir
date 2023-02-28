@@ -32,5 +32,5 @@
 #' knitr::knit(system.file("NSsamleDok.Rnw", package = "NorScir"))
 #'
 #' @docType package
-#' @name NorScir
+#' @name norscir
 NULL
