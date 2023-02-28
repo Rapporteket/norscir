@@ -873,7 +873,8 @@ server_norscir <- function(input, output, session) {
         }
       )
 
-      UtDataFord <- nordicscir::NSFigAndeler(
+      UtDataFord <-
+        nordicscir::NSFigAndeler(
         RegData = RegData, preprosess = 0, valgtVar = input$valgtVar,
         datoFra = input$datovalg[1], datoTil = input$datovalg[2],
         datoUt = as.numeric(input$datoUt),
@@ -955,7 +956,8 @@ server_norscir <- function(input, output, session) {
         }
       )
 
-      UtDataFordSh <- nordicscir::NSFigAndelerSh(
+      UtDataFordSh <-
+        nordicscir::NSFigAndelerSh(
         RegData = RegData, preprosess = 0, valgtVar = input$valgtVar,
         datoFra = input$datovalg[1], datoTil = input$datovalg[2],
         datoUt = as.numeric(input$datoUt),
