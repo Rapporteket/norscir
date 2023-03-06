@@ -1274,14 +1274,15 @@ server_norscir <- function(input, output, session) {
     `Månedsrapport` = list(
       synopsis = "Rapporteket-NorSCIR: månedsrapport, abonnement",
       fun = "nordicscir::abonnement",
-      paramNames = c("rnwFil", "brukernavn", "reshID", "datoTil"),
-      paramValues = c("NSmndRapp.Rnw", brukernavn, reshID, datoTil=Sys.Date())
+      paramNames = c("rnwFil", "brukernavn", "reshID", "register"),
+      paramValues = c("NSmndRapp.Rnw", brukernavn, reshID, 'norscir')
     )
   )
 
   rapbase::autoReportServer(
     id = "ns-subscription",
-    registryName = "norscir", #Character string with the registry name key. Must correspond to the registry R package name.
+    registryName = "norscir", #Character string with the registry name key.
+    #Must correspond to the registry R package name.
     #Når norscir benyttes som registryName, kommer bestilte utsendinger opp i den norske appen. Men fungerer utsendinga...? N E I !!
     type = "subscription",
     paramNames = paramNames,
@@ -1308,20 +1309,19 @@ server_norscir <- function(input, output, session) {
   disReports <- list(
     MndRapp = list(
       synopsis = "Rapporteket-NorSCIR: Månedsrapport",
-      fun = "abonnement",
+      fun = "nordicscir::abonnement",
       paramNames = c('rnwFil', "reshID", "register"),
       paramValues = c('NSmndRapp.Rnw', 0, 'norscir')
     ),
     SamleRapp = list(
       synopsis = "Rapporteket-NorSCIR: Rapport, div. resultater",
-      fun = "abonnement",
+      fun = "nordicscir::abonnement",
       paramNames = c("rnwFil", "reshID", "register"),
       paramValues = c("NSsamleRapp.Rnw", 0, 'norscir')
     )
   )
 
   org <- rapbase::autoReportOrgServer("NSuts", orgs)
-#Må lage spesialtilpasning for norscir i modulen. Legge til en parameter.
 
   # oppdatere reaktive parametre, for å få inn valgte verdier
   paramNames <- shiny::reactive("reshID")
@@ -1336,7 +1336,6 @@ server_norscir <- function(input, output, session) {
 
 
   #----------- Eksport ----------------
-  registryName <- "norscir"
   ## brukerkontroller
   rapbase::exportUCServer("norscirExport",
                           registryName = 'norscir', #i dbConfig
@@ -1344,10 +1343,6 @@ server_norscir <- function(input, output, session) {
   ## veileding
   rapbase::exportGuideServer("norscirExportGuide",
                              registryName = 'norscir')
-
-
 }
-
-
 # Run the application
-# shinyApp(ui = ui_norscir, server = server_norscir)
+#shiny::shinyApp(ui = ui_norscir, server = server_norscir)
