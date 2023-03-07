@@ -1273,7 +1273,7 @@ server_norscir <- function(input, output, session) {
   subReports <- list(
     `Månedsrapport` = list(
       synopsis = "Rapporteket-NorSCIR: månedsrapport, abonnement",
-      fun = "nordicscir::abonnement",
+      fun = "abonnement",
       paramNames = c("rnwFil", "brukernavn", "reshID", "register"),
       paramValues = c("NSmndRapp.Rnw", brukernavn, reshID, 'norscir')
     )
@@ -1309,13 +1309,13 @@ server_norscir <- function(input, output, session) {
   disReports <- list(
     MndRapp = list(
       synopsis = "Rapporteket-NorSCIR: Månedsrapport",
-      fun = "nordicscir::abonnement",
+      fun = "abonnement",
       paramNames = c('rnwFil', "reshID", "register"),
       paramValues = c('NSmndRapp.Rnw', 0, 'norscir')
     ),
     SamleRapp = list(
       synopsis = "Rapporteket-NorSCIR: Rapport, div. resultater",
-      fun = "nordicscir::abonnement",
+      fun = "abonnement",
       paramNames = c("rnwFil", "reshID", "register"),
       paramValues = c("NSsamleRapp.Rnw", 0, 'norscir')
     )
