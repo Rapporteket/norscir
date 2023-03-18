@@ -1,20 +1,39 @@
-Package: NorScir
-Title: Provide R resources for NorScir at Rapporteket
-Version: 0.1.0
-Authors@R: c(
-  person("Olsen", "Lena Ringstad", email = "Lena.Ringstad.Olsen@unn.no",
-  role = c("cre", "aut")),
-  person("Edvardsen", "Are", email =  "are.edvardsen@helsenord.no",
-  role = "aut")
-  )
-Description: An implemetation of all R related resources for NorScir at
-  Rapporteket, including R-functions for analysis and plotting, noweb-files and
-  even artwork needed for producing R-dependent reports
-Depends: R (>= 3.0.2), rapbase
-License: GPL-2
-LazyData: true
+Package: norscir
+Title: R-pakke for å generere resultater fra NordicScir
+Version: 1.0.0
+Authors@R: 
+     person(given = "Lena Ringstad",
+           family = "Olsen",
+           role = c("aut", "cre"),
+           email = "lena.olsen@skde.no")
+Description: Pakke laget for å kunne kjøre Rapporteket-NorScir. All kode/alle funksjoner
+    og ligger i utgangspunktet i pakken nordicscir. Dette inkluderer også figurer, tabeller
+    og dokumenter. (noweb-filer). 
+License: GPL (>= 3)
+Encoding: UTF-8
+LazyData: false
+Depends:
+    R (>= 3.5.0)
 Imports:
-  knitr,
-  xtable
-Suggests: knitr
+    kableExtra,
+    knitr,
+    lubridate,
+    magrittr,
+    rapbase,
+    rapFigurer,
+    raplog,
+    rlang,
+    shiny,
+    shinyalert,
+    shinyjs,
+    xtable
+Remotes: 
+    Rapporteket/rapbase@*release,
+    Rapporteket/rapFigurer,
+    Rapporteket/raplog,
+Suggests:
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Config/testthat/edition: 3

@@ -28,9 +28,9 @@
 #' @examples
 #' data(NorScirSampleData)
 #' names(NorScirSampleData)
-#' FigFordeling(RegData = NorScirSampleData, valgtVar = "Alder", reshID = 123456, hentData=0)
+#' NSFigAndeler(RegData = NorScirSampleData, valgtVar = "Alder", reshID = 123456, hentData=0)
 #' knitr::knit(system.file("NSsamleDok.Rnw", package = "NorScir"))
 #'
 #' @docType package
-#' @name NorScir
+#' @name norscir
 NULL
