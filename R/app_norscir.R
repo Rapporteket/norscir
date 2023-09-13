@@ -168,7 +168,7 @@ ui_norscir <- function() {
               "Urin: Ufrivillig urinlekkasje (t.o.m. 2018)" = "UrinInkontinensTom2018",
               "Urin: Kirurgiske inngrep" = "UrinKirInngr",
               "Urin: Legemiddelbruk (fra 2019)" = "UrinLegemidler",
-            #  "Urin: Legemiddelbruk (t.o.m. 2018)" = "UrinLegemidlerTom2018",
+              #  "Urin: Legemiddelbruk (t.o.m. 2018)" = "UrinLegemidlerTom2018",
               "Urin: Legemiddelbruk, hvilke" = "UrinLegemidlerHvilke",
               "Urin: Blæretømming, hovedmetode" = "UrinTomBlareHoved",
               "Urin: Blæretømming, tilleggsmetode" = "UrinTomBlareTillegg",
@@ -179,7 +179,14 @@ ui_norscir <- function() {
               "Tarm: Fekal inkontinens (fra 2019)" = "TarmInkontinensFra2019",
               "Tarm: Fekal inkontinens (t.o.m. 2018)" = "TarmInkontinensTom2018",
               "Tarm: Kirurgisk inngrep" = "TarmKirInngrep",
-              "Tarm: Kirurgiske inngrep, hvilke" = "TarmKirInngrepHvilke"
+              "Tarm: Kirurgiske inngrep, hvilke" = "TarmKirInngrepHvilke",
+              "Tarm: NBD" = "TarmNBD",
+              "EQ5D: Angst og depresjon" = "Eq5dQ5AnxietyDepression",
+              "EQ5D: Daglige gjøremål" = "Eq5dQ3UsualActivities",
+              "EQ5D: Mobilitet" = "Eq5dQ1Mobility",
+              "EQ5D: Personlig stell" = "Eq5dQ2Selfcare",
+              "EQ5D: Smerter, ubehag" = "Eq5dQ4PainDiscomfort",
+              "EQ5D: Generell helsetilstand" = "Eq5dQ6HealthToday"
             ),
             selected = c("Registreringsforsinkelse" = "RegForsinkelse")
           ),
@@ -623,20 +630,32 @@ server_norscir <- function(input, output, session) {
   isprocessAllDataOk <- TRUE
   AlleTab <- nordicscir::getRealData(register = 'norscir')
   if (is.null(AlleTab)) {
-    warning("Not able to get real data. Applying fake data instead!")
+    warning("Not able to get real data!")
+    #warning("Not able to get real data. Applying fake data instead!")
     isGetDataOk <- FALSE
-    AlleTab <- nordicscir::getFakeData() #Har foreløpig bare norske, fiktive data. Men blir de hentet...?
+    #AlleTab <- nordicscir::getFakeData() #Har foreløpig bare norske, fiktive data. Men blir de hentet...?
   }
   AlleTab <- nordicscir::processAllData(AlleTab, register = 'norscir')
   if (is.null(AlleTab)) {
     warning("Not able to process data.")
     isprocessAllDataOk <- FALSE
   }
+
+  rapbase::appLogger(
+    session = session,
+    msg = "Hei, hei. NorScirdata er hentet"
+  )
+
   isDataOk <- all(c(isGetDataOk, isprocessAllDataOk))
   attach(AlleTab)
   enhet <- ifelse(exists('reshID'),
     as.character(HovedSkjema$ShNavn[match(reshID, HovedSkjema$ReshId)]),
   'Uidentifisert enhet')
+
+  rapbase::appLogger(
+    session = session,
+    msg = paste0("Enhet: ", enhet)
+  )
 
   # observe({
   if (rolle != 'SC') { #
