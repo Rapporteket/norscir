@@ -414,6 +414,51 @@ ui_norscir <- function() {
         )
       ), #Gjsn
 
+      #-------Kontrollskjema-------------
+      tabPanel(
+        "Kontroller",
+        h4('Siden dette er en fordelingsfigur - kanskje den burde ligge i en fane under "Fordelinger"?'),
+        sidebarPanel(
+          width=3,
+          h3("Utvalg"),
+          dateRangeInput(
+            inputId = "datovalgKtr",
+            start = startDato-150, end = Sys.Date(),
+            label = "Tidsperiode", separator="t.o.m.",
+            language="nb"
+          ),
+          radioButtons(
+            inputId = "datoUtKtr",
+            "Bruk utskrivingsdato til datofiltrering?",
+            choiceNames = c("nei", "ja"),
+            choiceValues = 0:1,
+            selected = 0
+          ),
+          selectInput(
+            inputId = "enhetsUtvalgKtr",
+            label="Egen enhet/hele landet",
+            choices = c("Hele landet" = 0,
+                        "Egen enhet" = 2)
+          ),
+          br(),
+          selectInput(
+            inputId = "bildeformatKtr",
+            label = "Velg format for nedlasting av figur",
+            choices = c("pdf", "png", "jpg", "bmp", "tif", "svg")
+          )
+        ),
+
+        mainPanel(
+          br(),
+          h3("Endring fra utskriving til kontroll"), #),
+          br(),
+          plotOutput("fordPrePost", height = "auto"),
+          downloadButton(
+            outputId = "lastNed_figfordPrePost", label="Last ned figur"
+          ),
+          br()
+        )
+      ), #Kontrollskjema
 
       #-----Registreringsoversikter------------
       shiny::tabPanel(
@@ -1231,6 +1276,53 @@ server_norscir <- function(input, output, session) {
     }
   }) #observe gjsn
 
+  #----------Kontrollskjema--------------
+
+  shiny::observe({
+    if (isDataOk) {
+      #RegData <- nordicscir::finnRegData(valgtVar = input$valgtVar, Data = AlleTab)
+      RegData <- nordicscir::finnRegData(valgtVar = 'KontUtTil', Data = AlleTab)
+      RegData <- nordicscir::TilLogiskeVar(RegData)
+
+      output$fordPrePost <- shiny::renderPlot({
+        nordicscir::NSFigPrePost(
+          RegData = RegData, valgtVar = 'KontUtTil', preprosess = 0,
+          datoFra = input$datovalgKtr[1], datoTil = input$datovalgKtr[2],
+          reshID = reshID,
+          # AIS = as.numeric(input$AIS), traume = input$traume,
+          # nivaaUt = as.numeric(input$nivaaUt),
+          # minald = as.numeric(input$alder[1]),
+          # maxald = as.numeric(input$alder[2]),
+          # erMann = as.numeric(input$erMann),
+          enhetsUtvalg = as.numeric(input$enhetsUtvalgKtr),
+          datoUt = as.numeric(input$datoUtKtr),
+          session = session
+        )},
+        height = 800, width = 800
+      )
+
+      output$lastNed_figfordPrePost <- shiny::downloadHandler(
+        filename = function() {
+          paste0("FigPreKtr_", 'KontUtTil', "_", Sys.time(), #input$valgtVarKtr
+                 ".'", input$bildeformatKtr)
+        },
+        content = function(file) {
+          nordicscir::NSFigGjsnTid(
+            RegData = RegData, reshID = reshID, preprosess = 0,
+            valgtVar = 'KontUtTil', #input$valgtVarGjsn,
+            datoFra = input$datovalgKtr[1], datoTil = input$datovalgKtr[2],
+            datoUt = as.numeric(input$datoUtKtr),
+            enhetsUtvalg = as.numeric(input$enhetsUtvalgKtr),
+            session = session,
+            outfile = file
+          )
+        }
+      )
+
+    } else {
+      output$fordPrePost <- NULL
+      output$lastNed_figfordPrePost <- NULL}
+    })
 
   #-------Samlerapporter--------------------
   if (isDataOk) {
