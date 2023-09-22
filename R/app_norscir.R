@@ -420,7 +420,6 @@ ui_norscir <- function() {
       #-------Kontrollskjema-------------
       tabPanel(
         "Kontroller",
-        h3('Siden dette er en fordelingsfigur - kanskje den burde ligge i en fane under "Fordelinger"?'),
         h3('Figuren viser før/etter og kan i prinsippet også benyttes til å sammenligne ved inn/utskriving'),
         h3('Foreslår at den blir en fane med "Fordeling før/etter" under "Fordelinger"'),
         sidebarPanel(
