@@ -417,10 +417,18 @@ ui_norscir <- function() {
       #-------Kontrollskjema-------------
       tabPanel(
         "Kontroller",
-        h4('Siden dette er en fordelingsfigur - kanskje den burde ligge i en fane under "Fordelinger"?'),
+        h3('Siden dette er en fordelingsfigur - kanskje den burde ligge i en fane under "Fordelinger"?'),
+        h3('Figuren viser før/etter og kan i prinsippet også benyttes til å sammenligne ved inn/utskriving'),
+        h3('Foreslår at den blir en fane med "Fordeling før/etter" under "Fordelinger"'),
         sidebarPanel(
           width=3,
           h3("Utvalg"),
+          selectInput(
+            inputId = "valgtVarPP",
+            label="Velg variabel ",
+            choices = c("AIS, utskriving/kontroll"="KontFAis",
+                        "Utskrevet til "="KontUtTil")
+          ),
           dateRangeInput(
             inputId = "datovalgKtr",
             start = startDato-150, end = Sys.Date(),
@@ -1280,13 +1288,12 @@ server_norscir <- function(input, output, session) {
 
   shiny::observe({
     if (isDataOk) {
-      #RegData <- nordicscir::finnRegData(valgtVar = input$valgtVar, Data = AlleTab)
-      RegData <- nordicscir::finnRegData(valgtVar = 'KontUtTil', Data = AlleTab)
+      RegData <- nordicscir::finnRegData(valgtVar = input$valgtVarPP, Data = AlleTab)
       RegData <- nordicscir::TilLogiskeVar(RegData)
 
       output$fordPrePost <- shiny::renderPlot({
         nordicscir::NSFigPrePost(
-          RegData = RegData, valgtVar = 'KontUtTil', preprosess = 0,
+          RegData = RegData, valgtVar = input$valgtVarPP, preprosess = 0,
           datoFra = input$datovalgKtr[1], datoTil = input$datovalgKtr[2],
           reshID = reshID,
           # AIS = as.numeric(input$AIS), traume = input$traume,
@@ -1303,13 +1310,13 @@ server_norscir <- function(input, output, session) {
 
       output$lastNed_figfordPrePost <- shiny::downloadHandler(
         filename = function() {
-          paste0("FigPreKtr_", 'KontUtTil', "_", Sys.time(), #input$valgtVarKtr
+          paste0("FigPreKtr_", input$valgtVarPP, "_", Sys.time(), #input$valgtVarKtr
                  ".'", input$bildeformatKtr)
         },
         content = function(file) {
           nordicscir::NSFigGjsnTid(
             RegData = RegData, reshID = reshID, preprosess = 0,
-            valgtVar = 'KontUtTil', #input$valgtVarGjsn,
+            valgtVar = input$valgtVarPP,
             datoFra = input$datovalgKtr[1], datoTil = input$datovalgKtr[2],
             datoUt = as.numeric(input$datoUtKtr),
             enhetsUtvalg = as.numeric(input$enhetsUtvalgKtr),
