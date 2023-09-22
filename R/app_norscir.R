@@ -11,6 +11,9 @@ ui_norscir <- function() {
   startDato <- as.Date(
     paste0(as.numeric(format(Sys.Date()-400, "%Y")), '-01-01')
   )
+  startDato2 <- as.Date(
+    paste0(as.numeric(format(Sys.Date()-700, "%Y")), '-01-01')
+  )
 
   context <- Sys.getenv("R_RAP_INSTANCE") #Blir tom hvis jobber lokalt
   regTitle = "Norsk ryggmargsskaderegister"
@@ -431,7 +434,7 @@ ui_norscir <- function() {
           ),
           dateRangeInput(
             inputId = "datovalgKtr",
-            start = startDato-150, end = Sys.Date(),
+            start = startDato2, end = Sys.Date(),
             label = "Tidsperiode", separator="t.o.m.",
             language="nb"
           ),
