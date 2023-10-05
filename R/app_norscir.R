@@ -137,7 +137,24 @@ ui_norscir <- function() {
         "Fordelinger",
         shiny::sidebarPanel(
           width = 3,
-          shiny::selectInput(
+          shiny::dateRangeInput(
+            inputId = "datovalg",
+            start = startDato,
+            end = Sys.Date(),
+            label = "Tidsperiode",
+            separator="t.o.m.",
+            language="nb"
+          ),
+          shiny::radioButtons(
+            inputId = "datoUt",
+            label = "Bruk utskrivingsdato til datofiltrering?",
+            choiceNames = c("nei", "ja"),
+            choiceValues = 0:1,
+            selected = 0
+          ),
+          conditionalPanel(
+            condition = "input.fordeling != 'Utskriving/Kontoll'",
+          selectInput(
             inputId = "valgtVar",
             label="Velg variabel",
             choices = c(
@@ -192,22 +209,10 @@ ui_norscir <- function() {
               "EQ5D: Generell helsetilstand" = "Eq5dQ6HealthToday"
             ),
             selected = c("Registreringsforsinkelse" = "RegForsinkelse")
-          ),
-          shiny::dateRangeInput(
-            inputId = "datovalg",
-            start = startDato,
-            end = Sys.Date(),
-            label = "Tidsperiode",
-            separator="t.o.m.",
-            language="nb"
-          ),
-          shiny::radioButtons(
-            inputId = "datoUt",
-            label = "Bruk utskrivingsdato til datofiltrering?",
-            choiceNames = c("nei", "ja"),
-            choiceValues = 0:1,
-            selected = 0
-          ),
+          )),
+
+          conditionalPanel(
+            condition = "input.fordeling != 'Utskriving/Kontoll'",
           shiny::selectInput(
             inputId = "erMann",
             label = "Kjønn",
@@ -243,13 +248,37 @@ ui_norscir <- function() {
             inputId = "nivaaUt",
             label = "Nivå ved utreise",
             choices = valgNivaaUt
+          )
+          ),
+
+        conditionalPanel(
+          condition = "input.fordeling == 'Utskriving/Kontoll'",
+          selectInput(
+            inputId = "valgtVarPP",
+            label="Velg variabel ",
+            choices = c("AIS, utskriving/kontroll"="KontFAis",
+                        "Utskrevet til "="KontUtTil")
+          ),
+          selectInput(
+            inputId = "enhetsUtvalgPP",
+            label="Egen enhet/hele landet",
+            choices = c("Hele landet" = 0,
+                        "Egen enhet" = 2)
+          )
+          # dateRangeInput(
+          #   inputId = "datovalgPP",
+          #   start = startDato2, end = Sys.Date(),
+          #   label = "Tidsperiode", separator="t.o.m.",
+          #   language="nb"
+          # )
           ),
           shiny::selectInput(
             inputId = "bildeformatFord",
             label = "Velg format for nedlasting av figur",
             choices = c("pdf", "png", "jpg", "bmp", "tif", "svg")
           )
-        ),
+      ), #Sidebar
+
         shiny::mainPanel(
           width = 6,
           shiny::tabsetPanel(
@@ -288,8 +317,18 @@ ui_norscir <- function() {
               shiny::downloadButton(
                 outputId = "lastNed_tabFordSh", label="Last ned"
               )
+            ),
+            tabPanel(
+              'Utskriving/Kontoll',
+              br(),
+              h3("Endring fra utskriving til kontroll"), #),
+              br(),
+              plotOutput("fordPrePost", height = "auto"),
+              downloadButton(
+                outputId = "lastNed_figfordPrePost", label="Last ned figur"
+              )
             )
-          )
+          ) #tabset
         ) #mainPanel
       ), #tab Fordelinger
 
@@ -417,58 +456,6 @@ ui_norscir <- function() {
         )
       ), #Gjsn
 
-      #-------Kontrollskjema-------------
-      tabPanel(
-        "Kontroller",
-        h3('Figuren viser før/etter og kan i prinsippet også benyttes til å sammenligne ved inn/utskriving'),
-        h3('Foreslår at den blir en fane med "Fordeling før/etter" under "Fordelinger"'),
-        sidebarPanel(
-          width=3,
-          h3("Utvalg"),
-          selectInput(
-            inputId = "valgtVarPP",
-            label="Velg variabel ",
-            choices = c("AIS, utskriving/kontroll"="KontFAis",
-                        "Utskrevet til "="KontUtTil")
-          ),
-          dateRangeInput(
-            inputId = "datovalgKtr",
-            start = startDato2, end = Sys.Date(),
-            label = "Tidsperiode", separator="t.o.m.",
-            language="nb"
-          ),
-          radioButtons(
-            inputId = "datoUtKtr",
-            "Bruk utskrivingsdato til datofiltrering?",
-            choiceNames = c("nei", "ja"),
-            choiceValues = 0:1,
-            selected = 0
-          ),
-          selectInput(
-            inputId = "enhetsUtvalgKtr",
-            label="Egen enhet/hele landet",
-            choices = c("Hele landet" = 0,
-                        "Egen enhet" = 2)
-          ),
-          br(),
-          selectInput(
-            inputId = "bildeformatKtr",
-            label = "Velg format for nedlasting av figur",
-            choices = c("pdf", "png", "jpg", "bmp", "tif", "svg")
-          )
-        ),
-
-        mainPanel(
-          br(),
-          h3("Endring fra utskriving til kontroll"), #),
-          br(),
-          plotOutput("fordPrePost", height = "auto"),
-          downloadButton(
-            outputId = "lastNed_figfordPrePost", label="Last ned figur"
-          ),
-          br()
-        )
-      ), #Kontrollskjema
 
       #-----Registreringsoversikter------------
       shiny::tabPanel(
@@ -686,7 +673,6 @@ server_norscir <- function(input, output, session) {
   AlleTab <- nordicscir::getRealData(register = 'norscir')
   if (is.null(AlleTab)) {
     warning("Not able to get real data!")
-    #warning("Not able to get real data. Applying fake data instead!")
     isGetDataOk <- FALSE
     #AlleTab <- nordicscir::getFakeData() #Har foreløpig bare norske, fiktive data. Men blir de hentet...?
   }
@@ -1296,15 +1282,15 @@ server_norscir <- function(input, output, session) {
       output$fordPrePost <- shiny::renderPlot({
         nordicscir::NSFigPrePost(
           RegData = RegData, valgtVar = input$valgtVarPP, preprosess = 0,
-          datoFra = input$datovalgKtr[1], datoTil = input$datovalgKtr[2],
+          datoFra = input$datovalg[1], datoTil = input$datovalg[2],
           reshID = reshID,
           # AIS = as.numeric(input$AIS), traume = input$traume,
           # nivaaUt = as.numeric(input$nivaaUt),
           # minald = as.numeric(input$alder[1]),
           # maxald = as.numeric(input$alder[2]),
           # erMann = as.numeric(input$erMann),
-          enhetsUtvalg = as.numeric(input$enhetsUtvalgKtr),
-          datoUt = as.numeric(input$datoUtKtr),
+          enhetsUtvalg = as.numeric(input$enhetsUtvalgPP),
+          datoUt = as.numeric(input$datoUt),
           session = session
         )},
         height = 800, width = 800
@@ -1313,15 +1299,15 @@ server_norscir <- function(input, output, session) {
       output$lastNed_figfordPrePost <- shiny::downloadHandler(
         filename = function() {
           paste0("FigPreKtr_", input$valgtVarPP, "_", Sys.time(), #input$valgtVarKtr
-                 ".'", input$bildeformatKtr)
+                 ".'", input$bildeformatFord)
         },
         content = function(file) {
           nordicscir::NSFigGjsnTid(
             RegData = RegData, reshID = reshID, preprosess = 0,
             valgtVar = input$valgtVarPP,
-            datoFra = input$datovalgKtr[1], datoTil = input$datovalgKtr[2],
-            datoUt = as.numeric(input$datoUtKtr),
-            enhetsUtvalg = as.numeric(input$enhetsUtvalgKtr),
+            datoFra = input$datovalg[1], datoTil = input$datovalg[2],
+            datoUt = as.numeric(input$datoUt),
+            enhetsUtvalg = as.numeric(input$enhetsUtvalgPP),
             session = session,
             outfile = file
           )
