@@ -184,11 +184,11 @@ ui_norscir <- function() {
               "Tarm: Kirurgisk inngrep" = "TarmKirInngrep",
               "Tarm: Kirurgiske inngrep, hvilke" = "TarmKirInngrepHvilke",
               "Tarm: NBD" = "TarmNBD",
-              "EQ5D: Angst og depresjon" = "Eq5dQ5AnxietyDepression",
-              "EQ5D: Daglige gjøremål" = "Eq5dQ3UsualActivities",
               "EQ5D: Mobilitet" = "Eq5dQ1Mobility",
               "EQ5D: Personlig stell" = "Eq5dQ2Selfcare",
+              "EQ5D: Daglige gjøremål" = "Eq5dQ3UsualActivities",
               "EQ5D: Smerter, ubehag" = "Eq5dQ4PainDiscomfort",
+              "EQ5D: Angst og depresjon" = "Eq5dQ5AnxietyDepression",
               "EQ5D: Generell helsetilstand" = "Eq5dQ6HealthToday"
             ),
             selected = c("Registreringsforsinkelse" = "RegForsinkelse")
