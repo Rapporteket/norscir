@@ -542,7 +542,8 @@ ui_norscir <- function() {
               label = "Tidsperiode",
               separator="t.o.m.",
               language="nb"
-            )
+            ),
+            h5('Tidsperioden er basert på innleggelsesdato')
           )
         ),
 
