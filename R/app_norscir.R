@@ -542,8 +542,7 @@ ui_norscir <- function() {
               label = "Tidsperiode",
               separator="t.o.m.",
               language="nb"
-            ),
-            h5('Tidsperioden er basert på innleggelsesdato')
+            )
           )
         ),
 
@@ -566,6 +565,7 @@ ui_norscir <- function() {
             shiny::tabPanel(
               "Antall hovedskjema med tilknyttede skjema",
               shiny::h3("Antall hovedskjema med tilknyttede skjema"),
+              h5('Tidsperioden er basert på innleggelsesdato')
               shiny::tableOutput("tabAntTilknyttedeHovedSkjema"),
               shiny::downloadButton(
                 outputId = "lastNed_tabOppfHovedAnt", label = "Last ned"
