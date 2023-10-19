@@ -152,8 +152,6 @@ ui_norscir <- function() {
             choiceValues = 0:1,
             selected = 0
           ),
-          conditionalPanel(
-            condition = "input.fordeling != 'Utskriving/Kontoll'",
           selectInput(
             inputId = "valgtVar",
             label="Velg variabel",
@@ -209,10 +207,8 @@ ui_norscir <- function() {
               "EQ5D: Generell helsetilstand" = "Eq5dQ6HealthToday"
             ),
             selected = c("Registreringsforsinkelse" = "RegForsinkelse")
-          )),
+          ),
 
-          conditionalPanel(
-            condition = "input.fordeling != 'Utskriving/Kontoll'",
           shiny::selectInput(
             inputId = "erMann",
             label = "Kjønn",
@@ -248,30 +244,8 @@ ui_norscir <- function() {
             inputId = "nivaaUt",
             label = "Nivå ved utreise",
             choices = valgNivaaUt
-          )
           ),
 
-        conditionalPanel(
-          condition = "input.fordeling == 'Utskriving/Kontoll'",
-          selectInput(
-            inputId = "valgtVarPP",
-            label="Velg variabel ",
-            choices = c("AIS, utskriving/kontroll"="KontFAis",
-                        "Utskrevet til "="KontUtTil")
-          ),
-          selectInput(
-            inputId = "enhetsUtvalgPP",
-            label="Egen enhet/hele landet",
-            choices = c("Hele landet" = 0,
-                        "Egen enhet" = 2)
-          )
-          # dateRangeInput(
-          #   inputId = "datovalgPP",
-          #   start = startDato2, end = Sys.Date(),
-          #   label = "Tidsperiode", separator="t.o.m.",
-          #   language="nb"
-          # )
-          ),
           shiny::selectInput(
             inputId = "bildeformatFord",
             label = "Velg format for nedlasting av figur",
@@ -317,16 +291,6 @@ ui_norscir <- function() {
               shiny::downloadButton(
                 outputId = "lastNed_tabFordSh", label="Last ned"
               )
-            ),
-            tabPanel(
-              'Utskriving/Kontoll',
-              br(),
-              h3("Endring fra utskriving til kontroll"), #),
-              br(),
-              plotOutput("fordPrePost", height = "auto"),
-              downloadButton(
-                outputId = "lastNed_figfordPrePost", label="Last ned figur"
-              )
             )
           ) #tabset
         ) #mainPanel
@@ -334,45 +298,78 @@ ui_norscir <- function() {
 
 
       #--------Før/etter----------------
-      tabPanel('Resultater "før og etter"',
+      tabPanel('Resultater over tid',
                h3('Sammenligne resultater ved innkomst/utreise eller utreise/kontroll'),
-        sidebarPanel(
-          width = 3,
-          selectInput(
-            inputId = "valgtVarStabelPP",
-            label="Velg variabel",
-            choices = c("AIS inn/ut" = "AAisFAis",
-                        "AIS ut/1.kontroll" = "KontFAis"),
-            selected = "KontFAis"
-          ),
-          shiny::dateRangeInput(
-            inputId = "datovalgStabelPP",
-            start = startDato,
-            end = Sys.Date(),
-            label = "Tidsperiode", separator="t.o.m.", language="nb"
-          ),
-          shiny::radioButtons(
-            inputId = "datoUtStabelPP",
-            "Bruk utskrivingsdato til datofiltrering?",
-            choiceNames = c("nei", "ja"),
-            choiceValues = 0:1,
-            selected = 0
-          ),
-          shiny::selectInput(
-            inputId = "enhetsUtvalgStabelPP",
-            label="Egen enhet og/eller landet",
-            choices = c("Hele landet" = 0,
-                        "Egen enhet" = 2)
-          )
-        ),
-        mainPanel(
-          plotOutput("figStabelPrePost", height = "auto"),
-          # downloadButton(
-          #   outputId = "lastNed_figStabelPrePost", label="Last ned figur"
-          # ),
-        )
-      ),
-
+               sidebarPanel(
+                 width = 3,
+                 conditionalPanel(
+                   condition = "input.PP == 'Fordeling før/etter'",
+                   selectInput(
+                     inputId = "valgtVarPP",
+                     label="Velg variabel ",
+                     choices = c("AIS, utskriving/kontroll"="KontFAis",
+                                 "Utskrevet til "="KontUtTil")
+                   )),
+                 conditionalPanel(
+                   condition = "input.PP == 'Stabelplott, før/etter'",
+                   selectInput(
+                     inputId = "valgtVarStabelPP",
+                     label="Velg variabel",
+                     choices = c("AIS inn/ut" = "AAisFAis",
+                                 "AIS ut/1.kontroll" = "KontFAis"),
+                     selected = "KontFAis"
+                   )),
+                 selectInput(
+                     inputId = "enhetsUtvalgPP",
+                     label="Egen enhet/hele landet",
+                     choices = c("Hele landet" = 0,
+                                 "Egen enhet" = 2)
+                   ),
+                 shiny::dateRangeInput(
+                   inputId = "datovalgPP",
+                   start = startDato,
+                   end = Sys.Date(),
+                   label = "Tidsperiode", separator="t.o.m.", language="nb"
+                 ),
+                 shiny::radioButtons(
+                   inputId = "datoUtPP",
+                   "Bruk utskrivingsdato til datofiltrering?",
+                   choiceNames = c("nei", "ja"),
+                   choiceValues = 0:1,
+                   selected = 0
+                 ),
+                 shiny::selectInput(
+                   inputId = "enhetsUtvalgPP",
+                   label="Egen enhet og/eller landet",
+                   choices = c("Hele landet" = 0,
+                               "Egen enhet" = 2)
+                 ),
+                 shiny::selectInput(
+                   inputId = "bildeformatPP",
+                   label = "Velg format for nedlasting av figur",
+                   choices = c("pdf", "png", "jpg", "bmp", "tif", "svg")
+                 )
+               ),
+               mainPanel(
+                 tabsetPanel(
+                   id = 'PP',
+                   tabPanel( 'Fordeling før/etter',
+                             br(),
+                             h3("Endring fra utskriving til kontroll"), #),
+                             br(),
+                             plotOutput("fordPrePost", height = "auto"),
+                             downloadButton(
+                               outputId = "lastNed_figfordPrePost", label="Last ned figur"
+                             )
+                   ),
+                   tabPanel('Stabelplott, før/etter',
+                            plotOutput("figStabelPrePost", height = "auto"),
+                            downloadButton(
+                              outputId = "lastNed_figStabelPrePost", label="Last ned figur"
+                            )
+                   )
+                 ) ) #main
+      ), #Resultater over tid
       #------------ Gjennomsnitt ------------
       shiny::tabPanel(
         "Gjennomsnitt per sykehus og over tid",
@@ -565,7 +562,7 @@ ui_norscir <- function() {
             shiny::tabPanel(
               "Antall hovedskjema med tilknyttede skjema",
               shiny::h3("Antall hovedskjema med tilknyttede skjema"),
-              h5('Tidsperioden er basert på innleggelsesdato')
+              h5('Tidsperioden er basert på innleggelsesdato'),
               shiny::tableOutput("tabAntTilknyttedeHovedSkjema"),
               shiny::downloadButton(
                 outputId = "lastNed_tabOppfHovedAnt", label = "Last ned"
@@ -1119,8 +1116,9 @@ server_norscir <- function(input, output, session) {
 
       output$fordPrePost <- shiny::renderPlot({
         nordicscir::NSFigPrePost(
-          RegData = RegData, valgtVar = input$valgtVarPP, preprosess = 0,
-          datoFra = input$datovalg[1], datoTil = input$datovalg[2],
+          RegData = RegData, preprosess = 0,
+          valgtVar = input$valgtVarPP,
+          datoFra = input$datovalgPP[1], datoTil = input$datovalgPP[2],
           reshID = reshID,
           # AIS = as.numeric(input$AIS), traume = input$traume,
           # nivaaUt = as.numeric(input$nivaaUt),
@@ -1128,7 +1126,7 @@ server_norscir <- function(input, output, session) {
           # maxald = as.numeric(input$alder[2]),
           # erMann = as.numeric(input$erMann),
           enhetsUtvalg = as.numeric(input$enhetsUtvalgPP),
-          datoUt = as.numeric(input$datoUt),
+          datoUt = as.numeric(input$datoUtPP),
           session = session
         )},
         height = 800, width = 800
@@ -1137,14 +1135,14 @@ server_norscir <- function(input, output, session) {
       output$lastNed_figfordPrePost <- shiny::downloadHandler(
         filename = function() {
           paste0("FigPreKtr_", input$valgtVarPP, "_", Sys.time(), #input$valgtVarKtr
-                 ".'", input$bildeformatFord)
+                 ".", input$bildeformatPP)
         },
         content = function(file) {
-          nordicscir::NSFigGjsnTid(
+          nordicscir::NSFigPrePost(
             RegData = RegData, reshID = reshID, preprosess = 0,
             valgtVar = input$valgtVarPP,
-            datoFra = input$datovalg[1], datoTil = input$datovalg[2],
-            datoUt = as.numeric(input$datoUt),
+            datoFra = input$datovalgPP[1], datoTil = input$datovalgPP[2],
+            datoUt = as.numeric(input$datoUtPP),
             enhetsUtvalg = as.numeric(input$enhetsUtvalgPP),
             session = session,
             outfile = file
@@ -1167,32 +1165,33 @@ server_norscir <- function(input, output, session) {
         nordicscir::NSFigStabelAnt(
           RegData = RegData, preprosess = 0,
           valgtVar = input$valgtVarStabelPP,
-          datoUt = as.numeric(input$datoUtStabelPP),
-          datoFra = input$datovalgStabelPP[1], datoTil = input$datovalgStabelPP[2],
+          datoUt = as.numeric(input$datoUtPP),
+          datoFra = input$datovalgPP[1], datoTil = input$datovalgPP[2],
           reshID = reshID,
-          enhetsUtvalg = as.numeric(input$enhetsUtvalgStabelPP),
+          enhetsUtvalg = as.numeric(input$enhetsUtvalgPP),
           session = session
         )},
         height = 800, width = 800
       )
 
-      # output$lastNed_figStabelPrePost <- shiny::downloadHandler(
-      #   filename = function() {
-      #     paste0("FigPreKtr_", input$valgtVarPP, "_", Sys.time(), #input$valgtVarKtr
-      #            ".'", input$bildeformatFord)
-      #   },
-      #   content = function(file) {
-      #     nordicscir::NSFigGjsnTid(
-      #       RegData = RegData, reshID = reshID, preprosess = 0,
-      #       valgtVar = input$valgtVarPP,
-      #       datoFra = input$datovalg[1], datoTil = input$datovalg[2],
-      #       datoUt = as.numeric(input$datoUt),
-      #       enhetsUtvalg = as.numeric(input$enhetsUtvalgPP),
-      #       session = session,
-      #       outfile = file
-      #     )
-      #   }
-      # )
+      output$lastNed_figStabelPrePost <- shiny::downloadHandler(
+        filename = function() {
+          paste0("FigFordPP_", input$valgtVarPP, "_", Sys.time(),
+                 ".", input$bildeformatPP)
+        },
+        content = function(file) {
+            nordicscir::NSFigStabelAnt(
+              RegData = RegData, preprosess = 0,
+              valgtVar = input$valgtVarStabelPP,
+              datoUt = as.numeric(input$datoUtPP),
+              datoFra = input$datovalgPP[1], datoTil = input$datovalgPP[2],
+              reshID = reshID,
+              enhetsUtvalg = as.numeric(input$enhetsUtvalgPP),
+            session = session,
+            outfile = file
+          )
+        }
+      )
 
     } else {
       output$figStabelPrePost <- NULL
