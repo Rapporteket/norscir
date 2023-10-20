@@ -887,7 +887,7 @@ server_norscir <- function(input, output, session) {
       #Kontrollskjema som har tilknyttede skjema av ulik type
       tabTilknKtrSkjema <- nordicscir::tabSkjemaTilknyttet(
         Data = AlleTab,
-        moderSkjema = "Ktr",
+        moderSkjema = "Kont",
         datoFra = input$datovalgReg[1],
         datoTil = input$datovalgReg[2]
       )
