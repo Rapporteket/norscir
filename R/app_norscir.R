@@ -339,12 +339,6 @@ ui_norscir <- function() {
                    selected = 0
                  ),
                  shiny::selectInput(
-                   inputId = "enhetsUtvalgPP",
-                   label="Egen enhet og/eller landet",
-                   choices = c("Hele landet" = 0,
-                               "Egen enhet" = 2)
-                 ),
-                 shiny::selectInput(
                    inputId = "bildeformatPP",
                    label = "Velg format for nedlasting av figur",
                    choices = c("pdf", "png", "jpg", "bmp", "tif", "svg")
