@@ -88,7 +88,7 @@ ui_norscir <- function() {
         shiny::mainPanel(
           width = 8,
           if (context %in% c("DEV", "TEST", "QA", "PRODUCTION")) {
-            rapbase::navbarWidgetInput("navbar-widget")
+            rapbase::navbarWidgetInput("navbar-widget", selectOrganization = TRUE)
           },
           shiny::h2("Velkommen til Rapporteket - Norsk Ryggmargsskaderegister!",
                     align='center'),
@@ -681,24 +681,18 @@ ui_norscir <- function() {
 #' @return Server-delen til norscir-appen
 #' @export
 server_norscir <- function(input, output, session) {
-  #library(nordicscir)
 #print(session)
   rapbase::appLogger(
     session = session,
     msg = "Starter norscir-app'en"
   )
 
-
-  # session persistent objects
-  if (rapbase::isRapContext()) {
-    reshID <- as.numeric(rapbase::getUserReshId(session))
-    rolle <- rapbase::getUserRole(session)
-    brukernavn <- rapbase::getUserName(session)
-  } else {
-    reshID <- 0
-    rolle <- 'ukjent'
-    brukernavn <- 'ukjent'
-  }
+ #user inneholder både reshID: user$org() og  rolle: user$role()
+  user <- rapbase::navbarWidgetServer2(
+    id = "navbar-widget",
+    orgName = "nordicscir",
+    caller = "nordicscir"
+  )
 
   isGetDataOk <- TRUE
   isprocessAllDataOk <- TRUE
@@ -716,29 +710,23 @@ server_norscir <- function(input, output, session) {
 
   rapbase::appLogger(
     session = session,
-    msg = "Hei, hei. NorScirdata er hentet"
+    msg = "Hei, hei. NorScir-data er hentet"
   )
 
   isDataOk <- all(c(isGetDataOk, isprocessAllDataOk))
   attach(AlleTab)
-  enhet <- ifelse(exists('reshID'),
-    as.character(HovedSkjema$ShNavn[match(reshID, HovedSkjema$ReshId)]),
-  'Uidentifisert enhet')
 
-  rapbase::appLogger(
-    session = session,
-    msg = paste0("Enhet: ", enhet)
-  )
+  observeEvent(user$role(), {
+    if (user$role() == 'SC') {
+      showTab(inputId = "hovedark", target = "Registeradministrasjon")
+      #showTab(inputId = "hovedark", target = "Abonnement")
+    } else {
+      hideTab(inputId = "hovedark", target = "Registeradministrasjon")
+      #hideTab(inputId = "hovedark", target = "Abonnement")
+    }
+  })
 
-  # observe({
-  if (rolle != 'SC') { #
-    hideTab(inputId = "hovedark", target = "Registeradministrasjon")
-  }
-  # })
   #--------------Startside------------------------------
-  rapbase::navbarWidgetServer(
-    id = "navbar-widget", orgName = enhet, caller = "norscir" #caller = pakkenavn
-  )
 
   output$guide <- shiny::renderText(
     rapbase::renderRmd(
@@ -782,7 +770,7 @@ server_norscir <- function(input, output, session) {
           datoFra = input$datovalgDash[1],
           datoTil = input$datovalgDash[2],
           enhetsUtvalg=2,
-          reshID=reshID
+          reshID = user$org()
         )
       },
       rownames = TRUE,
@@ -930,7 +918,7 @@ server_norscir <- function(input, output, session) {
         nordicscir::NSFigAndeler(
           RegData = RegData, valgtVar = input$valgtVar, preprosess = 0,
           datoFra = input$datovalg[1], datoTil = input$datovalg[2],
-          reshID = reshID,
+          reshID = user$org(),
           AIS = as.numeric(input$AIS), traume = input$traume,
           nivaaUt = as.numeric(input$nivaaUt),
           minald = as.numeric(input$alder[1]),
@@ -952,7 +940,7 @@ server_norscir <- function(input, output, session) {
           nordicscir::NSFigAndeler(
             RegData = RegData, valgtVar = input$valgtVar, preprosess = 0,
             datoFra = input$datovalg[1], datoTil = input$datovalg[2],
-            datoUt = as.numeric(input$datoUt), reshID = reshID,
+            datoUt = as.numeric(input$datoUt), reshID = user$org(),
             AIS = as.numeric(input$AIS), traume = input$traume,
             nivaaUt = as.numeric(input$nivaaUt),
             minald = as.numeric(input$alder[1]),
@@ -970,7 +958,7 @@ server_norscir <- function(input, output, session) {
         RegData = RegData, preprosess = 0, valgtVar = input$valgtVar,
         datoFra = input$datovalg[1], datoTil = input$datovalg[2],
         datoUt = as.numeric(input$datoUt),
-        reshID = reshID,
+        reshID = user$org(),
         AIS = as.numeric(input$AIS), traume = input$traume,
         nivaaUt = as.numeric(input$nivaaUt),
         minald = as.numeric(input$alder[1]),
@@ -1113,7 +1101,7 @@ server_norscir <- function(input, output, session) {
           RegData = RegData, preprosess = 0,
           valgtVar = input$valgtVarPP,
           datoFra = input$datovalgPP[1], datoTil = input$datovalgPP[2],
-          reshID = reshID,
+          reshID = user$org(),
           # AIS = as.numeric(input$AIS), traume = input$traume,
           # nivaaUt = as.numeric(input$nivaaUt),
           # minald = as.numeric(input$alder[1]),
@@ -1133,7 +1121,7 @@ server_norscir <- function(input, output, session) {
         },
         content = function(file) {
           nordicscir::NSFigPrePost(
-            RegData = RegData, reshID = reshID, preprosess = 0,
+            RegData = RegData, reshID = user$org(), preprosess = 0,
             valgtVar = input$valgtVarPP,
             datoFra = input$datovalgPP[1], datoTil = input$datovalgPP[2],
             datoUt = as.numeric(input$datoUtPP),
@@ -1161,7 +1149,7 @@ server_norscir <- function(input, output, session) {
           valgtVar = input$valgtVarStabelPP,
           datoUt = as.numeric(input$datoUtPP),
           datoFra = input$datovalgPP[1], datoTil = input$datovalgPP[2],
-          reshID = reshID,
+          reshID = user$org(),
           enhetsUtvalg = as.numeric(input$enhetsUtvalgPP),
           session = session
         )},
@@ -1179,7 +1167,7 @@ server_norscir <- function(input, output, session) {
               valgtVar = input$valgtVarStabelPP,
               datoUt = as.numeric(input$datoUtPP),
               datoFra = input$datovalgPP[1], datoTil = input$datovalgPP[2],
-              reshID = reshID,
+              reshID = user$org(),
               enhetsUtvalg = as.numeric(input$enhetsUtvalgPP),
             session = session,
             outfile = file
@@ -1292,7 +1280,7 @@ server_norscir <- function(input, output, session) {
       #------gjsnTid
       output$gjsnTid <- shiny::renderPlot(
         nordicscir::NSFigGjsnTid(
-          RegData = RegData, reshID = reshID, preprosess = 0,
+          RegData = RegData, reshID = user$org(), preprosess = 0,
           valgtVar = input$valgtVarGjsn,
           datoFra = input$datovalgGjsn[1], datoTil = input$datovalgGjsn[2],
           datoUt = as.numeric(input$datoUtGjsn),
@@ -1317,7 +1305,7 @@ server_norscir <- function(input, output, session) {
         },
         content = function(file) {
           nordicscir::NSFigGjsnTid(
-            RegData = RegData, reshID = reshID, preprosess = 0,
+            RegData = RegData, reshID = user$org(), preprosess = 0,
             valgtVar = input$valgtVarGjsn,
             datoFra = input$datovalgGjsn[1], datoTil = input$datovalgGjsn[2],
             datoUt = as.numeric(input$datoUtGjsn),
@@ -1337,7 +1325,7 @@ server_norscir <- function(input, output, session) {
       )
 
       UtDataGjsnTid <- nordicscir::NSFigGjsnTid(
-        RegData = RegData, reshID = reshID, preprosess = 0,
+        RegData = RegData, reshID = user$org(), preprosess = 0,
         valgtVar = input$valgtVarGjsn,
         datoFra = input$datovalgGjsn[1], datoTil = input$datovalgGjsn[2],
         datoUt = as.numeric(input$datoUtGjsn),
@@ -1423,7 +1411,7 @@ server_norscir <- function(input, output, session) {
           file,
           srcFil = "NSmndRapp.Rnw",
           tmpFile = "tmpNSmndRapp.Rnw",
-          reshID = reshID
+          reshID = user$org()
         )
       }
     )
@@ -1434,7 +1422,7 @@ server_norscir <- function(input, output, session) {
           file,
           srcFil = "NSsamleRappLand.Rnw",
           tmpFile = "tmpNSsamleRappLand.Rnw",
-          reshID = reshID,
+          reshID = user$org(),
           datoFra = as.Date(input$datovalgSamleRapp[1]),
           datoTil = as.Date(input$datovalgSamleRapp[2])
         )
@@ -1447,7 +1435,7 @@ server_norscir <- function(input, output, session) {
           file,
           srcFil = "NSsamleRapp.Rnw",
           tmpFile = "tmpNSsamleRapp.Rnw",
-          reshID = reshID,
+          reshID = user$org(),
           datoFra = as.Date(input$datovalgSamleRapp[1]),
           datoTil = as.Date(input$datovalgSamleRapp[2])
         )
@@ -1465,7 +1453,7 @@ server_norscir <- function(input, output, session) {
       synopsis = "Rapporteket-NorSCIR: månedsrapport, abonnement",
       fun = "abonnement",
       paramNames = c("rnwFil", "brukernavn", "reshID", "register"),
-      paramValues = c("NSmndRapp.Rnw", brukernavn, reshID, 'norscir')
+      paramValues = c("NSmndRapp.Rnw", user$name(), user$org(), 'norscir')
     )
   )
 
@@ -1520,7 +1508,7 @@ server_norscir <- function(input, output, session) {
   rapbase::autoReportServer(
     id = "NSuts", registryName = "norscir", type = "dispatchment",
     org = org$value, paramNames = paramNames, paramValues = paramValues,
-    reports = disReports, orgs = orgs, eligible = (rolle == "SC")
+    reports = disReports, orgs = orgs, eligible = (user$role() == "SC")
   )
 
 

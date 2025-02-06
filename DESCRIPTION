@@ -1,6 +1,6 @@
 Package: norscir
 Title: R-pakke for å generere resultater fra NordicScir
-Version: 1.1.0
+Version: 2.0.1
 Authors@R: 
      person(given = "Lena Ringstad",
            family = "Olsen",
@@ -19,6 +19,7 @@ Imports:
     knitr,
     lubridate,
     magrittr,
+    nordicscir,
     rapbase,
     rapFigurer,
     raplog,
@@ -28,9 +29,10 @@ Imports:
     shinyjs,
     xtable
 Remotes: 
-    Rapporteket/rapbase@*release,
+    Rapporteket/rapbase@*main,
     Rapporteket/rapFigurer,
     Rapporteket/raplog,
+    Rapporteket/nordicscir
 Suggests:
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
