@@ -10,9 +10,9 @@
 abonnement <- function(rnwFil, brukernavn='ukjent', reshID=0, register='norscir',
                        datoFra=Sys.Date()-400, datoTil=Sys.Date()) {
 
-  raplog::subLogger(author = brukernavn, registryName = register,
-                reshId = reshID[[1]],
-                msg = paste0("1)starter abonnementkjøring: ", rnwFil))
+  # raplog::subLogger(author = brukernavn, registryName = register,
+  #               reshId = reshID[[1]],
+  #               msg = paste0("1)starter abonnementkjøring: ", rnwFil))
 
   AlleTab <- nordicscir::getRealData(register = register)
   AlleTab <- nordicscir::processAllData(AlleTab, register = register)
@@ -22,9 +22,9 @@ abonnement <- function(rnwFil, brukernavn='ukjent', reshID=0, register='norscir'
   tmpFile <- paste0(filbase, Sys.Date(),'_',digest::digest(brukernavn)[[1]], '.Rnw')
   src <- normalizePath(system.file(rnwFil[[1]], package='nordicscir'))
 
-  raplog::subLogger(author = brukernavn, registryName = 'NorScir',
-                    reshId = reshID,
-                    msg = "2) filbase, tmpFile, src ok")
+  # raplog::subLogger(author = brukernavn, registryName = 'NorScir',
+  #                   reshId = reshID,
+  #                   msg = "2) filbase, tmpFile, src ok")
 
   setwd(tempdir()) # gå til tempdir. Har ikke skriverettigheter i arbeidskatalog
   file.copy(src, tmpFile, overwrite = TRUE)
@@ -34,9 +34,9 @@ abonnement <- function(rnwFil, brukernavn='ukjent', reshID=0, register='norscir'
   #gc() #Opprydning gc-"garbage collection"
   utfil <- paste0( getwd(), '/', substr(tmpFile, 1, nchar(tmpFile)-3), 'pdf') #
 
-  raplog::subLogger(author = brukernavn, registryName = 'NorScir',
-                                       reshId = reshID[[1]],
-                                       msg = paste("5) Leverer abonnementsfil: ", utfil))
+  # raplog::subLogger(author = brukernavn, registryName = 'NorScir',
+  #                                      reshId = reshID[[1]],
+  #                                      msg = paste("5) Leverer abonnementsfil: ", utfil))
   return(utfil)
 }
 

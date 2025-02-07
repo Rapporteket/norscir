@@ -7,7 +7,7 @@ Sys.setenv(MYSQL_DB_DATA="norscirreportdatastaging")
 # Sys.setenv(MYSQL_PASSWORD="root")
 
 
-nordicscir::kjor_NSapper(register='nordicscir')
+nordicscir::kjor_NSapper(register='norscir')
 RegData <- rapbase::loadRegData(
   registryName = "data",
   query="SELECT * FROM mainformdatacontract",

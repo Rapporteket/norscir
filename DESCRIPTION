@@ -22,7 +22,6 @@ Imports:
     nordicscir,
     rapbase,
     rapFigurer,
-    raplog,
     rlang,
     shiny,
     shinyalert,
@@ -31,7 +30,6 @@ Imports:
 Remotes: 
     Rapporteket/rapbase@*main,
     Rapporteket/rapFigurer,
-    Rapporteket/raplog,
     Rapporteket/nordicscir
 Suggests:
     testthat (>= 3.0.0)

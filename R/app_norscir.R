@@ -719,10 +719,8 @@ server_norscir <- function(input, output, session) {
   observeEvent(user$role(), {
     if (user$role() == 'SC') {
       showTab(inputId = "hovedark", target = "Registeradministrasjon")
-      #showTab(inputId = "hovedark", target = "Abonnement")
     } else {
       hideTab(inputId = "hovedark", target = "Registeradministrasjon")
-      #hideTab(inputId = "hovedark", target = "Abonnement")
     }
   })
 
