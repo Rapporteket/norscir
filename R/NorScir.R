@@ -31,6 +31,5 @@
 #' NSFigAndeler(RegData = NorScirSampleData, valgtVar = "Alder", reshID = 123456, hentData=0)
 #' knitr::knit(system.file("NSsamleDok.Rnw", package = "NorScir"))
 #'
-#' @docType package
 #' @name norscir
 NULL

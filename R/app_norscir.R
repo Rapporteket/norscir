@@ -1446,26 +1446,26 @@ server_norscir <- function(input, output, session) {
   }
 
   #------------------ Abonnement -----------------------------------------------
-  subReports <- list(
-    `Månedsrapport` = list(
-      synopsis = "Rapporteket-NorSCIR: månedsrapport, abonnement",
-      fun = "abonnement",
-      paramNames = c("rnwFil", "brukernavn", "reshID", "register"),
-      paramValues = c("NSmndRapp.Rnw", user$name(), user$org(), 'norscir')
+  observe({
+    rapbase::autoReportServer2(
+      id = "ns-subscription",
+      registryName = "norscir", #Character string with the registry name key.
+      #Must correspond to the registry R package name.
+      #Når norscir benyttes som registryName, kommer bestilte utsendinger opp i den norske appen. Men fungerer utsendinga...? N E I !!
+      type = "subscription",
+      paramNames = paramNames,
+      paramValues = paramValues,
+      reports = list(
+        `Månedsrapport` = list(
+          synopsis = "Rapporteket-NorSCIR: månedsrapport, abonnement",
+          fun = "abonnement",
+          paramNames = c("rnwFil", "brukernavn", "reshID", "register"),
+          paramValues = c("NSmndRapp.Rnw", user$name(), user$org(), 'norscir')
+        )
+      ),
+      user = user
     )
-  )
-
-  rapbase::autoReportServer(
-    id = "ns-subscription",
-    registryName = "norscir", #Character string with the registry name key.
-    #Must correspond to the registry R package name.
-    #Når norscir benyttes som registryName, kommer bestilte utsendinger opp i den norske appen. Men fungerer utsendinga...? N E I !!
-    type = "subscription",
-    paramNames = paramNames,
-    paramValues = paramValues,
-    reports = subReports
-  )
-
+  })
 
   #---Utsendinger---------------
   if (isDataOk) {
@@ -1481,32 +1481,36 @@ server_norscir <- function(input, output, session) {
   }
 
 
-  ## liste med metadata for rapport
-  disReports <- list(
-    MndRapp = list(
-      synopsis = "Rapporteket-NorSCIR: Månedsrapport",
-      fun = "abonnement",
-      paramNames = c('rnwFil', "reshID", "register"),
-      paramValues = c('NSmndRapp.Rnw', 0, 'norscir')
-    ),
-    SamleRapp = list(
-      synopsis = "Rapporteket-NorSCIR: Rapport, div. resultater",
-      fun = "abonnement",
-      paramNames = c("rnwFil", "reshID", "register"),
-      paramValues = c("NSsamleRapp.Rnw", 0, 'norscir')
-    )
-  )
-
   org <- rapbase::autoReportOrgServer("NSuts", orgs)
 
   # oppdatere reaktive parametre, for å få inn valgte verdier
   paramNames <- shiny::reactive("reshID")
   paramValues <- shiny::reactive(org$value())
 
-  rapbase::autoReportServer(
-    id = "NSuts", registryName = "norscir", type = "dispatchment",
-    org = org$value, paramNames = paramNames, paramValues = paramValues,
-    reports = disReports, orgs = orgs, eligible = (user$role() == "SC")
+  rapbase::autoReportServer2(
+    id = "NSuts",
+    registryName = "norscir",
+    type = "dispatchment",
+    org = org$value,
+    paramNames = paramNames,
+    paramValues = paramValues,
+    reports = list(
+      MndRapp = list(
+        synopsis = "Rapporteket-NorSCIR: Månedsrapport",
+        fun = "abonnement",
+        paramNames = c('rnwFil', "reshID", "register"),
+        paramValues = c('NSmndRapp.Rnw', 0, 'norscir')
+      ),
+      SamleRapp = list(
+        synopsis = "Rapporteket-NorSCIR: Rapport, div. resultater",
+        fun = "abonnement",
+        paramNames = c("rnwFil", "reshID", "register"),
+        paramValues = c("NSsamleRapp.Rnw", 0, 'norscir')
+      )
+    ),
+    orgs = orgs,
+    eligible = (user$role() == "SC"),
+    user = user
   )
 
 
@@ -1522,3 +1526,21 @@ server_norscir <- function(input, output, session) {
 }
 # Run the application
 #shiny::shinyApp(ui = ui_norscir, server = server_norscir)
+
+#' Run the application
+#'
+#' @param browser Run app in browser
+#' @param logAsJson Log in json format
+#'
+#' @return Shiny app
+#' @export
+kjorApp <- function(browser = FALSE, logAsJson = FALSE) {
+  if (logAsJson) {
+    rapbase::loggerSetup()
+  }
+  shiny::shinyApp(
+    ui = ui_norscir,
+    server = server_norscir,
+    options = list(launch.browser = browser)
+  )
+}
