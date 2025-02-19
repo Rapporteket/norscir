@@ -87,7 +87,7 @@ ui_norscir <- function() {
         ),
         shiny::mainPanel(
           width = 8,
-          if (context %in% c("DEV", "TEST", "QA", "PRODUCTION")) {
+          if (context %in% c("DEV", "TEST", "QA", "PRODUCTION", "QAC", "PRODUCTIONC")) {
             rapbase::navbarWidgetInput("navbar-widget", selectOrganization = TRUE)
           },
           shiny::h2("Velkommen til Rapporteket - Norsk Ryggmargsskaderegister!",
