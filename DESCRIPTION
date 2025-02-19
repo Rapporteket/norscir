@@ -28,12 +28,11 @@ Imports:
     shinyjs,
     xtable
 Remotes: 
-    Rapporteket/rapbase@*main,
+    Rapporteket/rapbase@main,
     Rapporteket/rapFigurer,
     Rapporteket/nordicscir
 Suggests:
     testthat (>= 3.0.0)
-VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 Config/testthat/edition: 3
