@@ -30,7 +30,7 @@ Imports:
 Remotes: 
     Rapporteket/rapbase@main,
     Rapporteket/rapFigurer,
-    Rapporteket/nordicscir
+    Rapporteket/nordicscir@main
 Suggests:
     testthat (>= 3.0.0)
 Roxygen: list(markdown = TRUE)
