@@ -28,8 +28,10 @@
 #' @examples
 #' data(NorScirSampleData)
 #' names(NorScirSampleData)
+#' \dontrun{
 #' NSFigAndeler(RegData = NorScirSampleData, valgtVar = "Alder", reshID = 123456, hentData=0)
 #' knitr::knit(system.file("NSsamleDok.Rnw", package = "NorScir"))
+#' }
 #'
 #' @name norscir
 NULL

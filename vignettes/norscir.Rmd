@@ -13,7 +13,7 @@ The _NorScir_ package provide interactive results from the registry
 _NorScir_ at _Rapporteket_.
 
 ```{r}
-library(NorScir)
+library(norscir)
 ```
 
 This package depend on the the _rapbase_ package. Underlying processing of 
@@ -60,7 +60,7 @@ For NorScir registrey this idetifier is "NorScir" and must be assigned to the
 variable _registyName_ withint the function _NSLoadRegData()_:
 
 ```{r, eval=FALSE}
-registryName <- "NorScir"
+registryName <- "norscir"
 ```
 
 
