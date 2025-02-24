@@ -9,6 +9,6 @@ source("dev/sysSetenv.R")
 
 Sys.setenv(MYSQL_HOST="localhost") # for mobilt kontor
 Sys.setenv(R_RAP_CONFIG_PATH="C:/Users/ast046/repo/rapporteket/rygg/dev/config")
-Sys.setenv(MYSQL_DB_DATA="norscirreportdatastaging")
+Sys.setenv(MYSQL_DB_DATA="norscir")
 
 norscir::kjorApp(browser = TRUE)
