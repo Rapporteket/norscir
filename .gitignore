@@ -1,7 +1,6 @@
 .Rproj.user
 .Rhistory
 .RData
-norscir.Rproj
 data/NSdata.Rdata
 inst/doc
 inst/*.tex
