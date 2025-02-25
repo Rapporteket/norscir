@@ -13,24 +13,24 @@ License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: false
 Depends:
-    nordicscir,
-    rapbase,
-    rapFigurer,
     R (>= 3.5.0)
 Imports:
     kableExtra,
     knitr,
     lubridate,
     magrittr,
+    nordicscir,
+    rapbase,
+    rapFigurer,
     rlang,
     shiny,
     shinyalert,
     shinyjs,
     xtable
 Remotes: 
-    github::Rapporteket/rapbase@main,
+    github::Rapporteket/rapbase,
     github::Rapporteket/rapFigurer,
-    github::Rapporteket/nordicscir@main
+    github::Rapporteket/nordicscir
 Suggests:
     testthat (>= 3.0.0)
 Roxygen: list(markdown = TRUE)
