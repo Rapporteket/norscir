@@ -1,6 +1,6 @@
 Package: norscir
 Title: R-pakke for å generere resultater fra NordicScir
-Version: 2.0.1
+Version: 2.0.3
 Authors@R: 
      person(given = "Lena Ringstad",
            family = "Olsen",
@@ -19,6 +19,8 @@ Imports:
     knitr,
     lubridate,
     magrittr,
+    nordicscir,
+    rapFigurer,
     rlang,
     shiny,
     shinyalert,
