@@ -1454,26 +1454,27 @@ server_norscir <- function(input, output, session) {
   }
 
   #------------------ Abonnement -----------------------------------------------
-  observe({
-    rapbase::autoReportServer2(
-      id = "ns-subscription",
-      registryName = "norscir", #Character string with the registry name key.
-      #Must correspond to the registry R package name.
-      #Når norscir benyttes som registryName, kommer bestilte utsendinger opp i den norske appen. Men fungerer utsendinga...? N E I !!
-      type = "subscription",
-      paramNames = paramNames,
-      paramValues = paramValues,
-      reports = list(
-        `Månedsrapport` = list(
-          synopsis = "Rapporteket-NorSCIR: månedsrapport, abonnement",
-          fun = "abonnement",
-          paramNames = c("rnwFil", "brukernavn", "reshID", "register"),
-          paramValues = c("NSmndRapp.Rnw", user$name(), user$org(), 'norscir')
-        )
-      ),
-      user = user
-    )
-  })
+  paramNames <- shiny::reactive("brukernavn", "reshID")
+  paramValues <- shiny::reactive(user$name(), user$org())
+
+  rapbase::autoReportServer(
+    id = "ns-subscription",
+    registryName = "norscir", #Character string with the registry name key.
+    #Must correspond to the registry R package name.
+    #Når norscir benyttes som registryName, kommer bestilte utsendinger opp i den norske appen. Men fungerer utsendinga...? N E I !!
+    type = "subscription",
+    paramNames = paramNames,
+    paramValues = paramValues,
+    reports = list(
+      `Månedsrapport` = list(
+        synopsis = "Rapporteket-NorSCIR: månedsrapport, abonnement",
+        fun = "abonnement",
+        paramNames = c("rnwFil", "brukernavn", "reshID", "register"),
+        paramValues = c("NSmndRapp.Rnw", "user$name()", "user$org()", 'norscir')
+      )
+    ),
+    user = user
+  )
 
   #---Utsendinger---------------
   if (isDataOk) {
@@ -1495,7 +1496,11 @@ server_norscir <- function(input, output, session) {
   paramNames <- shiny::reactive("reshID")
   paramValues <- shiny::reactive(org$value())
 
-  rapbase::autoReportServer2(
+  vis_rapp <- shiny::reactiveVal(FALSE)
+  shiny::observeEvent(user$role(), {
+    vis_rapp(user$role() == "SC")
+  })
+  rapbase::autoReportServer(
     id = "NSuts",
     registryName = "norscir",
     type = "dispatchment",
@@ -1517,11 +1522,9 @@ server_norscir <- function(input, output, session) {
       )
     ),
     orgs = orgs,
-    eligible = (user$role() == "SC"),
+    eligible = vis_rapp,
     user = user
   )
-
-
 
   #----------- Eksport ----------------
   ## brukerkontroller
