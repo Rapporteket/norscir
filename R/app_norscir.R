@@ -1454,8 +1454,8 @@ server_norscir <- function(input, output, session) {
   }
 
   #------------------ Abonnement -----------------------------------------------
-  paramNames <- shiny::reactive("brukernavn", "reshID")
-  paramValues <- shiny::reactive(user$name(), user$org())
+  paramNames <- shiny::reactive(c("brukernavn", "reshID"))
+  paramValues <- shiny::reactive(c(user$name(), user$org()))
 
   rapbase::autoReportServer(
     id = "ns-subscription",
@@ -1493,8 +1493,8 @@ server_norscir <- function(input, output, session) {
   org <- rapbase::autoReportOrgServer("NSuts", orgs)
 
   # oppdatere reaktive parametre, for å få inn valgte verdier
-  paramNames <- shiny::reactive("reshID")
-  paramValues <- shiny::reactive(org$value())
+  paramNames <- shiny::reactive(c("reshID"))
+  paramValues <- shiny::reactive(c(org$value()))
 
   vis_rapp <- shiny::reactiveVal(FALSE)
   shiny::observeEvent(user$role(), {
