@@ -719,9 +719,9 @@ server_norscir <- function(input, output, session) {
   #user inneholder både reshID: user$org() og  rolle: user$role()
   user <- rapbase::navbarWidgetServer2(
     id = "navbar-widget",
-    orgName = "nordicscir",
+    orgName = "norscir", #nordicscir
     map_orgname = shiny::req(map_avdeling),
-    caller = "nordicscir"
+    caller = "norscir"
   )
 
   observeEvent(user$role(), {
