@@ -682,10 +682,10 @@ ui_norscir <- function() {
 #' @export
 server_norscir <- function(input, output, session) {
 #print(session)
-  rapbase::appLogger(
-    session = session,
-    msg = "Starter norscir-app'en"
-  )
+  # rapbase::appLogger(
+  #   session = session,
+  #   msg = "Starter norscir-app'en"
+  # )
 
   isGetDataOk <- TRUE
   isprocessAllDataOk <- TRUE
@@ -701,10 +701,10 @@ server_norscir <- function(input, output, session) {
     isprocessAllDataOk <- FALSE
   }
 
-  rapbase::appLogger(
-    session = session,
-    msg = "Hei, hei. NorScir-data er hentet"
-  )
+  # rapbase::appLogger(
+  #   session = session,
+  #   msg = "Hei, hei. NorScir-data er hentet"
+  # )
 
   isDataOk <- all(c(isGetDataOk, isprocessAllDataOk))
   attach(AlleTab)

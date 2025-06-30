@@ -21,4 +21,4 @@ RUN adduser --uid "1000" --disabled-password rapporteket && \
     chmod -R 755 /app/R
 USER rapporteket
 
-CMD ["R", "-e", "options(shiny.port = 3838, shiny.host = \"0.0.0.0\"); norscir::kjorApp()"]
+CMD ["R", "-e", "options(shiny.port = 3838, shiny.host = \"0.0.0.0\"); nordicscir::kjor_NSapper(register='norscir')"]
