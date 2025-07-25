@@ -709,12 +709,11 @@ server_norscir <- function(input, output, session) {
   isDataOk <- all(c(isGetDataOk, isprocessAllDataOk))
   attach(AlleTab)
 
-  map_avdeling <- AlleTab$HovedSkjema %>%
-    dplyr::transmute(
-      UnitId = ReshId,
-      orgname = ShNavn
-    ) %>%
-    dplyr::distinct(UnitId, orgname)
+  map_avdeling <- data.frame(
+    UnitId = unique(AlleTab$HovedSkjema$ReshId),
+    orgname = AlleTab$HovedSkjema$ShNavn[match(unique(AlleTab$HovedSkjema$ReshId),
+                                               AlleTab$HovedSkjema$ReshId)])
+
 
   #user inneholder både reshID: user$org() og  rolle: user$role()
   user <- rapbase::navbarWidgetServer2(
@@ -1454,8 +1453,8 @@ server_norscir <- function(input, output, session) {
   }
 
   #------------------ Abonnement -----------------------------------------------
-  paramNames <- shiny::reactive(c("brukernavn", "reshID"))
-  paramValues <- shiny::reactive(c(user$name(), user$org()))
+  paramNamesAbb <- shiny::reactive(c("brukernavn", "reshID"))
+  paramValuesAbb <- shiny::reactive(c(user$name(), user$org()))
 
   rapbase::autoReportServer(
     id = "ns-subscription",
@@ -1469,12 +1468,13 @@ server_norscir <- function(input, output, session) {
       `Månedsrapport` = list(
         synopsis = "Rapporteket-NorSCIR: månedsrapport, abonnement",
         fun = "abonnement",
-        paramNames = c("rnwFil", "brukernavn", "reshID", "register"),
-        paramValues = c("NSmndRapp.Rnw", "user$name()", "user$org()", 'norscir')
+        paramNamesAbb = c("rnwFil", "brukernavn", "reshID", "register"),
+        paramNamesAbb = c("NSmndRapp.Rnw", "user$name()", "user$org()", 'norscir')
       )
     ),
     user = user
   )
+
 
   #---Utsendinger---------------
   if (isDataOk) {
