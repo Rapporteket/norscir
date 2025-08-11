@@ -1,6 +1,6 @@
 Package: norscir
 Title: R-pakke for å generere resultater fra NordicScir
-Version: 2.0.3
+Version: 4.0.18
 Authors@R: 
      person(given = "Lena Ringstad",
            family = "Olsen",

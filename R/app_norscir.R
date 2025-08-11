@@ -45,7 +45,6 @@ ui_norscir <- function() {
         regTitle),
       # sett inn tittel også i browser-vindu
       windowTitle = regTitle,
-      # velg css (foreløpig den eneste bortsett fra "naken" utgave)
       theme = "rap/bootstrap.css",
 
       #----startside--------
@@ -681,11 +680,11 @@ ui_norscir <- function() {
 #' @return Server-delen til norscir-appen
 #' @export
 server_norscir <- function(input, output, session) {
-#print(session)
-  # rapbase::appLogger(
-  #   session = session,
-  #   msg = "Starter norscir-app'en"
-  # )
+
+rapbase::appLogger(
+  session = session,
+  msg = "Starter norscir-app'en"
+)
 
   isGetDataOk <- TRUE
   isprocessAllDataOk <- TRUE
@@ -701,19 +700,14 @@ server_norscir <- function(input, output, session) {
     isprocessAllDataOk <- FALSE
   }
 
-  # rapbase::appLogger(
-  #   session = session,
-  #   msg = "Hei, hei. NorScir-data er hentet"
-  # )
 
   isDataOk <- all(c(isGetDataOk, isprocessAllDataOk))
   attach(AlleTab)
 
   map_avdeling <- data.frame(
-    UnitId = unique(AlleTab$HovedSkjema$ReshId),
-    orgname = AlleTab$HovedSkjema$ShNavn[match(unique(AlleTab$HovedSkjema$ReshId),
-                                               AlleTab$HovedSkjema$ReshId)])
-
+    UnitId = unique(HovedSkjema$ReshId),
+    orgname = HovedSkjema$ShNavn[match(unique(HovedSkjema$ReshId),
+                                               HovedSkjema$ReshId)])
 
   #user inneholder både reshID: user$org() og  rolle: user$role()
   user <- rapbase::navbarWidgetServer2(
@@ -917,7 +911,7 @@ server_norscir <- function(input, output, session) {
   shiny::observe({
     if (isDataOk) {
       RegData <- nordicscir::finnRegData(valgtVar = input$valgtVar, Data = AlleTab)
-      RegData <- nordicscir::TilLogiskeVar(RegData)
+      #RegData <- nordicscir::TilLogiskeVar(RegData)
 
       output$fordelinger <- shiny::renderPlot({
         nordicscir::NSFigAndeler(
@@ -1099,7 +1093,7 @@ server_norscir <- function(input, output, session) {
   shiny::observe({
     if (isDataOk) {
       RegData <- nordicscir::finnRegData(valgtVar = input$valgtVarPP, Data = AlleTab)
-      RegData <- nordicscir::TilLogiskeVar(RegData)
+      #RegData <- nordicscir::TilLogiskeVar(RegData)
 
       output$fordPrePost <- shiny::renderPlot({
         nordicscir::NSFigPrePost(
@@ -1143,10 +1137,9 @@ server_norscir <- function(input, output, session) {
   })
 
   shiny::observe({
-    #print(input$valgtVarStabelPP)
     if (isDataOk) {
       RegData <- nordicscir::finnRegData(valgtVar = input$valgtVarStabelPP, Data = AlleTab)
-      RegData <- nordicscir::TilLogiskeVar(RegData)
+     # RegData <- nordicscir::TilLogiskeVar(RegData)
 
       output$figStabelPrePost <- shiny::renderPlot({
         nordicscir::NSFigStabelAnt(
@@ -1490,7 +1483,7 @@ server_norscir <- function(input, output, session) {
   }
 
 
-  org <- rapbase::autoReportOrgServer("NSuts", orgs)
+  org <- rapbase::autoReportOrgServer("NSuts", orgs[-1])
 
   # oppdatere reaktive parametre, for å få inn valgte verdier
   paramNames <- shiny::reactive(c("reshID"))
