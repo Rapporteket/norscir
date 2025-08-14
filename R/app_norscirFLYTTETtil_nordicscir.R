@@ -4,7 +4,7 @@
 #'
 #' @return Brukergrensesnittet (ui) til nordscir-appen
 #' @export
-ui_norscir <- function() {
+ui_norscirFLYTTET <- function() {
 
   shiny::addResourcePath("rap", system.file("www", package = "rapbase"))
 
@@ -679,7 +679,7 @@ ui_norscir <- function() {
 #'
 #' @return Server-delen til norscir-appen
 #' @export
-server_norscir <- function(input, output, session) {
+server_norscirFLYTTET <- function(input, output, session) {
 
 rapbase::appLogger(
   session = session,
@@ -1455,14 +1455,14 @@ rapbase::appLogger(
     #Must correspond to the registry R package name.
     #Når norscir benyttes som registryName, kommer bestilte utsendinger opp i den norske appen. Men fungerer utsendinga...? N E I !!
     type = "subscription",
-    paramNames = paramNames,
-    paramValues = paramValues,
+    paramNames = paramNamesAbb,
+    paramValues = paramNamesAbb,
     reports = list(
       `Månedsrapport` = list(
         synopsis = "Rapporteket-NorSCIR: månedsrapport, abonnement",
         fun = "abonnement",
-        paramNamesAbb = c("rnwFil", "brukernavn", "reshID", "register"),
-        paramNamesAbb = c("NSmndRapp.Rnw", "user$name()", "user$org()", 'norscir')
+        paramNames = c("rnwFil", "brukernavn", "reshID", "register"),
+        paramNames = c("NSmndRapp.Rnw", "user$name()", "user$org()", 'norscir')
       )
     ),
     user = user
@@ -1528,8 +1528,7 @@ rapbase::appLogger(
   rapbase::exportGuideServer("norscirExportGuide",
                              registryName = 'norscir')
 }
-# Run the application
-#shiny::shinyApp(ui = ui_norscir, server = server_norscir)
+
 
 #' Run the application
 #'

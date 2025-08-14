@@ -7,7 +7,7 @@
 #' @param datoTil - sluttdato for data som hentes til bruk i rapporten
 #'
 #' @export
-abonnement <- function(rnwFil, brukernavn='ukjent', reshID=0, register='norscir',
+abonnementFASETUT <- function(rnwFil, brukernavn='ukjent', reshID=0, register='norscir',
                        datoFra=Sys.Date()-400, datoTil=Sys.Date()) {
 
   # raplog::subLogger(author = brukernavn, registryName = register,
