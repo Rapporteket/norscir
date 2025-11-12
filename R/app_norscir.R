@@ -1528,12 +1528,14 @@ server_norscir <- function(input, output, session) {
 
   #----------- Eksport ----------------
   ## brukerkontroller
-  rapbase::exportUCServer("norscirExport",
-                          registryName = 'norscir', #i dbConfig
-                          repoName = 'nordicscir') #pakke, for tilhørighet på github
+  rapbase::exportUCServer(
+    "norscirExport",
+    "norscir", # databasenavn
+    "nordicscir" # navn på team, for tilhørighet på github
+  )
   ## veileding
   rapbase::exportGuideServer("norscirExportGuide",
-                             registryName = 'norscir')
+                             "norscir")
 }
 # Run the application
 #shiny::shinyApp(ui = ui_norscir, server = server_norscir)
