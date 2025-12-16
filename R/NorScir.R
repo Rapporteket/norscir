@@ -8,10 +8,5 @@
 #' Logo is accessed via:
 #' \code{system.file("NorSCIR_logo_blue_norsk.pdf", package = "norscir")}
 #'
-#' @examples
-#' library(norscir)
-#' data("NorScirSampleData")
-#' names(NorScirSampleData)
-#'
 #' @name norscir
 NULL
