@@ -5,15 +5,12 @@
 \alias{NorScirSampleData}
 \title{NorScir sample data}
 \format{
-\subsection{\code{NorScirSampleData}}{
-
-A data frame with 560 rows and 104 columns:
-}
+An object of class \code{data.frame} with 560 rows and 104 columns.
 }
 \usage{
 NorScirSampleData
 }
 \description{
-A subset of data from NorScir
+A subset of data from NorScir, a data frame with 560 rows and 104 columns
 }
 \keyword{datasets}
