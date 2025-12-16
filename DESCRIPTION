@@ -1,5 +1,5 @@
 Package: norscir
-Title: R-hjelpepakke for NorScir
+Title: Hjelpepakke for NorScir
 Version: 5.0.0
 Authors@R: 
      person(given = "Lena Ringstad",
