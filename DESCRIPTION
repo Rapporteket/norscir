@@ -8,7 +8,7 @@ Authors@R:
            email = "lena.olsen@skde.no")
 Description: Pakke laget for å kunne kjøre Rapporteket-NorScir. All kode/alle funksjoner
     og ligger i utgangspunktet i pakken nordicscir. Dette inkluderer også figurer, tabeller
-    og dokumenter. (noweb-filer).
+    og dokumenter.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: false
