@@ -1,6 +1,6 @@
 Package: norscir
-Title: R-pakke for å generere resultater fra NordicScir
-Version: 4.0.18
+Title: Hjelpepakke for NorScir
+Version: 5.0.0
 Authors@R: 
      person(given = "Lena Ringstad",
            family = "Olsen",
@@ -8,32 +8,13 @@ Authors@R:
            email = "lena.olsen@skde.no")
 Description: Pakke laget for å kunne kjøre Rapporteket-NorScir. All kode/alle funksjoner
     og ligger i utgangspunktet i pakken nordicscir. Dette inkluderer også figurer, tabeller
-    og dokumenter. (noweb-filer). 
+    og dokumenter.
 License: GPL (>= 3)
 Encoding: UTF-8
-LazyData: false
+LazyData: true
 Depends:
-    R (>= 3.5.0)
-Imports:
-    kableExtra,
-    knitr,
-    lubridate,
-    magrittr,
-    nordicscir,
-    rapFigurer,
-    rlang,
-    shiny,
-    shinyalert,
-    shinyjs,
-    xtable
-Remotes: 
-    Rapporteket/rapbase@main,
-    Rapporteket/rapFigurer,
-    Rapporteket/nordicscir@main
-Suggests:
-    testthat (>= 3.0.0)
+    R (>= 4.1.0)
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 URL: https://github.com/Rapporteket/norscir
 BugReports: https://github.com/Rapporteket/norscir/issues
-Config/testthat/edition: 3
