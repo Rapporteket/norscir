@@ -1,13 +1,13 @@
 Package: norscir
 Title: Hjelpepakke for NorScir
-Version: 5.0.0
+Version: 3.0.0
 Authors@R: 
      person(given = "Lena Ringstad",
            family = "Olsen",
            role = c("aut", "cre"),
            email = "lena.olsen@skde.no")
 Description: Pakke laget for å kunne kjøre Rapporteket-NorScir. All kode/alle funksjoner
-    og ligger i utgangspunktet i pakken nordicscir. Dette inkluderer også figurer, tabeller
+    ligger i utgangspunktet i pakken nordicscir. Dette inkluderer også figurer, tabeller
     og dokumenter.
 License: GPL (>= 3)
 Encoding: UTF-8
