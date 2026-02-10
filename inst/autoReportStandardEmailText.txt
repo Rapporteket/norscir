@@ -5,7 +5,7 @@ Om du ikke ønsker å motta denne rapporten eller har spørsmål om rapporten el
 NorScir på epost: NorSCIR@stolav.no
 
 Nærmere info om registeret finner du her:
-https://www.stolav.no/norscir
+<a href="https://www.norscir.no">hjemmesiden til Norscir</a>
 
 Denne eposten inneholder ikke sensitive helseopplysninger. Forespørsler til avsender av denne eposten vil ikke bli besvart.
 
